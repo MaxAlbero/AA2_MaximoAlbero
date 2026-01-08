@@ -37,6 +37,7 @@ public:
 
 	void OnHoverExit()
 	{
+		_transform->scale = Vector2(1.0f, 1.0f);
 		_transform->rotation = 0.f;
 		_isHovered = false;
 	}
