@@ -28,6 +28,7 @@ public:
 				SM.SetNextScene("Gameplay");
 			}
 		);
+		button->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.7f };
 		_ui.push_back(button);
 	}
 
