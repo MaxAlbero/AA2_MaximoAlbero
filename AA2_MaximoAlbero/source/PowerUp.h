@@ -37,4 +37,26 @@ public:
 
 private:
     PowerUpType _powerUp;
+
+    int lvl = 0;
+    const int maxLevel = 5;
+    int currentHits = 0;
+    const int maxHits = 6;
+
+    std::vector<Renderer*> renderers;
+
+    void AddHit() {
+        if (lvl == maxLevel)
+            return;
+
+        currentHits++;
+        if (currentHits == maxHits) {
+            //UPDATE SPRITE ACCORDING TO LEVEL
+            //_renderer = renderers[++lvl];
+            lvl++;
+            std::cout << "PWRUP LVL: " << lvl << std::endl;
+
+            currentHits = 0;  
+        }
+    }
 };

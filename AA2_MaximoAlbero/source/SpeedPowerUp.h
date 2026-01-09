@@ -14,8 +14,8 @@ public:
         _transform->scale = Vector2(2.0f, 2.0f);
     }
 
-    void ApplyEffect(Player* player) override {
-        player->IncreaseSpeed(speedBoost);
-        std::cout << "Speed PowerUp collected! Speed increased by " << speedBoost << std::endl;
-    }
+    //void ApplyEffect(Player* player) override {
+    //    player->IncreaseSpeed(speedBoost);
+    //    std::cout << "Speed PowerUp collected! Speed increased by " << speedBoost << std::endl;
+    //}
 };

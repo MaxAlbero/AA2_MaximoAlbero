@@ -8,9 +8,33 @@ void PowerUp::OnCollision(Object* other)
 {
     Player* player = dynamic_cast<Player*>(other);
     if (player != nullptr) {
-        std::cout << "PowerUp recogido!" << std::endl;
-        ApplyEffect(player);
+        switch (lvl) {
+        case 0:
+            //TODO: AddScore FROM SCOREMANAGER
+            break;
+        case 1:
+            //TODO: ADD CANNON + AMMO
+            break;
+        case 2:
+            //TODO: ADD LASER + AMMO
+            break;
+        case 3:
+            player->IncreaseSpeed(); //TODO: NEED TO REWORK THE SPEED POWERUP FUNCTIONALITY
+            break;
+        case 4:
+            //TODO: ADD TWIN TURRETS
+            break;
+        case 5:
+            player->RestoreFullEnergy();
+            break;
+        }
+        //std::cout << "PowerUp recogido!" << std::endl;
+        //ApplyEffect(player);
         this->Destroy();
+    }
+    else if (Bullet* bullet = dynamic_cast<Bullet*>(other)){
+        bullet->Destroy();
+        AddHit();
     }
 }
 

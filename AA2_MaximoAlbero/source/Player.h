@@ -63,7 +63,9 @@ public:
 		maxSpeed = newMaxSpeed;
 	}
 
-	void IncreaseSpeed(float multiplier) {
+	void IncreaseSpeed() {
+		float multiplier = 0.5f;
+
 		currentSpeedMultiplier += multiplier;
 		std::cout << "Speed increased! New multiplier: " << currentSpeedMultiplier << std::endl;
 	}
