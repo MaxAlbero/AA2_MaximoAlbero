@@ -14,15 +14,18 @@ void PowerUp::OnCollision(Object* other)
             break;
         case 1:
             //TODO: ADD CANNON + AMMO
+            player->AddCannon();
             break;
         case 2:
             //TODO: ADD LASER + AMMO
+            player->AddLaser();
             break;
         case 3:
             player->IncreaseSpeed(); //TODO: NEED TO REWORK THE SPEED POWERUP FUNCTIONALITY
             break;
         case 4:
             //TODO: ADD TWIN TURRETS
+            player->AddTwinTurrets();
             break;
         case 5:
             player->RestoreFullEnergy();
