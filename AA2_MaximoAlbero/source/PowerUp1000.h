@@ -13,5 +13,5 @@ public:
     // Sobrescribimos la colisión para cambiar el mensaje
     void OnCollision(Object* other) override;
 
-    void ApplyEffect(Player* player) override;
+    //void ApplyEffect(Player* player) override;
 };

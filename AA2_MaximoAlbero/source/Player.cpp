@@ -2,7 +2,7 @@
 
 void Player::Move()
 {
-	float baseForce = 2000.f * currentSpeedMultiplier;
+	float baseForce = 2000.f * maxSpeed;
 
 	if (IM->GetEvent(SDLK_S, KeyState::HOLD)) {
 		_physics->AddForce(Vector2(0.f, baseForce));
