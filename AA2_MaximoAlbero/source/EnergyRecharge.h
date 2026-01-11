@@ -10,8 +10,8 @@ public:
         _transform->scale = Vector2(2.0f, 2.0f);
     }
 
-    void ApplyEffect(Player* player) override {
-        player->RestoreFullEnergy();
-        std::cout << "Heal PowerUp collected! Energy fully restored!" << std::endl;
-    }
+    //void ApplyEffect(Player* player) override {
+    //    player->RestoreFullEnergy();
+    //    std::cout << "Heal PowerUp collected! Energy fully restored!" << std::endl;
+    //}
 };

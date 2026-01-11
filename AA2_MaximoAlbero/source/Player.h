@@ -96,7 +96,7 @@ public:
 		// al coger el powerup una vez, se añade el laser a la parte superior (o puede que inferior) del player
 		// después, cada vez que coges el powerUp, la ammo del cañon se rellena completamente
 		if (!hasLaser) {
-			//NEED TO ADD CANNON HERE
+			//NEED TO ADD LASER GUN HERE
 		}
 		else {
 			laserAmmo = maxAmmo;
