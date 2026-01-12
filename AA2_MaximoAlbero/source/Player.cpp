@@ -1,4 +1,7 @@
 #include "Player.h"
+#include "TimeManager.h"
+#include "EnemyBullet.h"
+#include "Enemy.h"
 
 void Player::Move()
 {
@@ -39,4 +42,31 @@ void Player::CheckBorders() {
 
 	if (_transform->position.y > RM->WINDOW_HEIGHT - _transform->size.y / 2)
 		_transform->position.y = RM->WINDOW_HEIGHT - _transform->size.y / 2;
+}
+
+void Player::InmunityTime()
+{
+	do
+	{
+		ReceiveDamage(0);
+		inmunityTime += TM.GetDeltaTime();
+	} while (inmunityTime < maxInmunityTime);
+
+	if (inmunityTime >= maxInmunityTime) {
+		inmunityTime = 0.f;
+	}
+}
+
+void Player::OnCollision(Object* other)
+{
+	if (EnemyBullet* bullet = dynamic_cast<EnemyBullet*>(other)) {
+		bullet->Destroy();
+		ReceiveDamage(10);
+	}
+
+	if (Enemy* enemy = dynamic_cast<Enemy*>(other)) {
+		ReceiveDamage(20);
+		InmunityTime();
+	}
+
 }

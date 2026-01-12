@@ -2,7 +2,7 @@
 #include "ImageObject.h"
 #include "RenderManager.h"
 #include "InputManager.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include "Spawner.h"
 #include "IAttacker.h"
 #include "IDamageable.h"
@@ -21,6 +21,9 @@ private:
 	int maxAmmo = 100;
 	int numOfTurrets = 0;
 
+	float maxInmunityTime = 0.5f;
+	float inmunityTime = 0.f;
+
 public:
 	Player()
 		: ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
@@ -35,7 +38,7 @@ public:
 		_physics->SetLinearDrag(10.f);
 		_physics->SetAngularDrag(0.1f);
 
-		energy = 30;
+		energy = 100;
 		maxEnergy = 100;
 		maxSpeed = 1.0f;
 
@@ -72,9 +75,13 @@ public:
 	void Shoot() {
 		//Bullet* bullet = new Bullet();
 
-		SPAWNER.SpawnObject(new Bullet(Vector2(_transform->position.x + 1, _transform->position.y)));
+		SPAWNER.SpawnObject(new PlayerBullet(Vector2(_transform->position.x + 1, _transform->position.y)));
 	}
 	void CheckBorders();
+
+	void InmunityTime();
+
+	void OnCollision(Object* other) override;
 	
 	//PowerUps (the only powerUp that shouldn't be here in theory is the 1000 extra score points because it's the ScoreManager the one that manages it
 	
@@ -125,7 +132,16 @@ public:
 	}
 
 	//Interfaces para atacar y recibir daño
-	virtual void Attack(IDamageable* other) const override {}
-	virtual void ReceiveDamage(int damageToAdd) override {}
+	void Attack(IDamageable* other) const override {}
+	void ReceiveDamage(int damageToAdd) override {
+		energy -= damageToAdd;
+		std::cout << "Player received " << damageToAdd << " damage. Energy left: " << energy << std::endl;
+
+		if (energy <= 0) {
+			// Destruir jugador
+			Destroy();
+			std::cout << "Player Dead!" << std::endl;
+		}
+	}
 
 };

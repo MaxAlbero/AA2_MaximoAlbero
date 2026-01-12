@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AABB.cpp" />
-    <ClCompile Include="source\Bullet.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
     <ClCompile Include="source\ImageRenderer.cpp" />
@@ -48,8 +47,6 @@
     <ClInclude Include="source\CirclerBody.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyBullet.h" />
-    <ClInclude Include="source\EnergyRecharge.h" />
-    <ClInclude Include="source\EntitiesManager.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\HighscoreManager.h" />
@@ -64,6 +61,7 @@
     <ClInclude Include="source\MainMenu.h" />
     <ClInclude Include="source\Object.h" />
     <ClInclude Include="source\Player.h" />
+    <ClInclude Include="source\PlayerBullet.h" />
     <ClInclude Include="source\PowerUp.h" />
     <ClInclude Include="source\PowerUp1000.h" />
     <ClInclude Include="source\Renderer.h" />
@@ -75,7 +73,6 @@
     <ClInclude Include="source\Spawner.h" />
     <ClInclude Include="source\SpawnerManager.h" />
     <ClInclude Include="source\SpawnWaves.h" />
-    <ClInclude Include="source\SpeedPowerUp.h" />
     <ClInclude Include="source\SplashScreen.h" />
     <ClInclude Include="source\TestObject.h" />
     <ClInclude Include="source\TextObject.h" />

@@ -10,13 +10,16 @@
 //POWERUPS TESTS
 #include "PowerUp.h"
 #include "PowerUp1000.h"
-#include "SpeedPowerUp.h"
-#include "EnergyRecharge.h"
+//#include "SpeedPowerUp.h"
+//#include "EnergyRecharge.h"
 
 #include "Background.h"
 #include "Scroll.h"
 
 #include "LoadLevel.h"
+
+
+#include "Chomper.h"
 
 class Gameplay : public Scene {
 public:
@@ -61,6 +64,8 @@ public:
 		//SPAWNER.SpawnObject(s1);
 		//SPAWNER.SpawnObject(s2);
 		//SPAWNER.SpawnObject(s3);
+
+		SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
 
 		TextObject* text = new TextObject("UASINI");
 		text->GetTransform()->position = { 100.0f, 100.0f };

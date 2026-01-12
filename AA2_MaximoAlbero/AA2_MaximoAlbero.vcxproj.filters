@@ -18,9 +18,6 @@
     <ClCompile Include="source\AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,12 +95,6 @@
     <ClInclude Include="source\EnemyBullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\EnergyRecharge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\EntitiesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -179,9 +170,6 @@
     <ClInclude Include="source\SpawnWaves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\SpeedPowerUp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\SplashScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -204,6 +192,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Vmedusa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PlayerBullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

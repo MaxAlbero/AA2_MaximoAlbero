@@ -35,7 +35,7 @@ void PowerUp::OnCollision(Object* other)
         //ApplyEffect(player);
         this->Destroy();
     }
-    else if (Bullet* bullet = dynamic_cast<Bullet*>(other)){
+    else if (PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other)){
         bullet->Destroy();
         AddHit();
     }

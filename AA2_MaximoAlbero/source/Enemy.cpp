@@ -1,22 +1,13 @@
 #include "Enemy.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include <math.h>
 
 void Enemy::OnCollision(Object* other)
 {
-	Bullet* bullet = dynamic_cast<Bullet*>(other);
+	PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other);
 	if (bullet != nullptr) {
 		ReceiveDamage(10);
 
-		//enemyHealth -= 10;
-
-		//std::cout << "ENEMY HEALTH: " << enemyHealth << std::endl;
-
-		//if (enemyHealth <= 0)
-		//{
-		//	Destroy();
-		//	std::cout << "MUELTO DIAVLO" << std::endl;
-		//}
 	}   
 	//else if () { //HERE SHOULD GO THE PLAYER REFERENCE TO MAKE IT THAT IF THEY TOUCH, THE PLAYER LOSES HEALTH (SO IT PROBABLY NEEDS A MANAGER FOR THE ENTITIES TO MAKE IT EASIER)
 	//					OR MAYBE PUTTING THIS INTERACTION IN THE PLAYER IS CORRECT TOO

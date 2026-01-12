@@ -1,9 +1,9 @@
 #pragma once
 #include "Bullet.h"
 
-class EnemyBullet : public Bullet {
+class PlayerBullet : public Bullet {
 public:
-	EnemyBullet(Vector2 initPos)
+	PlayerBullet(Vector2 initPos)
 		: Bullet() {
 		_transform->position = initPos;
 		_transform->scale = Vector2(0.5f, 0.15f);
@@ -17,8 +17,7 @@ public:
 	}
 
 	void SetLifeTime() override {
-		//TODO: NEED TO REVIEW THIS PART OF THE CODE, TO DESTROY THE BULLETS OF THE ENEMIES IF THEY OVERPASS THE LEFT MARGIN OF THE SCREEN
-		if (_transform->position.x < RM->WINDOW_WIDTH) {
+		if (_transform->position.x > RM->WINDOW_WIDTH) {
 			std::cout << "Bullet Destroyed" << std::endl;
 			Destroy();
 		}
@@ -26,6 +25,8 @@ public:
 
 
 	void OnCollision(Object* other) override {}
-private:
 
+	void Attack(IDamageable* other) const override {
+		
+	}
 };
