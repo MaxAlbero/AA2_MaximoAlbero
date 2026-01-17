@@ -19,7 +19,7 @@ private:
 	int cannonAmmo = 0;
 	bool hasLaser = false;
 	int laserAmmo = 0;
-	int maxAmmo = 100;
+	int maxAmmo = 10;
 	int numOfTurrets = 0;
 
 	bool isImmune = false;
@@ -27,6 +27,12 @@ private:
 	float immunityDuration = 1.0f;
 	float maxInmunityTime = 0.5f;
 	float inmunityTime = 0.f;
+
+	ImageObject* _cannon = nullptr;
+	ImageObject* _laser = nullptr;
+
+	Vector2 cannonOffset = Vector2(20.f, -30.f);
+	Vector2 laserOffset = Vector2(20.f, 30.f);
 
 public:
 	Player()
@@ -50,6 +56,11 @@ public:
 		std::cout << "Current energy: " << energy << std::endl;
 	}
 
+	~Player() {
+		delete _cannon;
+		delete _laser;
+	}
+
 	int GetEnergy() const { return energy; }
 	int GetMaxEnergy() const { return maxEnergy; }
 	float GetMaxSpeed() const { return maxSpeed; }
@@ -58,7 +69,32 @@ public:
 		Move();
 		CheckBorders();
 		UpdateImmunity();
+		UpdateAttachments();
 		Object::Update();
+	}
+
+	void Render() override {
+		Object::Render();  // Renderizar nave primero
+
+		// Renderizar attachments si existen
+		if (hasCannon && _cannon) {
+			_cannon->Render();
+		}
+		if (hasLaser && _laser) {
+			_laser->Render();
+		}
+	}
+
+	void UpdateAttachments() {
+		if (hasCannon && _cannon) {
+			_cannon->GetTransform()->position = _transform->position + cannonOffset;
+			_cannon->Update();
+		}
+
+		if (hasLaser && _laser) {
+			_laser->GetTransform()->position = _transform->position + laserOffset;
+			_laser->Update();
+		}
 	}
 
 	void UpdateImmunity();
@@ -77,11 +113,7 @@ public:
 
 
 	void Move();
-	void Shoot() {
-		//Bullet* bullet = new Bullet();
 
-		SPAWNER.SpawnObject(new PlayerBullet(Vector2(_transform->position.x + 1, _transform->position.y)));
-	}
 	void CheckBorders();
 
 	void InmunityTime();
@@ -98,6 +130,17 @@ public:
 		if (!hasCannon) {
 			//NEED TO ADD CANNON HERE
 			hasCannon = true;
+			// Crear ImageObject para el cañón
+			_cannon = new ImageObject(
+				"resources/image.png",
+				Vector2(0.f, 0.f),
+				Vector2(100.f, 50.f)  // Tamaño de la textura del cañón
+			);
+
+			// Configurar transform del cañón
+			_cannon->GetTransform()->position = _transform->position + cannonOffset;
+			_cannon->GetTransform()->scale = Vector2(0.4f, 0.4f);  // Escalar si es necesario
+
 			std::cout << "Cannon equipped!" << std::endl;
 		}
 		else {
@@ -112,6 +155,16 @@ public:
 		if (!hasLaser) {
 			//NEED TO ADD LASER GUN HERE
 			hasLaser = true;
+
+			_laser = new ImageObject(
+				"resources/image.png",
+				Vector2(0.f, 0.f),
+				Vector2(120.f, 40.f)  // Tamaño de la textura del láser
+			);
+
+			// Configurar transform del láser
+			_laser->GetTransform()->position = _transform->position + laserOffset;
+			_laser->GetTransform()->scale = Vector2(0.35f, 0.35f);
 		}
 		else {
 			laserAmmo = maxAmmo;
@@ -142,8 +195,6 @@ public:
 	//Interfaces para atacar y recibir da�o
 	void Attack(IDamageable* other) const override {}
 
-	//Interfaces para atacar y recibir da�o
-	void Attack(IDamageable* other) const override {}
 	void ReceiveDamage(int damageToAdd) override {
 		energy -= damageToAdd;
 		std::cout << "Player received " << damageToAdd << " damage. Energy left: " << energy << std::endl;
@@ -154,6 +205,20 @@ public:
 		}
 	}
 
-	void OnCollision(Object* other) override;
+	void Shoot() {
+		Vector2 bulletOffset = Vector2(_transform->size.x * 0.5f, 0.f);
+		SPAWNER.SpawnObject(new PlayerBullet(_transform->position + bulletOffset));
 
+		if (hasCannon && cannonAmmo > 0 && _cannon) {
+			Vector2 cannonPos = _cannon->GetTransform()->position;
+			SPAWNER.SpawnObject(new PlayerBullet(cannonPos));
+			cannonAmmo--;
+		}
+
+		if (hasLaser && laserAmmo > 0 && _laser) {
+			Vector2 laserPos = _laser->GetTransform()->position;
+			SPAWNER.SpawnObject(new PlayerBullet(laserPos));
+			laserAmmo--;
+		}
+	}
 };

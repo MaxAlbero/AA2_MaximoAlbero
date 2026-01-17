@@ -61,19 +61,6 @@ void Player::InmunityTime()
 
 void Player::OnCollision(Object* other)
 {
-	if (EnemyBullet* bullet = dynamic_cast<EnemyBullet*>(other)) {
-		bullet->Destroy();
-		ReceiveDamage(10);
-	}
-
-	if (Enemy* enemy = dynamic_cast<Enemy*>(other)) {
-		ReceiveDamage(20);
-		InmunityTime();
-	}
-
-}
-void Player::OnCollision(Object* other)
-{
 	// Solo recibir daño si no 
 	if (isImmune) return;
 

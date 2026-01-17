@@ -18,7 +18,7 @@ public:
 
 	void SetLifeTime() override {
 		if (_transform->position.x > RM->WINDOW_WIDTH) {
-			std::cout << "Bullet Destroyed" << std::endl;
+			//std::cout << "Bullet Destroyed" << std::endl;
 			Destroy();
 		}
 	}
