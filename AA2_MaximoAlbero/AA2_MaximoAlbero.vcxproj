@@ -57,6 +57,7 @@
     <ClInclude Include="source\ImageRenderer.h" />
     <ClInclude Include="source\InputManager.h" />
     <ClInclude Include="source\KillerWhale.h" />
+    <ClInclude Include="source\LevelSelector.h" />
     <ClInclude Include="source\LoadLevel.h" />
     <ClInclude Include="source\MainMenu.h" />
     <ClInclude Include="source\Object.h" />
@@ -69,7 +70,6 @@
     <ClInclude Include="source\RigidBody.h" />
     <ClInclude Include="source\Scene.h" />
     <ClInclude Include="source\SceneManager.h" />
-    <ClInclude Include="source\Scroll.h" />
     <ClInclude Include="source\Spawner.h" />
     <ClInclude Include="source\SpawnerManager.h" />
     <ClInclude Include="source\SpawnWaves.h" />

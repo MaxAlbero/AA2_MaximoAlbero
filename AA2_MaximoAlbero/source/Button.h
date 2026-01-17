@@ -43,6 +43,7 @@ public:
 	}
 
 	void OnClicked() {
+		_transform->scale = Vector2(1.5f, 1.5f);
 		_onClick();
 	}
 

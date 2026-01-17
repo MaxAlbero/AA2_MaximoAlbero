@@ -13,8 +13,7 @@ public:
 	
 		_transform->size = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT);
 		_transform->position = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);
-		//_transform->scale = Vector2(0.5f, 0.5f);
-		_physics->SetVelocity(Vector2(-50.f, 0.f));
+		_physics->SetVelocity(Vector2(-150.f, 0.f));
 	}
 	
 	void Update() override {
@@ -24,13 +23,8 @@ public:
 	}
 
 	void ScrollBG() {
-
-
 		if (_transform->position.x < -_transform->size.x / 2) { //RM->WINDOW_WIDTH
-			std::cout << "BYE BYE" << std::endl;
 			_transform->position.x = RM->WINDOW_WIDTH*1.5f;
-			
 		} 
 	}
-
 };

@@ -5,6 +5,7 @@
 #include "Gameplay.h"
 #include "MainMenu.h"
 #include "SplashScreen.h"
+#include "LevelSelector.h"
 #include <cassert>
 
 
@@ -32,11 +33,12 @@ void Game::Init() {
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));
 	assert(SM.AddScene("Gameplay", new Gameplay()));
+	assert(SM.AddScene("LevelSelector", new LevelSelector()));
 
 
 	//assert(SM.InitFirstScene("SplashScreen"));
-	//assert(SM.InitFirstScene("MainMenu"));
-	assert(SM.InitFirstScene("Gameplay"));
+	assert(SM.InitFirstScene("MainMenu"));
+	//assert(SM.InitFirstScene("Gameplay"));
 
 	_isRunning = !IM->Listen();
 }
