@@ -140,7 +140,7 @@ public:
 			hasCannon = true;
 			// Crear ImageObject para el cañón
 			_cannon = new ImageObject(
-				"resources/image.png",
+				"resources/BillBuster.png",
 				Vector2(0.f, 0.f),
 				Vector2(100.f, 50.f)  // Tamaño de la textura del cañón
 			);

@@ -81,9 +81,14 @@
     <ClInclude Include="source\Vmedusa.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\bat.png" />
     <Image Include="resources\bebe.jpg" />
+    <Image Include="resources\BillBuster.png" />
+    <Image Include="resources\BulletBill.png" />
     <Image Include="resources\caballo.png" />
     <Image Include="resources\image.png" />
+    <Image Include="resources\pacman.png" />
+    <Image Include="resources\pinky.png" />
     <Image Include="resources\pompa.png" />
     <Image Include="resources\RayoNave.png" />
     <Image Include="resources\slime.png" />
@@ -92,6 +97,7 @@
     <Image Include="resources\Wailord.png" />
   </ItemGroup>
   <ItemGroup>
+    <Font Include="resources\fonts\cider_gum.ttf" />
     <Font Include="resources\fonts\hyperspace.ttf" />
   </ItemGroup>
   <ItemGroup>

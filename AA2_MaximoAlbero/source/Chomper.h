@@ -17,9 +17,10 @@ private:
 public:
 	Chomper(Vector2 spawnPos)
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/image.png", Vector2(0.f,0.f), Vector2(306.f, 562.f));
+		_renderer = new ImageRenderer(_transform, "resources/bat.png", Vector2(0.f,0.f), Vector2(54.f, 36.f));
 
 		_transform->size = Vector2(100.f, 100.f);
+		_transform->scale = Vector2(2.f, 2.f);
 		_transform->position = spawnPos;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 

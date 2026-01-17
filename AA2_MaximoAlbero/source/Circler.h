@@ -19,7 +19,7 @@ private:
 public:
 	Circler()
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
+		_renderer = new ImageRenderer(_transform, "resources/pacman.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
 
 		_transform->size = Vector2(100.f, 100.f);
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 2.f, -_transform->size.y);

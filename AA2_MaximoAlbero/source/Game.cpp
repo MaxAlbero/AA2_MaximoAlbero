@@ -27,7 +27,13 @@ void Game::Init() {
 	RM->LoadTexture("resources/caballo.png");
 	RM->LoadTexture("resources/RayoNave.png");
 	RM->LoadTexture("resources/Wailord.png");
+	RM->LoadTexture("resources/pacman.png");
+	RM->LoadTexture("resources/pinky.png");
+	RM->LoadTexture("resources/BulletBill.png");
+	RM->LoadTexture("resources/BillBuster.png");
+	RM->LoadTexture("resources/bat.png");
 
+	//RM->LoadFont("resources/fonts/cider_gum.ttf");
 	RM->LoadFont("resources/fonts/hyperspace.ttf");
 
 	//Aqui la carrega de totes les escenes
@@ -37,8 +43,8 @@ void Game::Init() {
 	assert(SM.AddScene("LevelSelector", new LevelSelector()));
 
 
-	//assert(SM.InitFirstScene("SplashScreen"));
-	assert(SM.InitFirstScene("MainMenu"));
+	assert(SM.InitFirstScene("SplashScreen"));
+	//assert(SM.InitFirstScene("MainMenu"));
 	//assert(SM.InitFirstScene("Gameplay"));
 
 	_isRunning = !IM->Listen();

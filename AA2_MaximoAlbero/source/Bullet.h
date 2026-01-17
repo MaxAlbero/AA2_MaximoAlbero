@@ -8,7 +8,7 @@ class Bullet : public ImageObject, public IAttacker
 public:
 
 	Bullet() //Bullet(Vector2 initPosition)
-		: ImageObject("resources/image.png", Vector2(0.f, 0.f), Vector2(100.f, 100.f)) 
+		: ImageObject("resources/BulletBill.png", Vector2(0.f, 0.f), Vector2(100.f, 100.f)) 
 	{
 		//_transform->position = initPosition;
 		_transform->scale = Vector2(0.5f, 0.15f);
