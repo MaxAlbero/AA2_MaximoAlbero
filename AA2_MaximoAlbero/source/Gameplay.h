@@ -14,7 +14,6 @@
 #include "EnergyRecharge.h"
 
 #include "Background.h"
-#include "Scroll.h"
 
 #include "LoadLevel.h"
 
@@ -38,9 +37,10 @@ public:
 		//}
 
 		Background* bg1 = new Background();
+		bg1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);
 
 		Background* bg2 = new Background();
-		bg2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH * 2.0f, RM->WINDOW_HEIGHT / 2.0f);
+		bg2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);
 
 		SPAWNER.SpawnObject(bg1);
 		SPAWNER.SpawnObject(bg2);

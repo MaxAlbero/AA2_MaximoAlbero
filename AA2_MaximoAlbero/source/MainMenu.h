@@ -11,7 +11,7 @@ class MainMenu : public Scene
 public:
 	MainMenu() = default;
 
-	void OnEnter() override 
+	void OnEnter() override
 	{
 		TextObject* text = new TextObject("MENU");
 		text->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.5f };
@@ -23,13 +23,30 @@ public:
 
 
 
-		Button* button = new Button([]() 
+		Button* button1 = new Button([]() 
 			{
 				SM.SetNextScene("Gameplay");
 			}
 		);
-		button->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.7f };
-		_ui.push_back(button);
+		button1->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.0f, (float)RM->WINDOW_HEIGHT / 1.7f };
+		_ui.push_back(button1);
+
+		//Level Selector
+		Button* button2 = new Button([]()
+			{
+				SM.SetNextScene("LevelSelector");
+			}
+		);
+		button2->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.7f };
+		_ui.push_back(button2);
+
+		//Check Ranking
+
+
+		//Enable/Disable Audio
+
+
+		//Exit
 	}
 
 	void OnExit() override {
@@ -37,9 +54,6 @@ public:
 	}
 
 	void Update() override {
-		//if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN)) {
-		//	SM.SetNextScene("Gameplay");
-		//}
 		Scene::Update();
 	}
 
