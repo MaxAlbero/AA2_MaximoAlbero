@@ -2,7 +2,7 @@
 #include "ImageObject.h"
 #include "RenderManager.h"
 #include "InputManager.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 
 
 class TestObject : public ImageObject
@@ -46,7 +46,7 @@ public:
 
 
 	void Shoot() {
-		Bullet* bullet = new Bullet(Vector2(_transform->position.x + 1, _transform->position.y));
+		PlayerBullet* bullet = new PlayerBullet(Vector2(_transform->position.x + 1, _transform->position.y));
 		SPAWNER.SpawnObject(bullet);
 	}
 };
