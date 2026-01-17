@@ -4,11 +4,12 @@
 
 void Enemy::OnCollision(Object* other)
 {
-	PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other);
-	if (bullet != nullptr) {
-		ReceiveDamage(10);
-
-	}   
+    if (PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other)) {
+            ReceiveDamage(10);
+        if (!bullet->IsPendingDestroy()) {
+            bullet->Destroy();
+        }
+    }
 	//else if () { //HERE SHOULD GO THE PLAYER REFERENCE TO MAKE IT THAT IF THEY TOUCH, THE PLAYER LOSES HEALTH (SO IT PROBABLY NEEDS A MANAGER FOR THE ENTITIES TO MAKE IT EASIER)
 	//					OR MAYBE PUTTING THIS INTERACTION IN THE PLAYER IS CORRECT TOO
 	//}

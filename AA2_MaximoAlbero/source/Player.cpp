@@ -2,6 +2,8 @@
 #include "TimeManager.h"
 #include "EnemyBullet.h"
 #include "Enemy.h"
+#include "Enemy.h"
+#include "EnemyBullet.h"
 
 void Player::Move()
 {
@@ -69,4 +71,43 @@ void Player::OnCollision(Object* other)
 		InmunityTime();
 	}
 
+}
+void Player::OnCollision(Object* other)
+{
+	// Solo recibir daño si no 
+	if (isImmune) return;
+
+	if (EnemyBullet* bullet = dynamic_cast<EnemyBullet*>(other)) {
+		if (!bullet->IsPendingDestroy()) {
+			bullet->Destroy();
+			ReceiveDamage(15);
+			ActivateImmunity();
+		}
+	}
+	// Colision con enemigos
+	else if (Enemy* enemy = dynamic_cast<Enemy*>(other)) {
+		if (!enemy->IsPendingDestroy()) {
+			ReceiveDamage(20);
+			ActivateImmunity();
+		}
+	}
+}
+
+
+void Player::UpdateImmunity() {
+	if (isImmune) {
+		immunityTimer += TM.GetDeltaTime();
+
+		if (immunityTimer >= immunityDuration) {
+			isImmune = false;
+			immunityTimer = 0.f;
+			std::cout << "Immunity ended" << std::endl;
+		}
+	}
+}
+
+void Player::ActivateImmunity() {
+	isImmune = true;
+	immunityTimer = 0.f;
+	std::cout << "Immunity activated!" << std::endl;
 }
