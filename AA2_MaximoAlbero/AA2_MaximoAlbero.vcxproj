@@ -49,7 +49,7 @@
     <ClInclude Include="source\EnemyBullet.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
-    <ClInclude Include="source\HighscoreManager.h" />
+    <ClInclude Include="source\ScoreManager.h" />
     <ClInclude Include="source\Hmedusa.h" />
     <ClInclude Include="source\IAttacker.h" />
     <ClInclude Include="source\IDamageable.h" />

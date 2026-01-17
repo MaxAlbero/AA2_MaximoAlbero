@@ -2,6 +2,7 @@
 #include "RenderManager.h"
 #include "SceneManager.h"
 #include "Player.h"
+#include "ScoreManager.h"
 #include <iostream>
 
 void PowerUp::OnCollision(Object* other)
@@ -11,17 +12,16 @@ void PowerUp::OnCollision(Object* other)
         switch (lvl) {
         case 0:
             //TODO: AddScore FROM SCOREMANAGER
+            HSM->AddPoints();
             break;
         case 1:
-            //TODO: ADD CANNON + AMMO
             player->AddCannon();
             break;
         case 2:
-            //TODO: ADD LASER + AMMO
             player->AddLaser();
             break;
         case 3:
-            player->IncreaseSpeed(); //TODO: NEED TO REWORK THE SPEED POWERUP FUNCTIONALITY
+            player->IncreaseSpeed();
             break;
         case 4:
             //TODO: ADD TWIN TURRETS
@@ -31,8 +31,7 @@ void PowerUp::OnCollision(Object* other)
             player->RestoreFullEnergy();
             break;
         }
-        //std::cout << "PowerUp recogido!" << std::endl;
-        //ApplyEffect(player);
+
         this->Destroy();
     }
     else if (PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other)){
