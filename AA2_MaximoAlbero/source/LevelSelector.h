@@ -8,7 +8,7 @@ public:
 
 	void OnEnter() override {
 		TextObject* text = new TextObject("SELECT THE LEVEL YOU WANT TO PLAY");
-		text->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 3.f };
+		text->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.5f, (float)RM->WINDOW_HEIGHT / 3.2f };
 		_ui.push_back(text);
 
 
@@ -18,8 +18,12 @@ public:
 				SM.SetNextScene("Gameplay");
 			}
 		);
-		button1->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.7f };
+		button1->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.0f, (float)RM->WINDOW_HEIGHT / 2.7f };
 		_ui.push_back(button1);
+
+		TextObject* text1 = new TextObject("LEVEL 1 - SEA OF KARNAUGH");
+		text1->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.2f, (float)RM->WINDOW_HEIGHT / 2.5f };
+		_ui.push_back(text1);
 
 		//Level 2
 		//TODO: ADD LEVEL 2 FIRST
@@ -33,6 +37,10 @@ public:
 		);
 		button3->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 5.0f, (float)RM->WINDOW_HEIGHT / 5.0f };
 		_ui.push_back(button3);
+
+		TextObject* text3 = new TextObject("RETURN TO MAIN MENU");
+		text3->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.2f, (float)RM->WINDOW_HEIGHT / 4.8f };
+		_ui.push_back(text3);
 	}
 
 	void OnExit() override {

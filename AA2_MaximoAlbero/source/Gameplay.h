@@ -10,8 +10,6 @@
 //POWERUPS TESTS
 #include "PowerUp.h"
 #include "PowerUp1000.h"
-//#include "SpeedPowerUp.h"
-//#include "EnergyRecharge.h"
 
 #include "Background.h"
 
@@ -71,10 +69,6 @@ public:
 
 		//SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
 		//SPAWNER.SpawnObject(new BioTitan());
-
-		TextObject* text = new TextObject("UASINI");
-		text->GetTransform()->position = { 100.0f, 100.0f };
-		_ui.push_back(text);
 	}
 
 	void OnExit() override { Scene::OnExit(); }
@@ -88,6 +82,6 @@ public:
 
 	void Render() override { Scene::Render(); }
 private:
-	void SaveScore();
-	void LoadLevelFromFile(std::string path);
+	//void SaveScore();
+	//void LoadLevelFromFile(std::string path);
 };

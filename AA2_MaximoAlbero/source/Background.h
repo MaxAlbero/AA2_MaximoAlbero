@@ -13,7 +13,7 @@ public:
 	
 		_transform->size = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT);
 		_transform->position = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);
-		_physics->SetVelocity(Vector2(-150.f, 0.f));
+		_physics->SetVelocity(Vector2(-70.f, 0.f));
 	}
 	
 	void Update() override {
