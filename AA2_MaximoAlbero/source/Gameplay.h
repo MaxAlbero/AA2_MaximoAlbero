@@ -55,19 +55,22 @@ public:
 		//waves->SetPlayer(player);
 
 		//Testing PowerUps
-		SPAWNER.SpawnObject(new PowerUp()); //"resources/image.png", Vector2(0.f, 0.f), Vector2(100.f, 100.f))
-		//EnergyRecharge* s1 = new EnergyRecharge();
-		//s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
-		//SpeedPowerUp* s2 = new SpeedPowerUp();
-		//s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
-		//SpeedPowerUp* s3 = new SpeedPowerUp();
-		//s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.0f, RM->WINDOW_HEIGHT / 2.0f);
-		//SPAWNER.SpawnObject(s1);
-		//SPAWNER.SpawnObject(s2);
-		//SPAWNER.SpawnObject(s3);
+		//SPAWNER.SpawnObject(new PowerUp()); //"resources/image.png", Vector2(0.f, 0.f), Vector2(100.f, 100.f))
+		PowerUp* s1 = new PowerUp();
+		s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
+		PowerUp* s2 = new PowerUp();
+		s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
+		PowerUp* s3 = new PowerUp();
+		s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
+		PowerUp* s4 = new PowerUp();
+		s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
+		SPAWNER.SpawnObject(s1);
+		SPAWNER.SpawnObject(s2);
+		SPAWNER.SpawnObject(s3);
+		SPAWNER.SpawnObject(s4);
 
-		SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
-		SPAWNER.SpawnObject(new BioTitan());
+		//SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
+		//SPAWNER.SpawnObject(new BioTitan());
 
 		TextObject* text = new TextObject("UASINI");
 		text->GetTransform()->position = { 100.0f, 100.0f };
