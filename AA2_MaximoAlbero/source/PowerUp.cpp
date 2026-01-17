@@ -11,7 +11,6 @@ void PowerUp::OnCollision(Object* other)
     if (player != nullptr) {
         switch (lvl) {
         case 0:
-            //TODO: AddScore FROM SCOREMANAGER
             HSM->AddPoints(1000);
             break;
         case 1:

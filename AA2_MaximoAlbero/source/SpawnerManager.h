@@ -5,8 +5,6 @@
 
 #define WM SpawnerManager::GetInstance()
 
-
-
 class SpawnerManager {
 public:
 	static SpawnerManager* GetInstance() {

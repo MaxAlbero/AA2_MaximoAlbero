@@ -25,7 +25,6 @@ public:
 
 
 		if (_transform->position.x + _transform->size.x < 0.f) {
-			std::cout << "AAAAAAAAAAHHHHHHHHH" << std::endl;
 			Destroy();
 		}
 

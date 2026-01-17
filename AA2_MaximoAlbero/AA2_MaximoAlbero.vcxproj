@@ -94,6 +94,9 @@
   <ItemGroup>
     <Font Include="resources\fonts\hyperspace.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="level_1.xml" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

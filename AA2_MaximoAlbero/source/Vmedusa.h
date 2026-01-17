@@ -13,13 +13,13 @@ private:
 public:
 	Vmedusa(Vector2 spawnPosition)
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/bebe.jpg", Vector2(0.f, 0.f), Vector2(360.f, 360.f));
+		_renderer = new ImageRenderer(_transform, "resources/VMedusa.png", Vector2(0.f, 0.f), Vector2(360.f, 360.f));
 
 		_transform->size = Vector2(100.f, 100.f);
 		_transform->position = spawnPosition;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 		
-		enemyHealth = 200;
+		enemyHealth = 30;
 		currentState = SIMPLE_MOVE;
 		
 		moveSpeed = 100.f;
@@ -42,7 +42,6 @@ public:
 
 
 		if (_transform->position.y + _transform->size.y < 0.f) {
-			std::cout << "AAAAAAAAAAHHHHHHHHH" << std::endl;
 			Destroy();
 		}
 
@@ -62,7 +61,6 @@ public:
 		}
 	}
 
-	//void OnCollision(Object* other) override;
 	void EnemyBehaviour() override {
 
 
