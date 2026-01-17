@@ -21,8 +21,8 @@ public:
 	
 
 	//PSEUDOCODE: EL ScoreManager acumula 1000 puntos a la puntuación actual del jugador al obtener el powerUp de 1000 puntos.
-	void AddPoints() {
-		currentScore += 1000;
+	void AddPoints(int pointsAdded) {
+		currentScore += pointsAdded;
 
 		if (currentScore > highScore) {
 			highScore = currentScore;

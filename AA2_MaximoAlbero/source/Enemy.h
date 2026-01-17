@@ -4,6 +4,7 @@
 #include "IAttacker.h"
 #include "IDamageable.h"
 #include "TimeManager.h"
+#include "ScoreManager.h"
 
 enum MovementState {
 	STAY,
@@ -23,6 +24,8 @@ protected:
 	float angularSpeed = 0.01f;
 	MovementState currentState;
 	bool isDestroyed = false;
+
+	int pointsValue = 200;
 
 public:
 	Enemy()
@@ -54,6 +57,9 @@ public:
 
 	void Destroy() {
 		isDestroyed = true;
+
+		HSM->AddPoints(pointsValue);
+
 		Object::Destroy();
 	}
 };

@@ -12,7 +12,7 @@ void PowerUp::OnCollision(Object* other)
         switch (lvl) {
         case 0:
             //TODO: AddScore FROM SCOREMANAGER
-            HSM->AddPoints();
+            HSM->AddPoints(1000);
             break;
         case 1:
             player->AddCannon();

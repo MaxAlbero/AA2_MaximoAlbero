@@ -9,7 +9,6 @@
 
 //POWERUPS TESTS
 #include "PowerUp.h"
-#include "PowerUp1000.h"
 
 #include "Background.h"
 
