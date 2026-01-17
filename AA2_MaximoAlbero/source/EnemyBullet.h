@@ -7,7 +7,7 @@ public:
 		: Bullet() {
 		_transform->position = initPos;
 		_transform->scale = Vector2(0.5f, 0.15f);
-		_physics->SetVelocity(Vector2(2000.f, 0.f));
+		_physics->SetVelocity(Vector2(-1500.f, 0.f));
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 	}
 
@@ -17,15 +17,15 @@ public:
 	}
 
 	void SetLifeTime() override {
-		//TODO: NEED TO REVIEW THIS PART OF THE CODE, TO DESTROY THE BULLETS OF THE ENEMIES IF THEY OVERPASS THE LEFT MARGIN OF THE SCREEN
-		if (_transform->position.x < RM->WINDOW_WIDTH) {
-			std::cout << "Bullet Destroyed" << std::endl;
+		if (_transform->position.x < 0) {
+			std::cout << "EnemyBullet Destroyed" << std::endl;
 			Destroy();
 		}
 	}
 
-
 	void OnCollision(Object* other) override {}
-private:
 
+	void Attack(IDamageable* other) const override {
+		other->ReceiveDamage(15);
+	}
 };

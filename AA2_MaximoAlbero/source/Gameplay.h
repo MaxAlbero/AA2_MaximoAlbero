@@ -18,8 +18,9 @@
 
 #include "LoadLevel.h"
 
-
+//Testing Colisions
 #include "Chomper.h"
+#include "BioTitan.h"
 
 class Gameplay : public Scene {
 public:
@@ -66,6 +67,7 @@ public:
 		//SPAWNER.SpawnObject(s3);
 
 		SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
+		SPAWNER.SpawnObject(new BioTitan());
 
 		TextObject* text = new TextObject("UASINI");
 		text->GetTransform()->position = { 100.0f, 100.0f };

@@ -27,6 +27,6 @@ public:
 	void OnCollision(Object* other) override {}
 
 	void Attack(IDamageable* other) const override {
-		
+		other->ReceiveDamage(10);
 	}
 };
