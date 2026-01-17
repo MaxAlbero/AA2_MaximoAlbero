@@ -6,6 +6,7 @@
 #include "Spawner.h"
 #include "IAttacker.h"
 #include "IDamageable.h"
+#include "TimeManager.h"
 
 class Player : public ImageObject, public IAttacker, public IDamageable
 {
@@ -21,16 +22,19 @@ private:
 	int maxAmmo = 100;
 	int numOfTurrets = 0;
 
+	bool isImmune = false;
+	float immunityTimer = 0.f;
+	float immunityDuration = 1.0f;
+
 public:
 	Player()
 		: ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
 
-		// Posició random en tota la finestra
+		// Posiciï¿½ random en tota la finestra
 		//Vector2 randomPosition = Vector2(rand() % RM->WINDOW_WIDTH, rand() % RM->WINDOW_HEIGHT);
 
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
 		_transform->scale = Vector2(0.5f, 0.5f);
-		//_transform->rotation = 30.f;
 
 		_physics->SetLinearDrag(10.f);
 		_physics->SetAngularDrag(0.1f);
@@ -49,13 +53,15 @@ public:
 	float GetMaxSpeed() const { return maxSpeed; }
 
 	void Update() override {
-
 		Move();
-
 		CheckBorders();
-
+		UpdateImmunity();
 		Object::Update();
 	}
+
+	void UpdateImmunity();
+
+	void ActivateImmunity();
 
 	void SetEnergy(int newEnergy) {
 		energy = newEnergy;
@@ -80,11 +86,13 @@ public:
 	
 	//2
 	void AddCannon() {
-		//PSEUDOCODE: Primero comprobar si el jugador tiene el cañon equipado (sino lo tiene, se le añade pero esta vacio, si lo tiene se rellena la ammo)
-		// al coger el powerup una vez, se añade el cañon a la parte superior (o puede que inferior) del player
-		// después, cada vez que coges el powerUp, la ammo del cañon se rellena completamente
+		//PSEUDOCODE: Primero comprobar si el jugador tiene el caï¿½on equipado (sino lo tiene, se le aï¿½ade pero esta vacio, si lo tiene se rellena la ammo)
+		// al coger el powerup una vez, se aï¿½ade el caï¿½on a la parte superior (o puede que inferior) del player
+		// despuï¿½s, cada vez que coges el powerUp, la ammo del caï¿½on se rellena completamente
 		if (!hasCannon) {
 			//NEED TO ADD CANNON HERE
+			hasCannon = true;
+			std::cout << "Cannon equipped!" << std::endl;
 		}
 		else {
 			cannonAmmo = maxAmmo;
@@ -92,11 +100,12 @@ public:
 	}
 	//3
 	void AddLaser() {  
-		//PSEUDOCODE: Primero comprobar si el jugador tiene el laser equipado (sino lo tiene, se le añade pero esta vacio, si lo tiene se rellena la ammo)
-		// al coger el powerup una vez, se añade el laser a la parte superior (o puede que inferior) del player
-		// después, cada vez que coges el powerUp, la ammo del cañon se rellena completamente
+		//PSEUDOCODE: Primero comprobar si el jugador tiene el laser equipado (sino lo tiene, se le aï¿½ade pero esta vacio, si lo tiene se rellena la ammo)
+		// al coger el powerup una vez, se aï¿½ade el laser a la parte superior (o puede que inferior) del player
+		// despues, cada vez que coges el powerUp, la ammo del caï¿½on se rellena completamente
 		if (!hasLaser) {
 			//NEED TO ADD LASER GUN HERE
+			hasLaser = true;
 		}
 		else {
 			laserAmmo = maxAmmo;
@@ -114,8 +123,8 @@ public:
 	//5
 	void AddTwinTurrets() {
 		//PSEUDOCODE: Primero comprobar la cantidad de torretas que estan activas (empiezas con 0), 
-		// al coger el powerup una vez, se añade 1, al hacerlo la segunda vez, se añade la segunda
-		// después en principio no pasa nada al coger este powerUp
+		// al coger el powerup una vez, se aï¿½ade 1, al hacerlo la segunda vez, se aï¿½ade la segunda
+		// despues en principio no pasa nada al coger este powerUp
 
 	}
 	//6
@@ -124,8 +133,19 @@ public:
 		std::cout << "Energy fully restored! Current energy: " << energy << std::endl;
 	}
 
-	//Interfaces para atacar y recibir daño
-	virtual void Attack(IDamageable* other) const override {}
-	virtual void ReceiveDamage(int damageToAdd) override {}
+	//Interfaces para atacar y recibir daï¿½o
+	void Attack(IDamageable* other) const override {}
+
+	void ReceiveDamage(int damageToAdd) override {
+		energy -= damageToAdd;
+		std::cout << "Player received " << damageToAdd << " damage. Energy left: " << energy << std::endl;
+
+		if (energy <= 0) {
+			Destroy();
+			std::cout << "Player Dead!" << std::endl;
+		}
+	}
+
+	void OnCollision(Object* other) override;
 
 };
