@@ -14,6 +14,7 @@ private:
 	int energy; //shields/shieldsPower... values from 0 to 100
 	int maxEnergy;
 	float maxSpeed;
+	int extraLives = 3;
 
 	bool hasCannon = false;
 	int cannonAmmo = 0;
@@ -64,6 +65,13 @@ public:
 	int GetEnergy() const { return energy; }
 	int GetMaxEnergy() const { return maxEnergy; }
 	float GetMaxSpeed() const { return maxSpeed; }
+
+	int GetExtraLives() const { return extraLives; }
+	bool HasCannon() const { return hasCannon; }
+	int GetCannonAmmo() const { return cannonAmmo; }
+	bool HasLaser() const { return hasLaser; }
+	int GetLaserAmmo() const { return laserAmmo; }
+
 
 	void Update() override {
 		Move();

@@ -5,7 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "SpawnWaves.h"
-
+#include "ScoreManager.h"
 
 //POWERUPS TESTS
 #include "PowerUp.h"
@@ -20,6 +20,20 @@
 #include "BioTitan.h"
 
 class Gameplay : public Scene {
+private:
+	Player* player;
+
+	TextObject* scoreText;
+	TextObject* highScoreText;
+	TextObject* extraLivesText;
+	TextObject* shieldText;
+	TextObject* cannonText;
+	TextObject* laserText;
+
+	//void SaveScore();
+	//void LoadLevelFromFile(std::string path);
+
+
 public:
 	//SpawnWaves* waves;
 	Gameplay() = default;
@@ -47,7 +61,7 @@ public:
 		SPAWNER.SpawnObject(bg1);
 		SPAWNER.SpawnObject(bg2);
 
-		Player* player = new Player();
+		player = new Player();
 		SPAWNER.SpawnObject(player);
 
 		//waves->SetPlayer(player);
@@ -69,6 +83,49 @@ public:
 
 		//SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
 		//SPAWNER.SpawnObject(new BioTitan());
+
+		// HUD
+		float hudX = 60.f;
+		float hudY = RM->WINDOW_HEIGHT - 60.f;
+		float spacing = 300.f;
+
+
+		// Score
+		scoreText = new TextObject("SCORE: ");
+		scoreText->GetTransform()->position = Vector2(hudX, hudY);
+		scoreText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
+		_ui.push_back(scoreText);
+
+		//HIGHEST SCORE <-- RIGHT NOW IMPOSSIBLE
+		highScoreText = new TextObject("HIGHSCORE: ");
+		highScoreText->GetTransform()->position = Vector2(hudX, hudY - 30.f);
+		highScoreText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
+		_ui.push_back(highScoreText);
+
+		// Extra Lives
+		extraLivesText = new TextObject("LIVES: ");
+		extraLivesText->GetTransform()->position = Vector2(hudX + spacing, hudY);
+		extraLivesText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
+		_ui.push_back(extraLivesText);
+
+		// Shield/Energy
+		shieldText = new TextObject("SHIELD: ");
+		shieldText->GetTransform()->position = Vector2(hudX + spacing * 2, hudY);
+		shieldText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
+		_ui.push_back(shieldText);
+
+		// Cannon
+		cannonText = new TextObject("CANNON: NO");
+		cannonText->GetTransform()->position = Vector2(hudX + spacing * 3, hudY);
+		cannonText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
+		_ui.push_back(cannonText);
+
+		// Laser
+		laserText = new TextObject("LASER: NO");
+		laserText->GetTransform()->position = Vector2(hudX + spacing * 4, hudY);
+		laserText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
+		_ui.push_back(laserText);
+
 	}
 
 	void OnExit() override { Scene::OnExit(); }
@@ -77,11 +134,61 @@ public:
 		//waves->Update();
 
 		Scene::Update(); 
-	
+		UpdateHUD();
 	}
 
 	void Render() override { Scene::Render(); }
-private:
-	//void SaveScore();
-	//void LoadLevelFromFile(std::string path);
+
+	private:
+		void UpdateHUD() {
+			if (!player) return;
+
+			int currentScore = HSM->GetCurrentScore();
+			bool isNewHighScore = (currentScore >= HSM->GetHighScore());
+
+			// Cambiar color del score si es nuevo highscore
+			if (isNewHighScore) {
+				scoreText->SetTextColor(SDL_Color{ 255, 215, 0, 255 }); // Dorado
+			}
+			else {
+				scoreText->SetTextColor(SDL_Color{ 0, 0, 0, 0 }); // Negro
+			}
+
+			std::string scoreStr = FormatScore(currentScore);
+			scoreText->SetText("SCORE: " + scoreStr);
+
+			int highScore = HSM->GetHighScore();
+			std::string highScoreStr = FormatScore(highScore);
+			highScoreText->SetText("HIGHSCORE: " + highScoreStr);
+
+			// Actualizar vidas
+			std::string livesStr = "LIVES: " + std::to_string(player->GetExtraLives());
+			extraLivesText->SetText(livesStr);
+
+			// Actualizar energía/escudo
+			std::string shieldStr = "SHIELD: " + std::to_string(player->GetEnergy());
+			shieldText->SetText(shieldStr);
+
+			// Actualizar cañón
+			std::string cannonStr = "CANNON: " + std::to_string(player->GetCannonAmmo());
+			cannonText->SetText(cannonStr);
+
+			// Actualizar láser
+			std::string laserStr = "LASER: " + std::to_string(player->GetLaserAmmo());
+			laserText->SetText(laserStr);
+		}
+
+		// Función para formatear score a 6 dígitos
+		std::string FormatScore(int score) {
+			std::string scoreStr = std::to_string(score);
+			if (scoreStr.length() > 6) {
+				// Si tiene más de 6 dígitos, mostrar solo los últimos 6
+				scoreStr = scoreStr.substr(scoreStr.length() - 6);
+			}
+			else {
+				// Rellenar con ceros a la izquierda
+				scoreStr = std::string(6 - scoreStr.length(), '0') + scoreStr;
+			}
+			return scoreStr;
+		}
 };

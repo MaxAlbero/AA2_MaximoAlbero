@@ -28,12 +28,6 @@ public:
 
     void OnCollision(Object* other) override;
     void Update() override;
-    
-    //virtual void ApplyEffect(Player* player) = 0;
-    //void Destroy() override;
-
-    //void NextPowerUp();
-
 
 private:
     PowerUpType _powerUp;

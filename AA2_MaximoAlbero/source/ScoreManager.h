@@ -18,19 +18,30 @@ public:
 
 	std::pair<int, std::string> scores[3][10];
 
-	int highScore; //Ahora mismo no tiene uso, pero esta variable es la que tiene que marcar la puntuación más alta obtenida, en una unica partida funciona, 
-					//pero falta la logica de guardado de puntuaciones en un archivo binario
-	int currentScore = 0;
+	
 
 	//PSEUDOCODE: EL ScoreManager acumula 1000 puntos a la puntuación actual del jugador al obtener el powerUp de 1000 puntos.
 	void AddPoints() {
 		currentScore += 1000;
 
-		std::cout << "Player current score: " << currentScore << std::endl;
+		if (currentScore > highScore) {
+			highScore = currentScore;
+		}
+	}
+
+	int GetCurrentScore() const { return currentScore; }
+	int GetHighScore() const { return highScore; }
+
+	void SetHighScore(int newHighScore) {
+		highScore = newHighScore;
 	}
 
 private:
 	ScoreManager() = default;
 	ScoreManager(ScoreManager&) = delete;
 	ScoreManager& operator=(const ScoreManager&) = delete;
+
+	int highScore; //Ahora mismo no tiene uso, pero esta variable es la que tiene que marcar la puntuación más alta obtenida, en una unica partida funciona, 
+	//pero falta la logica de guardado de puntuaciones en un archivo binario
+	int currentScore = 0; //TODO: VER SI HAY UNA FORMA MAS ELEGANTE DE HACER ESTO
 };

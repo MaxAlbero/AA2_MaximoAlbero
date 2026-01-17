@@ -14,4 +14,8 @@ public:
 		dynamic_cast<TextRenderer*>(_renderer)->SetText(text); //como sabemos que el renderer sera un TextRenderer 
 														//podemos permitirnos usar dynamic_cast, pero no es bueno/seguro hacer esto
 	}
+
+	void SetTextColor(SDL_Color color) {
+		dynamic_cast<TextRenderer*>(_renderer)->SetColor(color);
+	}
 };
