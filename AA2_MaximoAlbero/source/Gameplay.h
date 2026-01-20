@@ -34,22 +34,22 @@ private:
 
 
 public:
-	SpawnWaves* waves;
+	//SpawnWaves* waves;
 	Gameplay() = default;
 
 	void OnEnter() override {
 
-		waves = new SpawnWaves();
-		LoadLevel levelLoader;
-		std::string filePath = "level_1.xml";
+		//waves = new SpawnWaves();
+		//LoadLevel levelLoader;
+		//std::string filePath = "level_1.xml";
 
-		if (levelLoader.LoadFile(filePath, waves->GetWaveOrder(), waves->GetAmountEnemies())) {
-			std::cout << "Level loaded successfully" << std::endl;
-			waves->Start();
-		}
-		else {
-			std::cout << "Failed to load level" << std::endl;
-		}
+		//if (levelLoader.LoadFile(filePath, waves->GetWaveOrder(), waves->GetAmountEnemies())) {
+		//	std::cout << "Level loaded successfully" << std::endl;
+		//	waves->Start();
+		//}
+		//else {
+		//	std::cout << "Failed to load level" << std::endl;
+		//}
 
 		Background* bg1 = new Background();
 		bg1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);
@@ -63,7 +63,7 @@ public:
 		player = new Player();
 		SPAWNER.SpawnObject(player);
 
-		waves->SetPlayer(player);
+		//waves->SetPlayer(player);
 
 		// HUD
 		float hudX = 60.f;
@@ -106,12 +106,26 @@ public:
 		laserText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
 		_ui.push_back(laserText);
 
+
+		PowerUp* s1 = new PowerUp();
+		s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
+		PowerUp* s2 = new PowerUp();
+		s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
+		PowerUp* s3 = new PowerUp();
+		s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
+		PowerUp* s4 = new PowerUp();
+		s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
+		SPAWNER.SpawnObject(s1);
+		SPAWNER.SpawnObject(s2);
+		SPAWNER.SpawnObject(s3);
+		SPAWNER.SpawnObject(s4);
+
 	}
 
 	void OnExit() override { Scene::OnExit(); }
 
 	void Update() override {
-		waves->Update();
+		//waves->Update();
 
 		Scene::Update(); 
 		UpdateHUD();

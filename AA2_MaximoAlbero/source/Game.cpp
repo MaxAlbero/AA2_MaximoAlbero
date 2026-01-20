@@ -20,7 +20,7 @@ void Game::Init() {
 
 	//Aqui la carrega de tots els recursos del joc
 	RM->LoadTexture("resources/image.png");
-	RM->LoadTexture("resources/UmaSentimiento.jpg");
+	RM->LoadTexture("resources/background.jpg");
 	RM->LoadTexture("resources/VMedusa.png");
 	RM->LoadTexture("resources/bebe.jpg");
 	RM->LoadTexture("resources/pompa.png");
@@ -43,9 +43,9 @@ void Game::Init() {
 	assert(SM.AddScene("LevelSelector", new LevelSelector()));
 
 
-	assert(SM.InitFirstScene("SplashScreen"));
+	//assert(SM.InitFirstScene("SplashScreen"));
 	//assert(SM.InitFirstScene("MainMenu"));
-	//assert(SM.InitFirstScene("Gameplay"));
+	assert(SM.InitFirstScene("Gameplay"));
 
 	_isRunning = !IM->Listen();
 }

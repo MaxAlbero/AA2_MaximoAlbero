@@ -81,6 +81,7 @@
     <ClInclude Include="source\Vmedusa.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\background.jpg" />
     <Image Include="resources\bat.png" />
     <Image Include="resources\bebe.jpg" />
     <Image Include="resources\BillBuster.png" />

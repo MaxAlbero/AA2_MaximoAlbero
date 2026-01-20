@@ -9,7 +9,7 @@
 class Background : public ImageObject {  
 public:
 	Background()
-		: ImageObject("resources/UmaSentimiento.jpg", Vector2(0.f, 0.f), Vector2(680.f, 383.f)) {
+		: ImageObject("resources/background.jpg", Vector2(0.f, 0.f), Vector2(680.f, 383.f)) {
 	
 		_transform->size = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT);
 		_transform->position = Vector2(RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);

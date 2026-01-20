@@ -11,7 +11,7 @@
 class Player : public ImageObject, public IAttacker, public IDamageable
 {
 private:
-	int energy; //shields/shieldsPower... values from 0 to 100
+	int energy;
 	int maxEnergy;
 	float maxSpeed;
 	int extraLives = 3;
@@ -31,16 +31,17 @@ private:
 
 	ImageObject* _cannon = nullptr;
 	ImageObject* _laser = nullptr;
+	ImageObject* _topTurret = nullptr;
+	ImageObject* _bottomTurret = nullptr;
 
 	Vector2 cannonOffset = Vector2(20.f, -30.f);
 	Vector2 laserOffset = Vector2(20.f, 30.f);
+	Vector2 topTurretOffset = Vector2(0.f, -50.f);
+	Vector2 bottomTurretOffset = Vector2(0.f, 50.f);
 
 public:
 	Player()
 		: ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
-
-		// Posici� random en tota la finestra
-		//Vector2 randomPosition = Vector2(rand() % RM->WINDOW_WIDTH, rand() % RM->WINDOW_HEIGHT);
 
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
 		_transform->scale = Vector2(0.5f, 0.5f);
@@ -53,25 +54,25 @@ public:
 		maxSpeed = 1.0f;
 
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
-
-		std::cout << "Current energy: " << energy << std::endl;
 	}
 
 	~Player() {
 		delete _cannon;
 		delete _laser;
+		delete _topTurret;
+		delete _bottomTurret;
 	}
 
+	// Getters
 	int GetEnergy() const { return energy; }
 	int GetMaxEnergy() const { return maxEnergy; }
 	float GetMaxSpeed() const { return maxSpeed; }
-
 	int GetExtraLives() const { return extraLives; }
 	bool HasCannon() const { return hasCannon; }
 	int GetCannonAmmo() const { return cannonAmmo; }
 	bool HasLaser() const { return hasLaser; }
 	int GetLaserAmmo() const { return laserAmmo; }
-
+	int GetNumOfTurrets() const { return numOfTurrets; }
 
 	void Update() override {
 		Move();
@@ -82,18 +83,24 @@ public:
 	}
 
 	void Render() override {
-		Object::Render();  // Renderizar nave primero
+		Object::Render();
 
-		// Renderizar attachments si existen
 		if (hasCannon && _cannon) {
 			_cannon->Render();
 		}
 		if (hasLaser && _laser) {
 			_laser->Render();
 		}
+		if (numOfTurrets >= 1 && _topTurret) {
+			_topTurret->Render();
+		}
+		if (numOfTurrets >= 2 && _bottomTurret) {
+			_bottomTurret->Render();
+		}
 	}
 
 	void UpdateAttachments() {
+		// Actualizar posiciones de todos los attachments
 		if (hasCannon && _cannon) {
 			_cannon->GetTransform()->position = _transform->position + cannonOffset;
 			_cannon->Update();
@@ -103,10 +110,19 @@ public:
 			_laser->GetTransform()->position = _transform->position + laserOffset;
 			_laser->Update();
 		}
+
+		if (numOfTurrets >= 1 && _topTurret) {
+			_topTurret->GetTransform()->position = _transform->position + topTurretOffset;
+			_topTurret->Update();
+		}
+
+		if (numOfTurrets >= 2 && _bottomTurret) {
+			_bottomTurret->GetTransform()->position = _transform->position + bottomTurretOffset;
+			_bottomTurret->Update();
+		}
 	}
 
 	void UpdateImmunity();
-
 	void ActivateImmunity();
 
 	void SetEnergy(int newEnergy) {
@@ -119,88 +135,89 @@ public:
 		maxSpeed = newMaxSpeed;
 	}
 
-
 	void Move();
-
 	void CheckBorders();
-
 	void InmunityTime();
-
 	void OnCollision(Object* other) override;
-	
-	//PowerUps (the only powerUp that shouldn't be here in theory is the 1000 extra score points because it's the ScoreManager the one that manages it
-	
-	//2
+
+	// PowerUps
 	void AddCannon() {
-		//PSEUDOCODE: Primero comprobar si el jugador tiene el ca�on equipado (sino lo tiene, se le a�ade pero esta vacio, si lo tiene se rellena la ammo)
-		// al coger el powerup una vez, se a�ade el ca�on a la parte superior (o puede que inferior) del player
-		// despu�s, cada vez que coges el powerUp, la ammo del ca�on se rellena completamente
 		if (!hasCannon) {
-			//NEED TO ADD CANNON HERE
 			hasCannon = true;
-			// Crear ImageObject para el cañón
 			_cannon = new ImageObject(
 				"resources/BillBuster.png",
 				Vector2(0.f, 0.f),
-				Vector2(100.f, 50.f)  // Tamaño de la textura del cañón
+				Vector2(100.f, 50.f)
 			);
-
-			// Configurar transform del cañón
-			_cannon->GetTransform()->position = _transform->position + cannonOffset;
-			_cannon->GetTransform()->scale = Vector2(0.4f, 0.4f);  // Escalar si es necesario
-
+			_cannon->GetTransform()->scale = Vector2(0.4f, 0.4f);
+			cannonAmmo = maxAmmo;
 			std::cout << "Cannon equipped!" << std::endl;
 		}
 		else {
 			cannonAmmo = maxAmmo;
+			std::cout << "Cannon ammo refilled!" << std::endl;
 		}
 	}
-	//3
-	void AddLaser() {  
-		//PSEUDOCODE: Primero comprobar si el jugador tiene el laser equipado (sino lo tiene, se le a�ade pero esta vacio, si lo tiene se rellena la ammo)
-		// al coger el powerup una vez, se a�ade el laser a la parte superior (o puede que inferior) del player
-		// despues, cada vez que coges el powerUp, la ammo del ca�on se rellena completamente
-		if (!hasLaser) {
-			//NEED TO ADD LASER GUN HERE
-			hasLaser = true;
 
+	void AddLaser() {
+		if (!hasLaser) {
+			hasLaser = true;
 			_laser = new ImageObject(
 				"resources/image.png",
 				Vector2(0.f, 0.f),
-				Vector2(120.f, 40.f)  // Tamaño de la textura del láser
+				Vector2(120.f, 40.f)
 			);
-
-			// Configurar transform del láser
-			_laser->GetTransform()->position = _transform->position + laserOffset;
 			_laser->GetTransform()->scale = Vector2(0.35f, 0.35f);
+			laserAmmo = maxAmmo;
+			std::cout << "Laser equipped!" << std::endl;
 		}
 		else {
 			laserAmmo = maxAmmo;
+			std::cout << "Laser ammo refilled!" << std::endl;
 		}
 	}
 
-	//4
 	void IncreaseSpeed() {
-		float multiplier = 0.5f;
-
-		maxSpeed += multiplier;
-		std::cout << "Speed increased! New multiplier: " << maxSpeed << std::endl;
+		maxSpeed += 0.5f;
+		std::cout << "Speed increased! New speed: " << maxSpeed << std::endl;
 	}
 
-	//5
 	void AddTwinTurrets() {
-		//PSEUDOCODE: Primero comprobar la cantidad de torretas que estan activas (empiezas con 0), 
-		// al coger el powerup una vez, se a�ade 1, al hacerlo la segunda vez, se a�ade la segunda
-		// despues en principio no pasa nada al coger este powerUp
+		if (numOfTurrets == 0) {
+			// Crear torreta superior
+			_topTurret = new ImageObject(
+				"resources/image.png",
+				Vector2(0.f, 0.f),
+				Vector2(80.f, 40.f)
+			);
+			_topTurret->GetTransform()->scale = Vector2(0.5f, 0.5f);
 
+			numOfTurrets = 1;
+			std::cout << "Top turret equipped!" << std::endl;
+		}
+		else if (numOfTurrets == 1) {
+			// Crear torreta inferior
+			_bottomTurret = new ImageObject(
+				"resources/image.png",
+				Vector2(0.f, 0.f),
+				Vector2(80.f, 40.f)
+			);
+			_bottomTurret->GetTransform()->scale = Vector2(0.5f, 0.5f);
+
+			numOfTurrets = 2;
+			std::cout << "Bottom turret equipped!" << std::endl;
+		}
+		else {
+			std::cout << "Already have both turrets!" << std::endl;
+		}
 	}
-	//6
+
 	void RestoreFullEnergy() {
 		energy = maxEnergy;
 		std::cout << "Energy fully restored! Current energy: " << energy << std::endl;
 	}
 
-	//Interfaces para atacar y recibir da�o
+	// Interfaces
 	void Attack(IDamageable* other) const override {}
 
 	void ReceiveDamage(int damageToAdd) override {
@@ -214,19 +231,38 @@ public:
 	}
 
 	void Shoot() {
+		// Disparo principal
 		Vector2 bulletOffset = Vector2(_transform->size.x * 0.5f, 0.f);
 		SPAWNER.SpawnObject(new PlayerBullet(_transform->position + bulletOffset));
 
+		// Disparo del cañón
 		if (hasCannon && cannonAmmo > 0 && _cannon) {
 			Vector2 cannonPos = _cannon->GetTransform()->position;
-			SPAWNER.SpawnObject(new PlayerBullet(cannonPos));
+			Vector2 cannonBulletOffset = Vector2(_cannon->GetTransform()->size.x * 0.5f, 0.f);
+			SPAWNER.SpawnObject(new PlayerBullet(cannonPos + cannonBulletOffset));
 			cannonAmmo--;
 		}
 
+		// Disparo del láser
 		if (hasLaser && laserAmmo > 0 && _laser) {
 			Vector2 laserPos = _laser->GetTransform()->position;
-			SPAWNER.SpawnObject(new PlayerBullet(laserPos));
+			Vector2 laserBulletOffset = Vector2(_laser->GetTransform()->size.x * 0.5f, 0.f);
+			SPAWNER.SpawnObject(new PlayerBullet(laserPos + laserBulletOffset));
 			laserAmmo--;
+		}
+
+		// Disparo de torreta superior
+		if (numOfTurrets >= 1 && _topTurret) {
+			Vector2 topTurretPos = _topTurret->GetTransform()->position;
+			Vector2 topBulletOffset = Vector2(_topTurret->GetTransform()->size.x * 0.5f, 0.f);
+			SPAWNER.SpawnObject(new PlayerBullet(topTurretPos + topBulletOffset));
+		}
+
+		// Disparo de torreta inferior
+		if (numOfTurrets >= 2 && _bottomTurret) {
+			Vector2 bottomTurretPos = _bottomTurret->GetTransform()->position;
+			Vector2 bottomBulletOffset = Vector2(_bottomTurret->GetTransform()->size.x * 0.5f, 0.f);
+			SPAWNER.SpawnObject(new PlayerBullet(bottomTurretPos + bottomBulletOffset));
 		}
 	}
 };

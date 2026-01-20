@@ -42,9 +42,6 @@
     <ClCompile Include="source\PowerUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\PowerUp1000.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\RenderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,9 +98,6 @@
     <ClInclude Include="source\Gameplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\HighscoreManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\Hmedusa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -140,9 +134,6 @@
     <ClInclude Include="source\PowerUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\PowerUp1000.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -156,9 +147,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Scroll.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Spawner.h">
@@ -197,6 +185,12 @@
     <ClInclude Include="source\PlayerBullet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\ScoreManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\LevelSelector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
@@ -226,8 +220,30 @@
     <Image Include="resources\Wailord.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\bat.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\BillBuster.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\BulletBill.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pacman.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pinky.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\background.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\hyperspace.ttf" />
+    <Font Include="resources\fonts\cider_gum.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="level_1.xml" />
   </ItemGroup>
 </Project>
