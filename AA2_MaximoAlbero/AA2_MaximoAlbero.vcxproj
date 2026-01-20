@@ -97,7 +97,7 @@
     <Image Include="resources\Wailord.png" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="resources\fonts\cider_gum.ttf" />
+    <Font Include="resources\fonts\cidergum.ttf" />
     <Font Include="resources\fonts\hyperspace.ttf" />
   </ItemGroup>
   <ItemGroup>

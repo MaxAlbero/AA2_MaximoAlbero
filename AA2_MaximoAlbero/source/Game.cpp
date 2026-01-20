@@ -33,8 +33,8 @@ void Game::Init() {
 	RM->LoadTexture("resources/BillBuster.png");
 	RM->LoadTexture("resources/bat.png");
 
-	//RM->LoadFont("resources/fonts/cider_gum.ttf");
-	RM->LoadFont("resources/fonts/hyperspace.ttf");
+	RM->LoadFont("resources/fonts/cidergum.ttf");
+	//RM->LoadFont("resources/fonts/hyperspace.ttf");
 
 	//Aqui la carrega de totes les escenes
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));

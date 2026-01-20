@@ -5,7 +5,8 @@
 #include <string>
 #include "Renderer.h"
 
-#define FONT_PATH "resources/fonts/hyperspace.ttf"
+//#define FONT_PATH "resources/fonts/hyperspace.ttf"
+#define FONT_PATH "resources/fonts/cidergum.ttf"
 
 class TextRenderer : public Renderer
 {
