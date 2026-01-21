@@ -33,6 +33,9 @@ public:
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
 		_transform->scale = Vector2(0.5f, 0.5f);
 
+		_physics->SetLinearDrag(10.f);
+		_physics->SetAngularDrag(0.1f);
+
 		energy = 100;
 		maxEnergy = 100;
 		maxSpeed = 1.0f;

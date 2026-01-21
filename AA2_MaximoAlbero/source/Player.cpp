@@ -5,23 +5,19 @@
 
 void Player::Move()
 {
-	float baseForce = 200.f * maxSpeed;
+	float baseForce = 2000.f * maxSpeed;
 
 	if (IM->GetEvent(SDLK_S, KeyState::HOLD)) {
 		_physics->AddForce(Vector2(0.f, baseForce));
-		std::cout << "BaseForce: " << baseForce << std::endl;
 	}
 	if (IM->GetEvent(SDLK_W, KeyState::HOLD)) {
 		_physics->AddForce(Vector2(0.f, -baseForce));
-		std::cout << "BaseForce: " << baseForce << std::endl;
 	}
 	if (IM->GetEvent(SDLK_A, KeyState::HOLD)) {
 		_physics->AddForce(Vector2(-baseForce, 0.f));
-		std::cout << "BaseForce: " << baseForce << std::endl;
 	}
 	if (IM->GetEvent(SDLK_D, KeyState::HOLD)) {
 		_physics->AddForce(Vector2(baseForce, 0.f));
-		std::cout << "BaseForce: " << baseForce << std::endl;
 	}
 
 	if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN)) {
