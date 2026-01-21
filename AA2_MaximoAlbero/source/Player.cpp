@@ -2,8 +2,6 @@
 #include "TimeManager.h"
 #include "EnemyBullet.h"
 #include "Enemy.h"
-#include "Enemy.h"
-#include "EnemyBullet.h"
 
 void Player::Move()
 {
@@ -22,7 +20,6 @@ void Player::Move()
 		_physics->AddForce(Vector2(baseForce, 0.f));
 	}
 
-
 	if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN)) {
 		Shoot();
 	}
@@ -31,37 +28,27 @@ void Player::Move()
 	}
 }
 
-
 void Player::CheckBorders() {
-	if (_transform->position.x < _transform->size.x / 2)
-		_transform->position.x = _transform->size.x / 2;
+	// Tamaño efectivo considerando scale
+	float effectiveWidth = _transform->size.x * _transform->scale.x;
+	float effectiveHeight = _transform->size.y * _transform->scale.y;
 
-	if (_transform->position.x > RM->WINDOW_WIDTH - _transform->size.x / 2)
-		_transform->position.x = RM->WINDOW_WIDTH - _transform->size.x / 2;
+	if (_transform->position.x < effectiveWidth / 2)
+		_transform->position.x = effectiveWidth / 2;
 
-	if (_transform->position.y < _transform->size.y / 2)
-		_transform->position.y = _transform->size.y / 2;
+	if (_transform->position.x > RM->WINDOW_WIDTH - effectiveWidth / 2)
+		_transform->position.x = RM->WINDOW_WIDTH - effectiveWidth / 2;
 
-	if (_transform->position.y > RM->WINDOW_HEIGHT - _transform->size.y / 2)
-		_transform->position.y = RM->WINDOW_HEIGHT - _transform->size.y / 2;
-}
+	if (_transform->position.y < effectiveHeight / 2)
+		_transform->position.y = effectiveHeight / 2;
 
-void Player::InmunityTime()
-{
-	do
-	{
-		ReceiveDamage(0);
-		inmunityTime += TM.GetDeltaTime();
-	} while (inmunityTime < maxInmunityTime);
-
-	if (inmunityTime >= maxInmunityTime) {
-		inmunityTime = 0.f;
-	}
+	if (_transform->position.y > RM->WINDOW_HEIGHT - effectiveHeight / 2)
+		_transform->position.y = RM->WINDOW_HEIGHT - effectiveHeight / 2;
 }
 
 void Player::OnCollision(Object* other)
 {
-	// Solo recibir daño si no 
+	// Solo recibir daño si no estoy inmune
 	if (isImmune) return;
 
 	if (EnemyBullet* bullet = dynamic_cast<EnemyBullet*>(other)) {
@@ -71,7 +58,7 @@ void Player::OnCollision(Object* other)
 			ActivateImmunity();
 		}
 	}
-	// Colision con enemigos
+	// Colisión con enemigos
 	else if (Enemy* enemy = dynamic_cast<Enemy*>(other)) {
 		if (!enemy->IsPendingDestroy()) {
 			ReceiveDamage(20);
@@ -79,7 +66,6 @@ void Player::OnCollision(Object* other)
 		}
 	}
 }
-
 
 void Player::UpdateImmunity() {
 	if (isImmune) {
@@ -97,4 +83,17 @@ void Player::ActivateImmunity() {
 	isImmune = true;
 	immunityTimer = 0.f;
 	std::cout << "Immunity activated!" << std::endl;
+}
+
+void Player::InmunityTime()
+{
+	do
+	{
+		ReceiveDamage(0);
+		immunityTime += TM.GetDeltaTime();
+	} while (immunityTime < maxImmunityTime);
+
+	if (immunityTime >= maxImmunityTime) {
+		immunityTime = 0.f;
+	}
 }

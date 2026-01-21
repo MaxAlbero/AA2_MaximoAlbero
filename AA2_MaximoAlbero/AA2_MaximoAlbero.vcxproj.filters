@@ -191,6 +191,21 @@
     <ClInclude Include="source\LevelSelector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\WeaponComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CannonWeapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\LaserWeapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TurretWeapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\WeaponManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
@@ -238,10 +253,13 @@
     <Image Include="resources\background.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\turret.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\hyperspace.ttf" />
-    <Font Include="resources\fonts\cidergum.ttf" />
+    <Font Include="resources\fonts\cider_gum.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="level_1.xml" />
