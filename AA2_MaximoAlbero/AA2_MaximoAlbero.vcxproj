@@ -93,6 +93,7 @@
     <Image Include="resources\pompa.png" />
     <Image Include="resources\RayoNave.png" />
     <Image Include="resources\slime.png" />
+    <Image Include="resources\turret.png" />
     <Image Include="resources\UmaSentimiento.jpg" />
     <Image Include="resources\VMedusa.png" />
     <Image Include="resources\Wailord.png" />
