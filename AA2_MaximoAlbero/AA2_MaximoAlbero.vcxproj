@@ -92,6 +92,7 @@
     <Image Include="resources\BillBuster.png" />
     <Image Include="resources\BulletBill.png" />
     <Image Include="resources\caballo.png" />
+    <Image Include="resources\explosion.png" />
     <Image Include="resources\image.png" />
     <Image Include="resources\pacman.png" />
     <Image Include="resources\pinky.png" />
