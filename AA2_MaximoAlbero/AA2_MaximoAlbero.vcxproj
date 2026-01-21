@@ -41,6 +41,7 @@
     <ClInclude Include="source\Bubbles.h" />
     <ClInclude Include="source\Bullet.h" />
     <ClInclude Include="source\Button.h" />
+    <ClInclude Include="source\CannonWeapon.h" />
     <ClInclude Include="source\Chomper.h" />
     <ClInclude Include="source\Circler.h" />
     <ClInclude Include="source\CirclerBody.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="source\EnemyBullet.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
+    <ClInclude Include="source\LaserWeapon.h" />
     <ClInclude Include="source\ScoreManager.h" />
     <ClInclude Include="source\Hmedusa.h" />
     <ClInclude Include="source\IAttacker.h" />
@@ -77,8 +79,11 @@
     <ClInclude Include="source\TextRenderer.h" />
     <ClInclude Include="source\TimeManager.h" />
     <ClInclude Include="source\Transform.h" />
+    <ClInclude Include="source\TurretWeapon.h" />
     <ClInclude Include="source\Vector2.h" />
     <ClInclude Include="source\Vmedusa.h" />
+    <ClInclude Include="source\WeaponComponent.h" />
+    <ClInclude Include="source\WeaponManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.jpg" />

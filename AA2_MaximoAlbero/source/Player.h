@@ -22,6 +22,9 @@ private:
 	float immunityTimer;
 	float immunityDuration;
 
+	float immunityTime = 0.f;
+	float maxImmunityTime = 0.5f;
+
 	WeaponManager* _weaponManager;
 
 public:
