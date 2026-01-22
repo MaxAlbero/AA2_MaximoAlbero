@@ -10,8 +10,14 @@ public:
 
 	void Normalize() {
 		float length = sqrtf(x * x + y * y);
-		x /= length;
-		y /= length;
+		if (length > 0.f) {
+			x /= length;
+			y /= length;
+		}
+	}
+
+	float Length() const {
+		return sqrtf(x * x + y * y);
 	}
 
 	Vector2 const operator+(const Vector2& other) const {
@@ -32,6 +38,12 @@ public:
 
 	Vector2 const operator/(const float& other) const {
 		return Vector2(x / other, y / other);
+	}
+
+	Vector2& operator+=(const Vector2& other) {
+		x += other.x;
+		y += other.y;
+		return *this;
 	}
 
 	Vector2 const operator!() {

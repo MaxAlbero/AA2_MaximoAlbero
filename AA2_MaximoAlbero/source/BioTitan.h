@@ -1,96 +1,33 @@
 #pragma once
 #include "Enemy.h"
 #include "EnemyBullet.h"
+#include "LinearMovementState.h"
+#include "ShootState.h"
 
 class BioTitan : public Enemy {
 private:
-	int moveSpeed;
-
-	float shootTimer;
-	float shootCooldown;
-	int shotsFired;
-	int maxShots;
+	float moveSpeed;
 public:
 	BioTitan()
-		: Enemy() {
+		: Enemy(), moveSpeed(100.f) {
 		_renderer = new ImageRenderer(_transform, "resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
 
-
-		_transform->size = Vector2(300.f,300.f);
+		_transform->size = Vector2(300.f, 300.f);
 		_transform->position = Vector2(RM->WINDOW_WIDTH + _transform->size.x, RM->WINDOW_HEIGHT / 2.f);
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 
-		enemyHealth = 300;
-		currentState = SIMPLE_MOVE;
+		SetHealth(300);
+		SetPointsValue(500);
 
-		moveSpeed = 100.f;
-		shootTimer = 0.f;
-		shootCooldown = 0.5f; // Dispara cada 0.5 segundos
-		shotsFired = 0;
-		maxShots = 5;
-	}
+		// Crear estados
+		Vector2 startPos = _transform->position;
+		Vector2 stopPos = Vector2(RM->WINDOW_WIDTH - _transform->size.x, _transform->position.y);
 
+		auto* moveState = new LinearMovementState(_transform, _physics, startPos, stopPos, moveSpeed);
+		auto* shootState = new ShootState(_transform, 0.5f, 5, -_transform->size.x / 2.f);
 
-	void Update() override {
-
-		switch (currentState) {
-		case SIMPLE_MOVE:
-			Move();
-			break;
-		case SHOOT:
-			Shoot();
-			break;
-		case STAY:
-			EnemyBehaviour();
-			break;
-		}
-
-
-		Object::Update();
-	}
-
-	void Move() override {
-		_physics->SetVelocity(Vector2(-moveSpeed, 0.f));
-
-		if (_transform->position.x <= RM->WINDOW_WIDTH - _transform->size.x) {
-			_physics->SetVelocity(Vector2(0.f, 0.f));
-			currentState = SHOOT;
-		}
-	}
-
-	//void Attack(IAttacker* other) const override;
-
-	void Shoot() {
-		shootTimer += TM.GetDeltaTime();
-
-		if (shootTimer >= shootCooldown) {
-			// Crear bala desde la posición del BioTitan
-			Vector2 bulletPos = Vector2(
-				_transform->position.x - _transform->size.x / 2.f,
-				_transform->position.y
-			);
-
-			EnemyBullet* bullet = new EnemyBullet(bulletPos);
-			SPAWNER.SpawnObject(bullet);
-
-			shootTimer = 0.f;
-			shotsFired++;
-
-			std::cout << "BioTitan shoots! (" << shotsFired << "/" << maxShots << ")" << std::endl;
-
-			if (shotsFired >= maxShots) {
-				currentState = STAY;
-			}
-		}
-	}
-
-
-	void EnemyBehaviour() override {
-		shootTimer = 0.f;
-		shootCooldown = 0.5f;
-		shotsFired = 0;
-		maxShots = 5;
-
-		currentState = SHOOT;
+		// Añadir estados en orden - el manager gestiona la transición secuencial
+		_stateManager->AddState(moveState);
+		_stateManager->AddState(shootState);
 	}
 };
