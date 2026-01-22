@@ -5,6 +5,7 @@
 #include "IDamageable.h"
 #include "TimeManager.h"
 #include "ScoreManager.h"
+#include "Explosion.h"
 
 enum MovementState {
 	STAY,
@@ -57,6 +58,7 @@ public:
 
 	void Destroy() {
 		isDestroyed = true;
+		SPAWNER.SpawnObject(new Explosion(_transform->position));
 
 		HSM->AddPoints(pointsValue);
 

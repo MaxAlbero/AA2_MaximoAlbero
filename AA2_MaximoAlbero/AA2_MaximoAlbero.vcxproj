@@ -47,6 +47,7 @@
     <ClInclude Include="source\CirclerBody.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyBullet.h" />
+    <ClInclude Include="source\Explosion.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\LaserWeapon.h" />

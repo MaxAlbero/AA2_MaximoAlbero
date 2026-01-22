@@ -9,6 +9,7 @@
 #include "TimeManager.h"
 #include <cmath>
 #include "WeaponManager.h"
+#include "Explosion.h"
 
 class Player : public ImageObject, public IAttacker, public IDamageable
 {
@@ -29,7 +30,8 @@ private:
 
 public:
 public:
-	Player() : ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
+	Player() 
+		: ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
 		_transform->scale = Vector2(0.5f, 0.5f);
 
@@ -135,5 +137,10 @@ public:
 			Destroy();
 			std::cout << "Player Dead!" << std::endl;
 		}
+	}
+
+	void Destroy() override {
+		SPAWNER.SpawnObject(new Explosion(_transform->position));
+		Object::Destroy();
 	}
 };

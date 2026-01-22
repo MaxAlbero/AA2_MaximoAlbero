@@ -120,6 +120,9 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
+
+		SPAWNER.SpawnObject(new Chomper(Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f)));
+
 	}
 
 	void OnExit() override { Scene::OnExit(); }
