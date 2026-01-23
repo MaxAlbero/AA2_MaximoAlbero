@@ -206,6 +206,15 @@
     <ClInclude Include="source\WeaponManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\EnemyMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\CirclerMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TargetMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
@@ -256,10 +265,13 @@
     <Image Include="resources\turret.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\hyperspace.ttf" />
-    <Font Include="resources\fonts\cider_gum.ttf" />
+    <Font Include="resources\fonts\cidergum.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="level_1.xml" />

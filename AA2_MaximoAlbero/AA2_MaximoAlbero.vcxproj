@@ -45,8 +45,10 @@
     <ClInclude Include="source\Chomper.h" />
     <ClInclude Include="source\Circler.h" />
     <ClInclude Include="source\CirclerBody.h" />
+    <ClInclude Include="source\CirclerMovement.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyBullet.h" />
+    <ClInclude Include="source\EnemyMovement.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\LaserWeapon.h" />
@@ -74,6 +76,7 @@
     <ClInclude Include="source\SpawnerManager.h" />
     <ClInclude Include="source\SpawnWaves.h" />
     <ClInclude Include="source\SplashScreen.h" />
+    <ClInclude Include="source\TargetMovement.h" />
     <ClInclude Include="source\TestObject.h" />
     <ClInclude Include="source\TextObject.h" />
     <ClInclude Include="source\TextRenderer.h" />

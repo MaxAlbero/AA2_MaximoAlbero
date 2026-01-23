@@ -3,64 +3,65 @@
 #include "Spawner.h"
 #include "IAttacker.h"
 #include "IDamageable.h"
-#include "TimeManager.h"
+#include "EnemyMovement.h"
 #include "ScoreManager.h"
-
-enum MovementState {
-	STAY,
-	SIMPLE_MOVE,
-	CIRCLE_MOVE,
-	CHASE,
-	SHOOT,
-	RETURN
-};
+#include <vector>
 
 class Enemy : public ImageObject, public IAttacker, public IDamageable
 {
 protected:
-	int enemyHealth = 50;
-	float radius = 100.f;
-	float angle = 0.f;
-	float angularSpeed = 0.01f;
-	MovementState currentState;
-	bool isDestroyed = false;
-
-	int pointsValue = 200;
+    int enemyHealth;
+    int pointsValue;
+    std::vector<EnemyMovement*> movements;
+    int currentMovementIndex;
 
 public:
-	Enemy()
-		: ImageObject("resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f))
-	{
-		_transform->size = Vector2(150.f, 150.f);
-		//_transform->position = Vector2(RM->WINDOW_WIDTH / 1.f, RM->WINDOW_HEIGHT / 2.f);
-		_physics->AddCollider(new AABB(_transform->position, _transform->size));
+    Enemy()
+        : ImageObject("resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)),
+        enemyHealth(50), pointsValue(200), currentMovementIndex(0) {
+        _transform->size = Vector2(150.f, 150.f);
+        _physics->AddCollider(new AABB(_transform->position, _transform->size));
+    }
 
-		currentState = STAY;
-	}
+    virtual ~Enemy() {
+        for (auto* movement : movements) {
+            delete movement;
+        }
+        movements.clear();
+    }
 
-	virtual void Update() override {
-		EnemyBehaviour();
-		Object::Update();
-	}
+    virtual void Update() override {
+        // Actualizar el movimiento actual
+        if (currentMovementIndex < movements.size()) {
+            EnemyMovement* currentMovement = movements[currentMovementIndex];
+            currentMovement->Update(0.02f); // deltaTime
 
-	void OnCollision(Object* other) override;
-	virtual void EnemyBehaviour() {}
-	virtual void Move() {}
-	virtual void CircleMove();
-	virtual void GoAway() {}
+            // Si el movimiento actual terminó, pasar al siguiente
+            if (currentMovement->IsFinished()) {
+                currentMovementIndex++;
+            }
+        }
 
-	//Interfaces para atacar y recibir daño
-	virtual void Attack(IDamageable* other) const override;
-	virtual void ReceiveDamage(int damageToAdd) override;
+        Object::Update();
+    }
 
-	bool IsDestroyed() const { return isDestroyed; }
+    void OnCollision(Object* other) override;
 
-	void Destroy() {
-		isDestroyed = true;
+    virtual void Attack(IDamageable* other) const override;
 
-		HSM->AddPoints(pointsValue);
+    virtual void ReceiveDamage(int damageToAdd) override {
+        enemyHealth -= damageToAdd;
+        if (enemyHealth <= 0) {
+            Destroy();
+        }
+    }
 
-		Object::Destroy();
-	}
+    void Destroy() override {
+        HSM->AddPoints(pointsValue);
+        Object::Destroy();
+    }
+
+    int GetHealth() const { return enemyHealth; }
+    void SetHealth(int hp) { enemyHealth = hp; }
+    void SetPointsValue(int points) { pointsValue = points; }
 };
-

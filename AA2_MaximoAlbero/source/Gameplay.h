@@ -17,6 +17,7 @@
 //Testing Colisions
 #include "Chomper.h"
 #include "BioTitan.h"
+#include "Circler.h"
 
 class Gameplay : public Scene {
 private:
@@ -119,6 +120,9 @@ public:
 		SPAWNER.SpawnObject(s2);
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
+
+		Circler* circler = new Circler();
+		SPAWNER.SpawnObject(circler); 
 
 	}
 
