@@ -18,6 +18,8 @@
 #include "Chomper.h"
 #include "BioTitan.h"
 #include "Circler.h"
+#include "Vmedusa.h"
+#include "Beholder.h"
 
 class Gameplay : public Scene {
 private:
@@ -121,8 +123,13 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		Circler* circler = new Circler();
-		SPAWNER.SpawnObject(circler); 
+		//Circler* circler = new Circler();
+		Vmedusa* medusa = new Vmedusa(Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT + 50.f), 200.f);
+		//float margin = 80.f;
+		//Beholder* beholder = new Beholder(Vector2(RM->WINDOW_WIDTH - margin, RM->WINDOW_HEIGHT - margin), player->GetTransform());
+		SPAWNER.SpawnObject(medusa); 
+
+
 
 	}
 

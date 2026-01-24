@@ -8,9 +8,9 @@ public:
 	Circler() 
 		: Enemy() {
 		_renderer = new ImageRenderer(_transform, "resources/pacman.png",
-			Vector2(0.f, 0.f), Vector2(306.f, 562.f));
+			Vector2(0.f, 0.f), Vector2(500.f, 500.f));
 
-		_transform->size = Vector2(100.f, 100.f);
+		_transform->scale = Vector2(0.5f, 0.5f);
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 2.f, -_transform->size.y);
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 
@@ -36,7 +36,7 @@ public:
             radius - 50.f, Vector2(screenCenter.x - 50.f, screenCenter.y), angularVelocity));
 
         movements.push_back(new TargetMovement(_transform, _physics,
-            Vector2(screenCenter.x - 100.f, screenCenter.y), speed));
+            Vector2(screenCenter.x + 200.f, screenCenter.y), speed));
 
         movements.push_back(new CirclerMovement(_transform, _physics,
             radius - 100.f, Vector2(screenCenter.x - 100.f, screenCenter.y), angularVelocity));
