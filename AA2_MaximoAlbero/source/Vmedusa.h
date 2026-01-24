@@ -1,6 +1,6 @@
 #pragma once
 #include "Enemy.h"
-#include "VerticalLinearMovement.h"
+#include "UpLinearMovement.h"
 #include "IdleMovement.h"
 
 class Vmedusa : public Enemy {
@@ -18,8 +18,8 @@ public:
 		
 		float yThreshold = RM->WINDOW_HEIGHT / 2.f;
 
-		movements.push_back(new VerticalLinearMovement(_transform, _physics, yThreshold, speed));
+		movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
 		movements.push_back(new IdleMovement(_transform, _physics, 1.f));
-		movements.push_back(new VerticalLinearMovement(_transform, _physics, speed));
+		movements.push_back(new UpLinearMovement(_transform, _physics, speed));
 	}
 };
