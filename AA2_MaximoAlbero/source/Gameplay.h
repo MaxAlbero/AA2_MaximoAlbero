@@ -20,6 +20,7 @@
 #include "Circler.h"
 #include "Vmedusa.h"
 #include "Annoyer.h"
+#include "Daniels.h"
 
 class Gameplay : public Scene {
 private:
@@ -126,8 +127,8 @@ public:
 		Chomper* chomper = new Chomper(Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f));
 		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
 		float margin = 80.f;
-		Annoyer* annoyer = new Annoyer(Vector2(RM->WINDOW_WIDTH - margin, RM->WINDOW_HEIGHT - margin), player->GetTransform());
-		SPAWNER.SpawnObject(chomper);
+		Daniels* daniels = new Daniels(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT));
+		SPAWNER.SpawnObject(daniels);
 
 
 

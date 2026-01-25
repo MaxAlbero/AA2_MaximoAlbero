@@ -50,6 +50,7 @@
     <ClInclude Include="source\Circler.h" />
     <ClInclude Include="source\CirclerBody.h" />
     <ClInclude Include="source\CirclerMovement.h" />
+    <ClInclude Include="source\Daniels.h" />
     <ClInclude Include="source\DownLinearMovement.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyBullet.h" />
