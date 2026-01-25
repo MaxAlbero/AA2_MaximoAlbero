@@ -46,6 +46,7 @@
     <ClInclude Include="source\CannonWeapon.h" />
     <ClInclude Include="source\ChaseMovement.h" />
     <ClInclude Include="source\Chomper.h" />
+    <ClInclude Include="source\ChomperMovement.h" />
     <ClInclude Include="source\Circler.h" />
     <ClInclude Include="source\CirclerBody.h" />
     <ClInclude Include="source\CirclerMovement.h" />
