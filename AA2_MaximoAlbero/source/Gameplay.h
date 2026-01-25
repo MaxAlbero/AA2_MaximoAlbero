@@ -15,12 +15,12 @@
 #include "LoadLevel.h"
 
 //Testing Colisions
-#include "Chomper.h"
+#include "Bubbles.h"
 #include "BioTitan.h"
 #include "Circler.h"
 #include "Vmedusa.h"
 #include "Annoyer.h"
-#include "RoboKrabs.h"
+#include "TurboChainsaw.h"
 
 class Gameplay : public Scene {
 private:
@@ -124,11 +124,11 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		Chomper* chomper = new Chomper(Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f));
+		Bubbles* bubbles = new Bubbles(TOP_TO_BOTTOM, 10.f);
 		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
 		float margin = 80.f;
-		RoboKrabs* daniels = new RoboKrabs(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT), player->GetTransform());
-		SPAWNER.SpawnObject(daniels);
+		TurboChainsaw* daniels = new TurboChainsaw(FROM_RIGHT);
+		SPAWNER.SpawnObject(bubbles);
 
 
 

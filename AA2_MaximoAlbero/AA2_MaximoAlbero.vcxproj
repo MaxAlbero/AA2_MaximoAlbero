@@ -47,10 +47,12 @@
     <ClInclude Include="source\ChaseMovement.h" />
     <ClInclude Include="source\Chomper.h" />
     <ClInclude Include="source\ChomperMovement.h" />
+    <ClInclude Include="source\CirclePartialMovement.h" />
     <ClInclude Include="source\Circler.h" />
     <ClInclude Include="source\CirclerBody.h" />
     <ClInclude Include="source\CirclerMovement.h" />
     <ClInclude Include="source\Daniels.h" />
+    <ClInclude Include="source\DiagonalMovement.h" />
     <ClInclude Include="source\DownLinearMovement.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyBullet.h" />
@@ -98,6 +100,7 @@
     <ClInclude Include="source\TimeManager.h" />
     <ClInclude Include="source\Torpedo.h" />
     <ClInclude Include="source\Transform.h" />
+    <ClInclude Include="source\TurboChainsaw.h" />
     <ClInclude Include="source\TurretWeapon.h" />
     <ClInclude Include="source\Ufo.h" />
     <ClInclude Include="source\UpLinearMovement.h" />
