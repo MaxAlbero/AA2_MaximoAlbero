@@ -4,7 +4,8 @@
 
 class Hmedusa : public Enemy {
 public:
-    Hmedusa(Vector2 spawnPos, float speed) : Enemy() {
+    Hmedusa(Vector2 spawnPos, float speed) 
+        : Enemy() {
         _renderer = new ImageRenderer(_transform, "resources/bebe.jpg",
             Vector2(0.f, 0.f), Vector2(360.f, 360.f));
 
