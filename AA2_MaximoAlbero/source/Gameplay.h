@@ -16,7 +16,7 @@
 
 //Testing Colisions
 #include "Bubbles.h"
-#include "BioTitan.h"
+#include "SpaceBoss.h"
 #include "Circler.h"
 #include "Vmedusa.h"
 #include "Annoyer.h"
@@ -124,11 +124,11 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		Bubbles* bubbles = new Bubbles(TOP_TO_BOTTOM, 10.f);
+		SpaceBoss* spaceBoss = new SpaceBoss();
 		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
 		float margin = 80.f;
 		TurboChainsaw* daniels = new TurboChainsaw(FROM_RIGHT);
-		SPAWNER.SpawnObject(bubbles);
+		SPAWNER.SpawnObject(spaceBoss);
 
 
 

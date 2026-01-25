@@ -281,6 +281,9 @@
     <ClInclude Include="source\CirclePartialMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\SpaceBoss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
