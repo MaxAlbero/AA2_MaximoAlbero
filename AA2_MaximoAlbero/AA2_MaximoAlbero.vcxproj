@@ -93,6 +93,7 @@
     <ClInclude Include="source\Torpedo.h" />
     <ClInclude Include="source\Transform.h" />
     <ClInclude Include="source\TurretWeapon.h" />
+    <ClInclude Include="source\Ufo.h" />
     <ClInclude Include="source\UpLinearMovement.h" />
     <ClInclude Include="source\Vector2.h" />
     <ClInclude Include="source\VerticalLinearMovement.h" />

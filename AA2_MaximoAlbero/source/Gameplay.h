@@ -21,7 +21,7 @@
 #include "Vmedusa.h"
 #include "Torpedo.h"
 #include "Missile.h"
-#include "Nuke.h"
+#include "Ufo.h"
 
 class Gameplay : public Scene {
 private:
@@ -126,10 +126,10 @@ public:
 		SPAWNER.SpawnObject(s4);
 
 		//Circler* circler = new Circler();
-		Nuke* medusa = new Nuke(Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT), 200.f);
+		Ufo* ufo = new Ufo(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
 		//float margin = 80.f;
 		//Beholder* beholder = new Beholder(Vector2(RM->WINDOW_WIDTH - margin, RM->WINDOW_HEIGHT - margin), player->GetTransform());
-		SPAWNER.SpawnObject(medusa); 
+		SPAWNER.SpawnObject(ufo); 
 
 
 
