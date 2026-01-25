@@ -1,10 +1,12 @@
 #pragma once
 #include "Enemy.h"
 #include "LeftLinearMovement.h"
+#include "RightLinearMovement.h"
+#include "IdleMovement.h"
 
-class Hmedusa : public Enemy {
+class Ufo : public Enemy {
 public:
-    Hmedusa(Vector2 spawnPos, float speed) 
+    Ufo(Vector2 spawnPos, float speed)
         : Enemy() {
         _renderer = new ImageRenderer(_transform, "resources/bebe.jpg",
             Vector2(0.f, 0.f), Vector2(360.f, 360.f));
@@ -16,7 +18,12 @@ public:
         SetHealth(20);
         SetPointsValue(100);
 
+        float xThreshold = RM->WINDOW_WIDTH / 2.f;
+        float duration = 2.f;
+
         // Movimiento simple: izquierda sin umbral (sale de pantalla)
+        movements.push_back(new RightLinearMovement(_transform, _physics, xThreshold, speed));
+        movements.push_back(new IdleMovement(_transform, _physics, duration));
         movements.push_back(new LeftLinearMovement(_transform, _physics, speed));
     }
 

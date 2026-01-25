@@ -4,10 +4,10 @@
 #include "IdleMovement.h"
 #include "ShootMovement.h"
 
-class BioTitan : public Enemy {
+class SpaceBoss : public Enemy {
 public:
-    BioTitan() : Enemy() {
-        _renderer = new ImageRenderer(_transform, "resources/image.png",
+    SpaceBoss() : Enemy() {
+        _renderer = new ImageRenderer(_transform, "resources/pacman.png",
             Vector2(0.f, 0.f), Vector2(306.f, 562.f));
 
         _transform->size = Vector2(300.f, 300.f);

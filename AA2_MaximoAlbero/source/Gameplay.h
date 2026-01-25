@@ -15,11 +15,12 @@
 #include "LoadLevel.h"
 
 //Testing Colisions
-#include "Chomper.h"
-#include "BioTitan.h"
+#include "Bubbles.h"
+#include "SpaceBoss.h"
 #include "Circler.h"
 #include "Vmedusa.h"
-#include "Beholder.h"
+#include "Annoyer.h"
+#include "TurboChainsaw.h"
 
 class Gameplay : public Scene {
 private:
@@ -123,11 +124,11 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		//Circler* circler = new Circler();
-		Vmedusa* medusa = new Vmedusa(Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT + 50.f), 200.f);
-		//float margin = 80.f;
-		//Beholder* beholder = new Beholder(Vector2(RM->WINDOW_WIDTH - margin, RM->WINDOW_HEIGHT - margin), player->GetTransform());
-		SPAWNER.SpawnObject(medusa); 
+		SpaceBoss* spaceBoss = new SpaceBoss();
+		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
+		float margin = 80.f;
+		TurboChainsaw* daniels = new TurboChainsaw(FROM_RIGHT);
+		SPAWNER.SpawnObject(spaceBoss);
 
 
 
