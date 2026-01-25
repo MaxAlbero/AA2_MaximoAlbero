@@ -36,6 +36,7 @@
   <ItemGroup>
     <ClInclude Include="source\AABB.h" />
     <ClInclude Include="source\Angrygons.h" />
+    <ClInclude Include="source\Annoyer.h" />
     <ClInclude Include="source\Background.h" />
     <ClInclude Include="source\Beholder.h" />
     <ClInclude Include="source\BioTitan.h" />

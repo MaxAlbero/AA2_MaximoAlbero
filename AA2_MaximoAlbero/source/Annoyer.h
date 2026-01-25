@@ -1,0 +1,43 @@
+#pragma once
+#include "Enemy.h"
+#include "LeftLinearMovement.h"
+#include "EscapeMovement.h"
+#include "IdleMovement.h"
+#include "ChaseMovement.h"
+
+class Annoyer : public Enemy {
+public:
+    Annoyer(Vector2 spawnPos, Transform* playerTransform)
+        : Enemy() {
+        _renderer = new ImageRenderer(_transform, "resources/bebe.jpg",
+            Vector2(0.f, 0.f), Vector2(360.f, 360.f));
+
+        //_transform->rotation = 270.f;
+        _transform->scale = Vector2(0.5f, 0.5f);
+        _transform->position = spawnPos;
+        _physics->AddCollider(new AABB(_transform->position, _transform->size));
+
+        SetHealth(20);
+        SetPointsValue(100);
+
+        float speed = 200.f;
+        float xThreshold = RM->WINDOW_WIDTH / 1.5f;
+        float duration = 2.f;
+
+        // Movimiento simple: izquierda sin umbral (sale de pantalla)
+        movements.push_back(new LeftLinearMovement(_transform, _physics, xThreshold, speed));
+        movements.push_back(new IdleMovement(_transform, _physics, duration));
+        movements.push_back(new ChaseMovement(_transform, _physics, playerTransform, speed, 1, duration, 10.f));
+        movements.push_back(new EscapeMovement(_transform, _physics, speed)); // Escapar al borde más cercano
+    }
+
+    void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
+        // Actualizar movimientos
+        Enemy::Update();
+
+        // Destruir si sale de pantalla
+        if (_transform->position.x + _transform->size.x < 0.f) {
+            Destroy();
+        }
+    }
+};

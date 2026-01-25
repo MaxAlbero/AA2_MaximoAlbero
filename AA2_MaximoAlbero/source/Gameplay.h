@@ -19,7 +19,7 @@
 #include "BioTitan.h"
 #include "Circler.h"
 #include "Vmedusa.h"
-#include "Angrygons.h"
+#include "Annoyer.h"
 
 class Gameplay : public Scene {
 private:
@@ -124,10 +124,10 @@ public:
 		SPAWNER.SpawnObject(s4);
 
 		//Circler* circler = new Circler();
-		Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
-		//float margin = 80.f;
-		//Beholder* beholder = new Beholder(Vector2(RM->WINDOW_WIDTH - margin, RM->WINDOW_HEIGHT - margin), player->GetTransform());
-		SPAWNER.SpawnObject(ufo); 
+		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
+		float margin = 80.f;
+		Annoyer* annoyer = new Annoyer(Vector2(RM->WINDOW_WIDTH - margin, RM->WINDOW_HEIGHT - margin), player->GetTransform());
+		SPAWNER.SpawnObject(annoyer);
 
 
 
