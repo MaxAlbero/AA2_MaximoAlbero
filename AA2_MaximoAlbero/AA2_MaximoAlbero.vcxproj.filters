@@ -254,6 +254,9 @@
     <ClInclude Include="source\Ufo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Angrygons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
