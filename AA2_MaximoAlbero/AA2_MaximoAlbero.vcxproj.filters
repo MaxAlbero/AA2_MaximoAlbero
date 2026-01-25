@@ -266,6 +266,12 @@
     <ClInclude Include="source\Daniels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\RoboKrabs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\RoboKrabsMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">

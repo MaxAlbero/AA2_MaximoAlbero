@@ -20,7 +20,7 @@
 #include "Circler.h"
 #include "Vmedusa.h"
 #include "Annoyer.h"
-#include "Daniels.h"
+#include "RoboKrabs.h"
 
 class Gameplay : public Scene {
 private:
@@ -127,7 +127,7 @@ public:
 		Chomper* chomper = new Chomper(Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f));
 		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
 		float margin = 80.f;
-		Daniels* daniels = new Daniels(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT));
+		RoboKrabs* daniels = new RoboKrabs(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT), player->GetTransform());
 		SPAWNER.SpawnObject(daniels);
 
 

@@ -64,6 +64,8 @@
     <ClInclude Include="source\Missile.h" />
     <ClInclude Include="source\Nuke.h" />
     <ClInclude Include="source\RightLinearMovement.h" />
+    <ClInclude Include="source\RoboKrabs.h" />
+    <ClInclude Include="source\RoboKrabsMovement.h" />
     <ClInclude Include="source\ScoreManager.h" />
     <ClInclude Include="source\Hmedusa.h" />
     <ClInclude Include="source\IAttacker.h" />
