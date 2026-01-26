@@ -363,4 +363,7 @@
   <ItemGroup>
     <Xml Include="level_1.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp" />
+  </ItemGroup>
 </Project>

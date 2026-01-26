@@ -7,8 +7,9 @@ private:
     float _horizontalSpeed;  // Velocidad hacia la izquierda
     float _amplitude;        // Amplitud de la onda (altura máxima)
     float _frequency;        // Frecuencia de la onda (cuántas ondas por segundo)
-    float _initialY;         // Posición Y inicial (centro de la onda)
+    float _initialY;         // Posición Y inicial (centro de la onda) -> inicializada al arrancar
     float _timeElapsed;      // Tiempo transcurrido para calcular la onda
+    bool _initialized;       // true cuando _initialY ya se leyó desde transform
 
 public:
     WaveMovement(Transform* transform, RigidBody* rigidBody,
@@ -17,13 +18,27 @@ public:
         _horizontalSpeed(horizontalSpeed),
         _amplitude(amplitude),
         _frequency(frequency),
-        _initialY(transform->position.y),
-        _timeElapsed(0.f) {
+        _initialY(0.f), 
+        _timeElapsed(0.f),
+        _initialized(false) {
+        // no tomar transform->position.y aquí: se hará al arrancar el movimiento
     }
 
     void Update(float deltaTime) override {
-        // Este movimiento nunca termina, se destruye al salir de pantalla
+        // Inicializar el centro vertical en el primer frame activo,
+        // así se usa la posición final de TargetMovement (o la que tenga en ese instante).
+        if (!_initialized) {
+            if (_transform) {
+                _initialY = _transform->position.y;
+            }
+            else {
+                _initialY = 0.f;
+            }
+            _initialized = true;
+            _timeElapsed = 0.f;
+        }
 
+        // Este movimiento nunca termina, se destruye al salir de pantalla
         _timeElapsed += deltaTime;
 
         // Calcular movimiento ondulatorio usando función seno
@@ -33,7 +48,7 @@ public:
         // Aplicar velocidad horizontal (siempre hacia la izquierda)
         _transform->position.x -= _horizontalSpeed * deltaTime;
 
-        // Aplicar movimiento ondulatorio vertical
+        // Aplicar movimiento ondulatorio vertical relativo al centro inicial
         _transform->position.y = _initialY + waveOffset;
     }
 

@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "LeftLinearMovement.h"
 #include "WaveMovement.h"
+#include "TargetMovement.h"
 
 class KillerWhale : public Enemy {
 private:
@@ -24,39 +25,33 @@ public:
 
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
+        // Vida y puntos (ya en el constructor, como quieres)
         SetHealth(100);
         SetPointsValue(200);
 
-        InitializeMovements(startAtTop);
-    }
-
-private:
-    void InitializeMovements(bool startAtTop) {
+        // --- Movimientos: definidos aquí en el constructor ---
         float attachedSpeed = 200.f;     // Velocidad horizontal pegado al borde
         float waveSpeed = 100.f;         // Velocidad horizontal en modo onda
         float amplitude = 100.f;         // Amplitud de la onda (altura)
         float frequency = 0.5f;          // Frecuencia (0.5 = media onda por segundo)
         float detachPointX = RM->WINDOW_WIDTH / 2.f;
 
-        // Calcular punto de inicio del movimiento ondulatorio
+        // Calcular punto de inicio del movimiento ondulatorio (centro Y)
         float startWaveY = startAtTop ?
             RM->WINDOW_HEIGHT / 3.f :      // Si viene de arriba, baja un poco
             RM->WINDOW_HEIGHT * 3.f / 4.f; // Si viene de abajo, sube un poco
 
         Vector2 detachPoint(detachPointX, startWaveY);
 
-        // Patrón de movimiento:
-        // 1. Moverse horizontalmente pegado al borde superior/inferior
-        movements.push_back(new LeftLinearMovement(_transform, _physics,
-            detachPointX, attachedSpeed));
+        // 1) Moverse horizontalmente pegado al borde superior/inferior hasta detachPointX
+        movements.push_back(new LeftLinearMovement(_transform, _physics, detachPointX, attachedSpeed));
 
-        // 2. Moverse a la posición de inicio del patrón ondulatorio
-        movements.push_back(new TargetMovement(_transform, _physics,
-            detachPoint, attachedSpeed));
+        // 2) Moverse a la posición de inicio del patrón ondulatorio (target)
+        movements.push_back(new TargetMovement(_transform, _physics, detachPoint, attachedSpeed));
 
-        // 3. Movimiento ondulatorio hasta salir de pantalla
-        movements.push_back(new WaveMovement(_transform, _physics,
-            waveSpeed, amplitude, frequency));
+        // 3) Movimiento ondulatorio hasta salir de pantalla (inicia su centro en la Y actual al arrancar)
+        movements.push_back(new WaveMovement(_transform, _physics, waveSpeed, amplitude, frequency));
+        // --- fin movimientos ---
     }
 
 public:
