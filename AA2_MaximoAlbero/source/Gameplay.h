@@ -17,7 +17,7 @@
 //Testing Enemies
 #include "Circler.h"
 #include "CirclerBody.h"
-#include "Vmedusa.h"
+#include "Bubbles.h"
 #include "Annoyer.h"
 #include "TurboChainsaw.h"
 
@@ -123,15 +123,12 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		Circler* circler = new Circler();
-		CirclerBody* cb1 = new CirclerBody(120.f);
-		//CirclerBody* cb2 = new CirclerBody(140.f);
-		//CirclerBody* cb3 = new CirclerBody(160.f);
-		float margin = 80.f;
-		SPAWNER.SpawnObject(circler);
-		SPAWNER.SpawnObject(cb1);
-		//SPAWNER.SpawnObject(cb2);
-		//SPAWNER.SpawnObject(cb3);
+		Bubbles* bubble1 = new Bubbles(TOP_TO_BOTTOM);
+		Bubbles* bubble2 = new Bubbles(TOP_TO_BOTTOM, 100.f);
+
+		SPAWNER.SpawnObject(bubble1);
+		SPAWNER.SpawnObject(bubble2);
+
 
 	}
 
