@@ -58,6 +58,7 @@
     <ClInclude Include="source\EnemyBullet.h" />
     <ClInclude Include="source\EnemyMovement.h" />
     <ClInclude Include="source\EscapeMovement.h" />
+    <ClInclude Include="source\FollowMovement.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\GameplayStateBase.h" />

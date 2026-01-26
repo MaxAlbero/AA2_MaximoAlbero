@@ -15,9 +15,8 @@
 #include "LoadLevel.h"
 
 //Testing Enemies
-#include "KillerWhale.h"
-#include "SpaceBoss.h"
 #include "Circler.h"
+#include "CirclerBody.h"
 #include "Vmedusa.h"
 #include "Annoyer.h"
 #include "TurboChainsaw.h"
@@ -124,13 +123,15 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		KillerWhale* whale = new KillerWhale(true);
-		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
+		Circler* circler = new Circler();
+		CirclerBody* cb1 = new CirclerBody(120.f);
+		//CirclerBody* cb2 = new CirclerBody(140.f);
+		//CirclerBody* cb3 = new CirclerBody(160.f);
 		float margin = 80.f;
-		TurboChainsaw* daniels = new TurboChainsaw(FROM_RIGHT);
-		SPAWNER.SpawnObject(whale);
-
-
+		SPAWNER.SpawnObject(circler);
+		SPAWNER.SpawnObject(cb1);
+		//SPAWNER.SpawnObject(cb2);
+		//SPAWNER.SpawnObject(cb3);
 
 	}
 

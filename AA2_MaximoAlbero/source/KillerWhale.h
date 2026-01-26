@@ -56,7 +56,7 @@ public:
 
 public:
     void Update() override {
-        Enemy::Update();
+        Enemy::Update(); 
 
         // Destruir cuando sale de la pantalla por la izquierda
         if (_transform->position.x + _transform->size.x < 0.f) {

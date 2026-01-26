@@ -30,19 +30,21 @@ public:
             radius, screenCenter, angularVelocity));
 
         movements.push_back(new TargetMovement(_transform, _physics,
-            Vector2(screenCenter.x - 50.f, screenCenter.y), speed));
+            Vector2(screenCenter.x + 50.f, screenCenter.y + 10.f), speed));
 
         movements.push_back(new CirclerMovement(_transform, _physics,
-            radius - 50.f, Vector2(screenCenter.x - 50.f, screenCenter.y), angularVelocity));
+            radius - 100.f, Vector2(screenCenter.x + 150.f, screenCenter.y + 100.f), angularVelocity));
 
         movements.push_back(new TargetMovement(_transform, _physics,
-            Vector2(screenCenter.x + 200.f, screenCenter.y), speed));
+            Vector2(screenCenter.x + 200.f, screenCenter.y + 150.f), speed)); 
 
         movements.push_back(new CirclerMovement(_transform, _physics,
-            radius - 100.f, Vector2(screenCenter.x - 100.f, screenCenter.y), angularVelocity));
+            radius - 250.f, Vector2(screenCenter.x + 250.f, screenCenter.y + 200.f), angularVelocity));
 
         // Salir por arriba
         movements.push_back(new TargetMovement(_transform, _physics,
             Vector2(RM->WINDOW_WIDTH / 2.f, -200.f), speed));
     }
 };
+
+// Vector2(_transform->position.x - 50.f, _transform->position.y - 100.f)
