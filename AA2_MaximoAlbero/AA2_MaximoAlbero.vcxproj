@@ -60,6 +60,11 @@
     <ClInclude Include="source\EscapeMovement.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
+    <ClInclude Include="source\GameplayStateBase.h" />
+    <ClInclude Include="source\GameplayStateDeath.h" />
+    <ClInclude Include="source\GameplayStateFinishWave.h" />
+    <ClInclude Include="source\GameplayStatePaused.h" />
+    <ClInclude Include="source\GameplayStatePlaying.h" />
     <ClInclude Include="source\IdleMovement.h" />
     <ClInclude Include="source\LaserWeapon.h" />
     <ClInclude Include="source\LeftLinearMovement.h" />
@@ -108,6 +113,7 @@
     <ClInclude Include="source\Vector2.h" />
     <ClInclude Include="source\VerticalLinearMovement.h" />
     <ClInclude Include="source\Vmedusa.h" />
+    <ClInclude Include="source\WaveMovement.h" />
     <ClInclude Include="source\WeaponComponent.h" />
     <ClInclude Include="source\WeaponManager.h" />
   </ItemGroup>

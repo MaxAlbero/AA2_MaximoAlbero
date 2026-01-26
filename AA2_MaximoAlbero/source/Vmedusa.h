@@ -5,7 +5,7 @@
 
 class Vmedusa : public Enemy {
 public:
-	Vmedusa(Vector2 spawnPosition, float speed)
+	Vmedusa(Vector2 spawnPosition)
 		: Enemy() {
 		_renderer = new ImageRenderer(_transform, "resources/VMedusa.png", Vector2(0.f, 0.f), Vector2(360.f, 360.f));
 
@@ -16,6 +16,7 @@ public:
 		SetHealth(30);  
 		SetPointsValue(100);
 		
+		float speed = 2000.f;
 		float yThreshold = RM->WINDOW_HEIGHT / 2.f;
 
 		movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));

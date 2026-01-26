@@ -14,8 +14,8 @@
 
 #include "LoadLevel.h"
 
-//Testing Colisions
-#include "Bubbles.h"
+//Testing Enemies
+#include "KillerWhale.h"
 #include "SpaceBoss.h"
 #include "Circler.h"
 #include "Vmedusa.h"
@@ -124,11 +124,11 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		SpaceBoss* spaceBoss = new SpaceBoss();
+		KillerWhale* whale = new KillerWhale(true);
 		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
 		float margin = 80.f;
 		TurboChainsaw* daniels = new TurboChainsaw(FROM_RIGHT);
-		SPAWNER.SpawnObject(spaceBoss);
+		SPAWNER.SpawnObject(whale);
 
 
 
