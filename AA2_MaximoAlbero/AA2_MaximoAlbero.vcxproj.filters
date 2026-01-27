@@ -54,6 +54,15 @@
     <ClCompile Include="source\TextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Gameplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameplayStatePaused.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameplayStatePlaying.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AABB.h">
@@ -299,10 +308,16 @@
     <ClInclude Include="source\GameplayStatePlaying.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\WaveMovement.h">
+    <ClInclude Include="source\EnemyWave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\FollowMovement.h">
+    <ClInclude Include="source\WaveManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\WaveFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BubblesWave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -365,8 +380,5 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="level_1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp" />
   </ItemGroup>
 </Project>

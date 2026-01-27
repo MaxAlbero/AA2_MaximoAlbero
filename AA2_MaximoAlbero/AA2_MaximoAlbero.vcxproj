@@ -22,6 +22,9 @@
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="source\Gameplay.cpp" />
+    <ClCompile Include="source\GameplayStatePaused.cpp" />
+    <ClCompile Include="source\GameplayStatePlaying.cpp" />
     <ClCompile Include="source\ImageRenderer.cpp" />
     <ClCompile Include="source\InputManager.cpp" />
     <ClCompile Include="source\LoadLevel.cpp" />
@@ -41,6 +44,7 @@
     <ClInclude Include="source\Beholder.h" />
     <ClInclude Include="source\BioTitan.h" />
     <ClInclude Include="source\Bubbles.h" />
+    <ClInclude Include="source\BubblesWave.h" />
     <ClInclude Include="source\Bullet.h" />
     <ClInclude Include="source\Button.h" />
     <ClInclude Include="source\CannonWeapon.h" />
@@ -57,8 +61,8 @@
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyBullet.h" />
     <ClInclude Include="source\EnemyMovement.h" />
+    <ClInclude Include="source\EnemyWave.h" />
     <ClInclude Include="source\EscapeMovement.h" />
-    <ClInclude Include="source\FollowMovement.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\GameplayStateBase.h" />
@@ -114,7 +118,8 @@
     <ClInclude Include="source\Vector2.h" />
     <ClInclude Include="source\VerticalLinearMovement.h" />
     <ClInclude Include="source\Vmedusa.h" />
-    <ClInclude Include="source\WaveMovement.h" />
+    <ClInclude Include="source\WaveFactory.h" />
+    <ClInclude Include="source\WaveManager.h" />
     <ClInclude Include="source\WeaponComponent.h" />
     <ClInclude Include="source\WeaponManager.h" />
   </ItemGroup>
@@ -143,9 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="level_1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
