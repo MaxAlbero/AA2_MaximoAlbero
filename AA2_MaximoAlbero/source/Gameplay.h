@@ -14,11 +14,10 @@
 
 #include "LoadLevel.h"
 
-//Testing Colisions
-#include "Bubbles.h"
-#include "SpaceBoss.h"
+//Testing Enemies
 #include "Circler.h"
-#include "Vmedusa.h"
+#include "CirclerBody.h"
+#include "Bubbles.h"
 #include "Annoyer.h"
 #include "TurboChainsaw.h"
 
@@ -124,12 +123,11 @@ public:
 		SPAWNER.SpawnObject(s3);
 		SPAWNER.SpawnObject(s4);
 
-		SpaceBoss* spaceBoss = new SpaceBoss();
-		//Angrygons* ufo = new Angrygons(Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f), 200.f);
-		float margin = 80.f;
-		TurboChainsaw* daniels = new TurboChainsaw(FROM_RIGHT);
-		SPAWNER.SpawnObject(spaceBoss);
+		Bubbles* bubble1 = new Bubbles(TOP_TO_BOTTOM);
+		Bubbles* bubble2 = new Bubbles(TOP_TO_BOTTOM, 100.f);
 
+		SPAWNER.SpawnObject(bubble1);
+		SPAWNER.SpawnObject(bubble2);
 
 
 	}
