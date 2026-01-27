@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "SpawnWaves.h"
 #include "ScoreManager.h"
+#include "WaveManager.h"
 
 //POWERUPS TESTS
 #include "PowerUp.h"
@@ -24,6 +25,7 @@
 class Gameplay : public Scene {
 private:
 	Player* player;
+	WaveManager* _waveManager;
 
 	TextObject* scoreText;
 	TextObject* highScoreText;
@@ -68,6 +70,18 @@ public:
 
 		//waves->SetPlayer(player);
 
+		// Crear WaveManager con referencia al jugador
+		_waveManager = new WaveManager(player);
+
+		// Cargar waves desde XML
+		if (_waveManager->LoadFromXML("level_1.xml")) {
+			std::cout << "Level loaded successfully" << std::endl;
+			_waveManager->Start();
+		}
+		else {
+			std::cout << "Failed to load level" << std::endl;
+		}
+
 		// HUD
 		float hudX = 60.f;
 		float hudY = RM->WINDOW_HEIGHT - 60.f;
@@ -110,24 +124,24 @@ public:
 		_ui.push_back(laserText);
 
 
-		PowerUp* s1 = new PowerUp();
-		s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
-		PowerUp* s2 = new PowerUp();
-		s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
-		PowerUp* s3 = new PowerUp();
-		s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
-		PowerUp* s4 = new PowerUp();
-		s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
-		SPAWNER.SpawnObject(s1);
-		SPAWNER.SpawnObject(s2);
-		SPAWNER.SpawnObject(s3);
-		SPAWNER.SpawnObject(s4);
+		//PowerUp* s1 = new PowerUp();
+		//s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
+		//PowerUp* s2 = new PowerUp();
+		//s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
+		//PowerUp* s3 = new PowerUp();
+		//s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
+		//PowerUp* s4 = new PowerUp();
+		//s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
+		//SPAWNER.SpawnObject(s1);
+		//SPAWNER.SpawnObject(s2);
+		//SPAWNER.SpawnObject(s3);
+		//SPAWNER.SpawnObject(s4);
 
-		Bubbles* bubble1 = new Bubbles(TOP_TO_BOTTOM);
-		Bubbles* bubble2 = new Bubbles(TOP_TO_BOTTOM, 100.f);
+		//Bubbles* bubble1 = new Bubbles(TOP_TO_BOTTOM);
+		//Bubbles* bubble2 = new Bubbles(TOP_TO_BOTTOM, 100.f);
 
-		SPAWNER.SpawnObject(bubble1);
-		SPAWNER.SpawnObject(bubble2);
+		//SPAWNER.SpawnObject(bubble1);
+		//SPAWNER.SpawnObject(bubble2);
 
 
 	}

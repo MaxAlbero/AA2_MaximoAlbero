@@ -32,5 +32,9 @@
 		<spawned_enemy_id>6</spawned_enemy_id>
 		<amount>8</amount>
 	</wave>
+	<wave>
+		<spawned_enemy_id>99</spawned_enemy_id>
+		<amount>1</amount>
+	</wave>
 </level>
 
