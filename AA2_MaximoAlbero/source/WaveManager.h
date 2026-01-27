@@ -15,6 +15,7 @@ private:
     float _delayBetweenWaves;
     bool _waitingForNextWave;
     Player* _playerRef;
+    Vector2 _lastEnemyPosition;
 
 public:
     WaveManager(Player* playerRef = nullptr)
@@ -22,7 +23,8 @@ public:
         _delayTimer(0.f),
         _delayBetweenWaves(3.0f),
         _waitingForNextWave(false),
-        _playerRef(playerRef) {
+        _playerRef(playerRef),
+        _lastEnemyPosition(0.f, 0.f) {
     }
 
     ~WaveManager() {
@@ -36,12 +38,10 @@ public:
         }
     }
 
-    // Añadir una wave manualmente
     void AddWave(EnemyWave* wave) {
         _waves.push(wave);
     }
 
-    // Cargar waves desde XML
     bool LoadFromXML(const std::string& filepath) {
         LoadLevel loader;
         std::vector<int> waveOrder;
@@ -53,7 +53,6 @@ public:
             return false;
         }
 
-        // Crear waves usando el factory
         for (size_t i = 0; i < waveOrder.size(); i++) {
             int enemyId = waveOrder[i];
             int amount = amountEnemies[i];
@@ -69,18 +68,20 @@ public:
         return true;
     }
 
-    // Iniciar el sistema de waves
     void Start() {
         if (!_waves.empty() && !_currentWave) {
             StartNextWave();
         }
     }
 
-    // Actualizar
     void Update(float deltaTime) {
         if (_currentWave) {
             _currentWave->Update(deltaTime);
 
+            // Trackear enemigos de la wave actual DESPUÉS de update
+            CheckWaveCompletion();
+
+            // Verificar si la wave terminó
             if (_currentWave->IsFinished()) {
                 FinishCurrentWave();
             }
@@ -95,6 +96,9 @@ public:
                 if (!_waves.empty()) {
                     StartNextWave();
                 }
+                else {
+                    std::cout << "All waves complete!" << std::endl;
+                }
             }
         }
     }
@@ -104,7 +108,7 @@ public:
     }
 
     bool IsLevelComplete() const {
-        return _waves.empty() && (_currentWave == nullptr || _currentWave->IsFinished());
+        return _waves.empty() && (_currentWave == nullptr);
     }
 
     void SetPlayer(Player* player) {
@@ -118,20 +122,62 @@ private:
         _currentWave = _waves.front();
         _waves.pop();
 
+        std::cout << "Starting wave..." << std::endl;
+
         _currentWave->Start();
-        WM->SetWaveActive(true);
+    }
+
+    void CheckWaveCompletion() {
+        if (!_currentWave) return;
+
+        const std::vector<Enemy*>& enemies = _currentWave->GetSpawnedEnemies();
+
+        // Contar enemigos vivos y guardar posición del último
+        int aliveCount = 0;
+        Enemy* lastAlive = nullptr;
+
+        for (Enemy* enemy : enemies) {
+            if (!enemy->IsPendingDestroy()) {
+                aliveCount++;
+                lastAlive = enemy;
+            }
+        }
+
+        // Si hay enemigos, guardar posición del último vivo
+        if (lastAlive) {
+            _lastEnemyPosition = lastAlive->GetTransform()->position;
+        }
     }
 
     void FinishCurrentWave() {
         if (!_currentWave) return;
 
+        std::cout << "Wave finished!" << std::endl;
+
         _currentWave->End();
-        WM->SpawnPowerUp();
+
+        // Spawnear PowerUp en la posición del último enemigo
+        SpawnPowerUp();
 
         delete _currentWave;
         _currentWave = nullptr;
 
-        WM->SetWaveActive(false);
         _waitingForNextWave = true;
+        _delayTimer = 0.f;
+    }
+
+    void SpawnPowerUp() {
+        // Verificar que la posición es válida (no usar 0,0 como condición)
+        if (_lastEnemyPosition.x != 0.f || _lastEnemyPosition.y != 0.f) {
+            PowerUp* powerUp = new PowerUp();
+            powerUp->GetTransform()->position = _lastEnemyPosition;
+            SPAWNER.SpawnObject(powerUp);
+
+            std::cout << "PowerUp spawned at position ("
+                << _lastEnemyPosition.x << ", "
+                << _lastEnemyPosition.y << ")" << std::endl;
+
+            _lastEnemyPosition = Vector2(0.f, 0.f);
+        }
     }
 };

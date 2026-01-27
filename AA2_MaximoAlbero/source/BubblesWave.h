@@ -12,7 +12,7 @@ public:
 
     void Start() override {
         _started = true;
-        std::cout << "BubblesWave started - spawning " << _count << " bubbles" << std::endl;
+        std::cout << "BubblesWave started - spawning " << _count << " pairs of bubbles" << std::endl;
 
         for (int i = 0; i < _count; i++) {
             Bubbles* bubbleUp = new Bubbles(TOP_TO_BOTTOM);
@@ -26,23 +26,11 @@ public:
     }
 
     void Update(float deltaTime) override {
-        // Las burbujas se actualizan automáticamente
-        // Verificar si todas han sido destruidas
-        bool allDead = true;
-        for (Enemy* enemy : _spawnedEnemies) {
-            if (!enemy->IsPendingDestroy()) {
-                allDead = false;
-                break;
-            }
-        }
-
-        if (allDead) {
-            _finished = true;
-        }
+        // EnemyWave::IsFinished() se encarga de verificar si terminó
     }
 
     void End() override {
-        std::cout << "BubblesWave finished!" << std::endl;
+        std::cout << "BubblesWave completed!" << std::endl;
         _spawnedEnemies.clear();
     }
 };
