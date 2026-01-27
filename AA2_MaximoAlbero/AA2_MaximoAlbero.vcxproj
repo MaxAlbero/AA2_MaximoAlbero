@@ -22,6 +22,9 @@
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="source\Gameplay.cpp" />
+    <ClCompile Include="source\GameplayStatePaused.cpp" />
+    <ClCompile Include="source\GameplayStatePlaying.cpp" />
     <ClCompile Include="source\ImageRenderer.cpp" />
     <ClCompile Include="source\InputManager.cpp" />
     <ClCompile Include="source\LoadLevel.cpp" />
@@ -60,6 +63,11 @@
     <ClInclude Include="source\EscapeMovement.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
+    <ClInclude Include="source\GameplayStateBase.h" />
+    <ClInclude Include="source\GameplayStateDeath.h" />
+    <ClInclude Include="source\GameplayStateFinishWave.h" />
+    <ClInclude Include="source\GameplayStatePaused.h" />
+    <ClInclude Include="source\GameplayStatePlaying.h" />
     <ClInclude Include="source\IdleMovement.h" />
     <ClInclude Include="source\LaserWeapon.h" />
     <ClInclude Include="source\LeftLinearMovement.h" />
