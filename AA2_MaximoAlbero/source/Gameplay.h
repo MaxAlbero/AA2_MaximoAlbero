@@ -24,7 +24,7 @@ private:
 
     void UpdateHUD();
     std::string FormatScore(int score);
-    void InitializeGameplayElements(); // nueva: setup de enemigos, powerups, etc.
+    void InitializeGameplayElements();
 
 public:
     Gameplay() = default;
@@ -37,4 +37,7 @@ public:
 
     // Getters para que los estados accedan
     Player* GetPlayer() { return player; }
+    
+    // Nueva: método para actualizar solo la escena (llamado solo desde PLAYING)
+    void UpdateGameplay();
 };

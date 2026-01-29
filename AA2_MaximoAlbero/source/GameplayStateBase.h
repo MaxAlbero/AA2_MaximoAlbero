@@ -10,4 +10,8 @@ public:
     virtual bool IsFinished() const = 0;
     virtual int GetNextState() const = 0;
     virtual void Finish() = 0;
+
+    // Nuevo: indica si la escena (objetos, enemigos, Time) debe actualizarse
+    // desde Gameplay::Update(). Por defecto true (comportamiento normal).
+    virtual bool ShouldUpdateScene() const { return true; }
 };

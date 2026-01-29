@@ -4,10 +4,9 @@
 #include "TimeManager.h"
 #include "Background.h"
 #include "PowerUp.h"
-// ... otros includes de enemigos
+#include "Bubbles.h"
 
 Gameplay::~Gameplay() {
-    // Limpiar estados
     for (auto state : gameplayStates) {
         delete state;
     }
@@ -16,11 +15,9 @@ Gameplay::~Gameplay() {
 }
 
 void Gameplay::OnEnter() {
-    // Crear y registrar los estados
     gameplayStates.push_back(new GameplayStatePlaying());   // índice 0
     gameplayStates.push_back(new GameplayStatePaused());    // índice 1
 
-    // Iniciar con el estado PLAYING
     currentStateIndex = 0;
     currentState = gameplayStates[currentStateIndex];
     currentState->Start();
@@ -60,7 +57,6 @@ void Gameplay::OnEnter() {
     laserText->SetTextColor(SDL_Color{ 0, 0, 0, 0 });
     _ui.push_back(laserText);
 
-    // Inicializar background
     Background* bg1 = new Background();
     bg1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH - RM->WINDOW_WIDTH, RM->WINDOW_HEIGHT / 2.f);
     Background* bg2 = new Background();
@@ -68,11 +64,9 @@ void Gameplay::OnEnter() {
     SPAWNER.SpawnObject(bg1);
     SPAWNER.SpawnObject(bg2);
 
-    // Crear player
     player = new Player();
     SPAWNER.SpawnObject(player);
 
-    // Inicializar elementos del gameplay (powerups, enemigos, etc.)
     InitializeGameplayElements();
 }
 
@@ -81,30 +75,38 @@ void Gameplay::OnExit() {
 }
 
 void Gameplay::Update() {
-    // Actualizar el estado actual
+    // Actualizar el estado actual (input / lógica de transición)
     currentState->Update(TM.GetDeltaTime());
 
     // Si el estado ha terminado, transicionar
     if (currentState->IsFinished()) {
         currentState->Finish();
         currentStateIndex = currentState->GetNextState();
-        currentState = gameplayStates[currentStateIndex];
-        currentState->Start();
+        if (currentStateIndex >= 0 && currentStateIndex < static_cast<int>(gameplayStates.size())) {
+            currentState = gameplayStates[currentStateIndex];
+            currentState->Start();
+        }
     }
 
-    // Actualizar escena (enemigos, balas, etc.) SIEMPRE
-    // pero el estado PAUSED no debería llamar a esto
-    // Para ello, modifica GameplayStatePlaying para que llame a Scene::Update()
-    // y GameplayStatePaused NO lo hace
+    // Actualizar escena (enemigos, balas, etc.) SOLO si el estado lo permite
+    if (currentState->ShouldUpdateScene()) {
+        Scene::Update();
+    }
 
-    // Por ahora, dejamos que Scene::Update() se ejecute siempre
-    Scene::Update();
+    // El HUD se actualiza siempre
     UpdateHUD();
 }
 
+void Gameplay::UpdateGameplay() {
+    // SOLO se llama desde GameplayStatePlaying
+    Scene::Update();
+}
+
 void Gameplay::Render() {
-    currentState->Render();
+    // Renderizar objetos de la escena (sin estado)
     Scene::Render();
+    // Renderizar lo específico del estado
+    currentState->Render();
 }
 
 void Gameplay::InitializeGameplayElements() {
@@ -121,9 +123,8 @@ void Gameplay::InitializeGameplayElements() {
     SPAWNER.SpawnObject(s3);
     SPAWNER.SpawnObject(s4);
 
-    // Añadir enemigos aquí
-    // Circler* circler = new Circler();
-    // SPAWNER.SpawnObject(circler);
+    Bubbles* bubble = new Bubbles(TOP_TO_BOTTOM);
+    SPAWNER.SpawnObject(bubble);
 }
 
 void Gameplay::UpdateHUD() {

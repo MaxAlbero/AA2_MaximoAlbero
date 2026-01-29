@@ -7,11 +7,13 @@ private:
     int _nextState;
 
 public:
-    GameplayStatePaused();
+    GameplayStatePaused();  // Sin parámetros
     void Start() override;
     void Update(float deltaTime) override;
     void Render() override;
     bool IsFinished() const override;
     int GetNextState() const override;
     void Finish() override;
+
+    bool ShouldUpdateScene() const override;
 };

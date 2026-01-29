@@ -25,7 +25,6 @@ void GameplayStatePaused::Update(float deltaTime) {
 
 void GameplayStatePaused::Render() {
     // Aquí podrías renderizar un overlay "PAUSED"
-    // Por ahora solo renderizamos lo que ya está (el juego pausado)
 }
 
 bool GameplayStatePaused::IsFinished() const {
@@ -38,4 +37,8 @@ int GameplayStatePaused::GetNextState() const {
 
 void GameplayStatePaused::Finish() {
     std::cout << "Saliendo de PAUSED" << std::endl;
+}
+
+bool GameplayStatePaused::ShouldUpdateScene() const {
+    return false;
 }
