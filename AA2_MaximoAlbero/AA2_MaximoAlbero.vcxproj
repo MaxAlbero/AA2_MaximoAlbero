@@ -22,6 +22,9 @@
     <ClCompile Include="source\AABB.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="source\Gameplay.cpp" />
+    <ClCompile Include="source\GameplayStatePaused.cpp" />
+    <ClCompile Include="source\GameplayStatePlaying.cpp" />
     <ClCompile Include="source\ImageRenderer.cpp" />
     <ClCompile Include="source\InputManager.cpp" />
     <ClCompile Include="source\LoadLevel.cpp" />
