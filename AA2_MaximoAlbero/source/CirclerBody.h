@@ -64,5 +64,15 @@ public:
             Vector2(RM->WINDOW_WIDTH / 2.f, -200.f) + offset, speed));
     }
 
+    void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
+        // Actualizar movimientos
+        Enemy::Update();
+
+        // Destruir si sale de pantalla
+        if (_transform->position.y + _transform->size.y < 0.f) {
+            std::cout << "CIRCLER Body DESTROYED" << std::endl;
+            Destroy();
+        }
+    }
     // No override Update: Enemy::Update ejecutará la secuencia de movements
 };
