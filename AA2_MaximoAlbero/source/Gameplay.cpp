@@ -153,21 +153,21 @@ void Gameplay::Render() {
 }
 
 void Gameplay::InitializeGameplayElements() {
-    PowerUp* s1 = new PowerUp();
-    s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
-    PowerUp* s2 = new PowerUp();
-    s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
-    PowerUp* s3 = new PowerUp();
-    s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
-    PowerUp* s4 = new PowerUp();
-    s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
-    SPAWNER.SpawnObject(s1);
-    SPAWNER.SpawnObject(s2);
-    SPAWNER.SpawnObject(s3);
-    SPAWNER.SpawnObject(s4);
+    //PowerUp* s1 = new PowerUp();
+    //s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
+    //PowerUp* s2 = new PowerUp();
+    //s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
+    //PowerUp* s3 = new PowerUp();
+    //s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
+    //PowerUp* s4 = new PowerUp();
+    //s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
+    //SPAWNER.SpawnObject(s1);
+    //SPAWNER.SpawnObject(s2);
+    //SPAWNER.SpawnObject(s3);
+    //SPAWNER.SpawnObject(s4);
 
-    Bubbles* bubble = new Bubbles(TOP_TO_BOTTOM);
-    SPAWNER.SpawnObject(bubble);
+    //Bubbles* bubble = new Bubbles(TOP_TO_BOTTOM);
+    //SPAWNER.SpawnObject(bubble);
 }
 
 void Gameplay::UpdateHUD() {
