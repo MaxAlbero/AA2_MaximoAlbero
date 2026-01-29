@@ -16,11 +16,31 @@ public:
 		SetHealth(30);  
 		SetPointsValue(100);
 		
-		float speed = 2000.f;
+		float speed = 200.f;
 		float yThreshold = RM->WINDOW_HEIGHT / 2.f;
 
-		movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
-		movements.push_back(new IdleMovement(_transform, _physics, 1.f));
-		movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+		/*do
+		{		*/	
+			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+		//} while (!IsPendingDestroy());
+	}
+
+	void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
+		// Actualizar movimientos
+		Enemy::Update();
+
+		// Destruir si sale de pantalla
+		if (_transform->position.y + _transform->size.y < 0.f) {
+			std::cout << "Vertical Medusa DESTROYED" << std::endl;
+			Destroy();
+		}
 	}
 };

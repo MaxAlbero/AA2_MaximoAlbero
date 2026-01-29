@@ -5,6 +5,8 @@
 #include "Background.h"
 #include "PowerUp.h"
 #include "Bubbles.h"
+#include "GameplayStateFinishWave.h"
+#include <cassert>
 
 Gameplay::~Gameplay() {
     for (auto state : gameplayStates) {
@@ -12,11 +14,18 @@ Gameplay::~Gameplay() {
     }
     gameplayStates.clear();
     currentState = nullptr;
+
+    if (waveManager) {
+        delete waveManager;
+        waveManager = nullptr;
+    }
 }
 
 void Gameplay::OnEnter() {
+    // Crear estados: PLAYING (0), PAUSED (1), FINISH_WAVE (2)
     gameplayStates.push_back(new GameplayStatePlaying());   // índice 0
     gameplayStates.push_back(new GameplayStatePaused());    // índice 1
+    gameplayStates.push_back(new GameplayStateFinishWave(this)); // índice 2
 
     currentStateIndex = 0;
     currentState = gameplayStates[currentStateIndex];
@@ -67,6 +76,15 @@ void Gameplay::OnEnter() {
     player = new Player();
     SPAWNER.SpawnObject(player);
 
+    // Inicializar WaveManager y cargar nivel (XML)
+    waveManager = new WaveManager(player);
+    waveManager->SetPlayer(player);
+    if (!waveManager->LoadFromXML("resources/level_1.xml")) {
+        // Intento alternativo si la ruta anterior no existe
+        waveManager->LoadFromXML("level_1.xml");
+    }
+    waveManager->Start();
+
     InitializeGameplayElements();
 }
 
@@ -78,7 +96,37 @@ void Gameplay::Update() {
     // Actualizar el estado actual (input / lógica de transición)
     currentState->Update(TM.GetDeltaTime());
 
-    // Si el estado ha terminado, transicionar
+    // Si el estado permite actualizar la escena, actualizamos el WaveManager y la escena.
+    if (currentState->ShouldUpdateScene()) {
+        if (waveManager) {
+            waveManager->Update(TM.GetDeltaTime());
+        }
+
+        // Actualizar escena (enemigos, balas, etc.)
+        Scene::Update();
+    } else {
+        // Aunque la escena esté congelada, seguimos pudiendo detectar que waveManager
+        // está en modo "waiting" (es decir, la wave acaba de terminar) y debemos
+        // asegurarnos de entrar en el estado FINISH_WAVE exactamente cuando toque.
+        // Sin embargo, waveManager->Update() se llama solo cuando ShouldUpdateScene()==true,
+        // por lo que la bandera de waiting se establece antes de que el estado se convierta en FINISH_WAVE.
+    }
+
+    // Si WaveManager indica que está esperando la siguiente wave, y no estamos ya en FINISH_WAVE,
+    // forzamos la transición al estado FINISH_WAVE.
+    if (waveManager && waveManager->IsWaitingForNextWave()) {
+        // Evitar sobrescribir si ya estamos en FINISH_WAVE
+        if (currentStateIndex != 2) {
+            currentState->Finish();
+            currentStateIndex = 2;
+            if (currentStateIndex >= 0 && currentStateIndex < static_cast<int>(gameplayStates.size())) {
+                currentState = gameplayStates[currentStateIndex];
+                currentState->Start();
+            }
+        }
+    }
+
+    // Si el estado ha terminado, transicionar (esto cubre pausado -> playing, finish_wave -> playing, etc.)
     if (currentState->IsFinished()) {
         currentState->Finish();
         currentStateIndex = currentState->GetNextState();
@@ -86,11 +134,6 @@ void Gameplay::Update() {
             currentState = gameplayStates[currentStateIndex];
             currentState->Start();
         }
-    }
-
-    // Actualizar escena (enemigos, balas, etc.) SOLO si el estado lo permite
-    if (currentState->ShouldUpdateScene()) {
-        Scene::Update();
     }
 
     // El HUD se actualiza siempre

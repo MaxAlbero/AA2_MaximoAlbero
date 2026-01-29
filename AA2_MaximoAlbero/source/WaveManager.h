@@ -4,6 +4,7 @@
 #include "LoadLevel.h"
 #include "PowerUp.h"
 #include "Player.h"
+#include "RenderManager.h" // necesario para comprobar límites de pantalla (RM->WINDOW_WIDTH / HEIGHT)
 #include <queue>
 #include <string>
 
@@ -115,6 +116,25 @@ public:
         _playerRef = player;
     }
 
+    // Nuevo API público para integrarse con GameState
+    bool IsWaitingForNextWave() const { return _waitingForNextWave; }
+
+    // Forzar inicio inmediato de la siguiente wave (usado cuando FinishWave termina)
+    void StartNextWaveImmediate() {
+        if (_currentWave) return;
+        if (_waves.empty()) return;
+
+        _currentWave = _waves.front();
+        _waves.pop();
+
+        std::cout << "Starting wave (forced)..." << std::endl;
+
+        _currentWave->Start();
+
+        _waitingForNextWave = false;
+        _delayTimer = 0.f;
+    }
+
 private:
     void StartNextWave() {
         if (_waves.empty()) return;
@@ -137,15 +157,25 @@ private:
         Enemy* lastAlive = nullptr;
 
         for (Enemy* enemy : enemies) {
-            if (!enemy->IsPendingDestroy()) {
+            if (!enemy) continue;
+            // Comprobar que GetTransform() no devuelva nullptr antes de acceder
+            Transform* t = enemy->GetTransform();
+            if (t && !enemy->IsPendingDestroy()) {
                 aliveCount++;
                 lastAlive = enemy;
             }
         }
 
-        // Si hay enemigos, guardar posición del último vivo
+        // Si hay enemigos, guardar posición del último vivo si su transform es válido
         if (lastAlive) {
-            _lastEnemyPosition = lastAlive->GetTransform()->position;
+            Transform* t = lastAlive->GetTransform();
+            if (t) {
+                _lastEnemyPosition = t->position;
+            }
+            else {
+                // No confiamos en posición si transform es nulo
+                _lastEnemyPosition = Vector2(0.f, 0.f);
+            }
         }
     }
 
@@ -168,7 +198,24 @@ private:
 
     void SpawnPowerUp() {
         // Verificar que la posición es válida (no usar 0,0 como condición)
-        if (_lastEnemyPosition.x != 0.f || _lastEnemyPosition.y != 0.f) {
+        if (_lastEnemyPosition.x == 0.f && _lastEnemyPosition.y == 0.f) {
+            return;
+        }
+
+        // Comprobar que la posición del último enemigo está dentro de los límites de la pantalla
+        if (RM == nullptr) {
+            // Si por alguna razón RM no está inicializado, evitamos el spawn
+            std::cout << "RenderManager not available — skipping PowerUp spawn." << std::endl;
+            _lastEnemyPosition = Vector2(0.f, 0.f);
+            return;
+        }
+
+        const float px = _lastEnemyPosition.x;
+        const float py = _lastEnemyPosition.y;
+
+        if (px >= 0.f && px <= static_cast<float>(RM->WINDOW_WIDTH) &&
+            py >= 0.f && py <= static_cast<float>(RM->WINDOW_HEIGHT)) {
+
             PowerUp* powerUp = new PowerUp();
             powerUp->GetTransform()->position = _lastEnemyPosition;
             SPAWNER.SpawnObject(powerUp);
@@ -176,8 +223,12 @@ private:
             std::cout << "PowerUp spawned at position ("
                 << _lastEnemyPosition.x << ", "
                 << _lastEnemyPosition.y << ")" << std::endl;
-
-            _lastEnemyPosition = Vector2(0.f, 0.f);
         }
+        else {
+            std::cout << "Last enemy position out of screen bounds — not spawning PowerUp ("
+                << px << ", " << py << ")." << std::endl;
+        }
+
+        _lastEnemyPosition = Vector2(0.f, 0.f);
     }
 };
