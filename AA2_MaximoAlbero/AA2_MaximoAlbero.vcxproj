@@ -23,6 +23,7 @@
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\Game.cpp" />
     <ClCompile Include="source\Gameplay.cpp" />
+    <ClCompile Include="source\GameplayStateFinishWave.cpp" />
     <ClCompile Include="source\GameplayStatePaused.cpp" />
     <ClCompile Include="source\GameplayStatePlaying.cpp" />
     <ClCompile Include="source\ImageRenderer.cpp" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="level_1.xml" />
+    <Xml Include="resources\level_1.xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -1,0 +1,40 @@
+<?xml version ="1.0" encoding="utf-8"?>
+<level>
+	<wave>
+		<spawned_enemy_id>0</spawned_enemy_id>
+		<amount>5</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>1</spawned_enemy_id>
+		<amount>2</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>2</spawned_enemy_id>
+		<amount>7</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>3</spawned_enemy_id>
+		<amount>1</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>4</spawned_enemy_id>
+		<amount>7</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>5</spawned_enemy_id>
+		<amount>4</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>1</spawned_enemy_id>
+		<amount>2</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>6</spawned_enemy_id>
+		<amount>8</amount>
+	</wave>
+	<wave>
+		<spawned_enemy_id>99</spawned_enemy_id>
+		<amount>1</amount>
+	</wave>
+</level>
+

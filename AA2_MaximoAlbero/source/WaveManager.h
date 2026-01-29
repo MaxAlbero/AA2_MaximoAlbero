@@ -115,6 +115,25 @@ public:
         _playerRef = player;
     }
 
+    // Nuevo API público para integrarse con GameState
+    bool IsWaitingForNextWave() const { return _waitingForNextWave; }
+
+    // Forzar inicio inmediato de la siguiente wave (usado cuando FinishWave termina)
+    void StartNextWaveImmediate() {
+        if (_currentWave) return;
+        if (_waves.empty()) return;
+
+        _currentWave = _waves.front();
+        _waves.pop();
+
+        std::cout << "Starting wave (forced)..." << std::endl;
+
+        _currentWave->Start();
+
+        _waitingForNextWave = false;
+        _delayTimer = 0.f;
+    }
+
 private:
     void StartNextWave() {
         if (_waves.empty()) return;
