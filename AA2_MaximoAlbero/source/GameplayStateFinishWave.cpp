@@ -141,13 +141,20 @@ void GameplayStateFinishWave::TransitionToVictory() {
         std::cout << "Bonus points awarded: " << _bonusPoints << std::endl;
     }
 
-    // Transicionar al siguiente nivel o GameOver
-    if (_context) {
-        _context->TransitionToNextLevel();
-    }
+    std::cout << "TransitionToVictory called. _context = " << (_context ? "VALID" : "NULL") << std::endl;
+    std::cout << "_isLevelComplete = " << _isLevelComplete << std::endl;
 
     _finished = true;
-    _nextState = 0; // volver a PLAYING (con el nuevo nivel cargado)
+    _nextState = 0;
+
+    // NUEVO: Llamar al método de Gameplay para solicitar transición
+    if (_context) {
+        std::cout << "Calling RequestLevelTransition()" << std::endl;
+        _context->RequestLevelTransition();
+    }
+    else {
+        std::cout << "ERROR: _context is nullptr!" << std::endl;
+    }
 }
 
 void GameplayStateFinishWave::CalculateBonusPoints() {

@@ -29,26 +29,34 @@ public:
         _finished = false;
         _blinkTimer = 0.f;
 
-        // Título
-        _titleText = new TextObject("ENTER YOUR NAME");
-        _titleText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 4.f);
-        _titleText->GetTransform()->scale = Vector2(2.5f, 2.5f);
-        _titleText->SetTextColor(SDL_Color{ 0, 255, 255, 255 });
-        _ui.push_back(_titleText);
+        // NUEVO: Asegurar que la fuente está cargada
+        RM->LoadFont("resources/fonts/cidergum.ttf");
 
-        // Entrada de nombre
-        _inputText = new TextObject("_");
-        _inputText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
-        _inputText->GetTransform()->scale = Vector2(2.f, 2.f);
-        _inputText->SetTextColor(SDL_Color{ 255, 255, 255, 255 });
-        _ui.push_back(_inputText);
+        try {
+            // Título
+            _titleText = new TextObject("ENTER YOUR NAME");
+            _titleText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 4.f);
+            _titleText->GetTransform()->scale = Vector2(2.5f, 2.5f);
+            _titleText->SetTextColor(SDL_Color{ 0, 255, 255, 255 });
+            _ui.push_back(_titleText);
 
-        // Instrucciones
-        _instructionText = new TextObject("PRESS ENTER TO SUBMIT");
-        _instructionText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT * 3.f / 4.f);
-        _instructionText->GetTransform()->scale = Vector2(1.f, 1.f);
-        _instructionText->SetTextColor(SDL_Color{ 150, 150, 150, 255 });
-        _ui.push_back(_instructionText);
+            // Entrada de nombre
+            _inputText = new TextObject("_");
+            _inputText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
+            _inputText->GetTransform()->scale = Vector2(2.f, 2.f);
+            _inputText->SetTextColor(SDL_Color{ 255, 255, 255, 255 });
+            _ui.push_back(_inputText);
+
+            // Instrucciones
+            _instructionText = new TextObject("PRESS ENTER TO SUBMIT");
+            _instructionText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT * 3.f / 4.f);
+            _instructionText->GetTransform()->scale = Vector2(1.f, 1.f);
+            _instructionText->SetTextColor(SDL_Color{ 150, 150, 150, 255 });
+            _ui.push_back(_instructionText);
+        }
+        catch (const std::exception& e) {
+            std::cout << "Error creating NameInputScene UI: " << e.what() << std::endl;
+        }
     }
 
     void OnExit() override {
@@ -62,11 +70,13 @@ public:
         HandleInput();
 
         // Actualizar visual del nombre con cursor parpadeante
-        std::string displayName = _playerName;
-        if (std::fmod(_blinkTimer, BLINK_SPEED * 2.f) < BLINK_SPEED) {
-            displayName += "_";
+        if (_inputText) {
+            std::string displayName = _playerName;
+            if (std::fmod(_blinkTimer, BLINK_SPEED * 2.f) < BLINK_SPEED) {
+                displayName += "_";
+            }
+            _inputText->SetText(displayName);
         }
-        _inputText->SetText(displayName);
 
         // Si se presionó enter y hay nombre, terminar
         if (_finished) {

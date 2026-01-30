@@ -38,7 +38,7 @@ public:
 		_physics->SetLinearDrag(10.f);
 		_physics->SetAngularDrag(0.1f);
 
-		energy = 10;
+		energy = 100;
 		maxEnergy = 100;
 		maxSpeed = 1.0f;
 		extraLives = 3;

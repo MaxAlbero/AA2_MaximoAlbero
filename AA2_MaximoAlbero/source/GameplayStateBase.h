@@ -14,7 +14,7 @@ public:
 
     virtual bool ShouldUpdateScene() const { return true; }
 
-    // Callbacks para comunicación sin referencias cruzadas
-    virtual void OnPlayerDeath(Player* player) {}  // NUEVO
-    virtual void SetGameplayReference(void* gameplayPtr) {}  // NUEVO - void pointer genérico
+    virtual void OnPlayerDeath(Player* player) {}
+    virtual void SetGameplayReference(void* gameplayPtr) {}
+    virtual void RequestLevelTransition() {}  // NUEVO: Para que el estado pueda solicitar transición
 };

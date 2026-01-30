@@ -12,6 +12,6 @@ public:
     virtual int GetCurrentLevel() const = 0;
     virtual bool IsLevelComplete() const = 0;
 
-    // NUEVO: obtener referencia al player
     virtual class Player* GetPlayer() = 0;
+    virtual void RequestLevelTransition() = 0;  // NUEVO
 };

@@ -12,7 +12,6 @@
 #include <sstream>
 #include <iostream>
 
-// Implementación de los métodos de IGameplayContext
 bool Gameplay::HasMoreWaves() const {
     return waveManager ? waveManager->HasMoreWaves() : false;
 }
@@ -47,16 +46,16 @@ Gameplay::~Gameplay() {
 }
 
 void Gameplay::OnEnter() {
-    // Inicializar nivel
     currentLevel = 1;
     maxLevel = 2;
     levelCompleted = false;
+    previousStateIndex = -1;
+    shouldTransitionLevel = false;
 
-    // Crear estados
-    gameplayStates.push_back(new GameplayStatePlaying());      // Índice 0
-    gameplayStates.push_back(new GameplayStatePaused());       // Índice 1
-    gameplayStates.push_back(new GameplayStateFinishWave());   // Índice 2
-    gameplayStates.push_back(new GameplayStateDeath());        // Índice 3 (NUEVO)
+    gameplayStates.push_back(new GameplayStatePlaying());
+    gameplayStates.push_back(new GameplayStatePaused());
+    gameplayStates.push_back(new GameplayStateFinishWave());
+    gameplayStates.push_back(new GameplayStateDeath());
 
     currentStateIndex = 0;
     currentState = gameplayStates[currentStateIndex];
@@ -107,7 +106,15 @@ void Gameplay::OnEnter() {
     player = new Player();
     SPAWNER.SpawnObject(player);
 
-    // Inicializar WaveManager
+    GameplayStateFinishWave* finishState = dynamic_cast<GameplayStateFinishWave*>(gameplayStates[2]);
+    if (finishState) {
+        std::cout << "Setting context for FinishWave state" << std::endl;
+        finishState->SetContext(this);
+    }
+    else {
+        std::cout << "ERROR: Could not cast to GameplayStateFinishWave!" << std::endl;
+    }
+
     waveManager = new WaveManager(player, currentLevel);
     waveManager->SetPlayer(player);
     LoadLevel(currentLevel);
@@ -129,14 +136,12 @@ void Gameplay::OnExit() {
 void Gameplay::Update() {
     // Detectar muerte del player
     if (player && player->IsPendingDestroy() && currentStateIndex != 3) {
-        int deathLives = player->GetExtraLives();
-
         currentState->Finish();
         currentStateIndex = 3;
         currentState = gameplayStates[currentStateIndex];
         currentState->OnPlayerDeath(player);
         currentState->Start();
-        return;  // IMPORTANTE: return aquí, no continuar
+        return;
     }
 
     // Actualizar el estado actual
@@ -150,47 +155,69 @@ void Gameplay::Update() {
 
     Scene::Update();
 
-    // Transiciones DESPUÉS de que el state actualice
-    if (currentState->IsFinished()) {
-        currentState->Finish();
-        currentStateIndex = currentState->GetNextState();
-        if (currentStateIndex >= 0 && currentStateIndex < static_cast<int>(gameplayStates.size())) {
+    // NUEVO: Detectar cuando WaveManager dice que está esperando la siguiente wave
+    if (!levelCompleted && waveManager && waveManager->IsWaitingForNextWave()) {
+        if (currentStateIndex != 2) {  // Si NO estamos ya en FinishWave
+            std::cout << " Entering FINISH_WAVE state" << std::endl;
+            currentState->Finish();
+            currentStateIndex = 2;
             currentState = gameplayStates[currentStateIndex];
             currentState->Start();
         }
+    }
+
+    // Transiciones DESPUÉS de que el state actualice
+    previousStateIndex = currentStateIndex;
+
+    if (currentState->IsFinished()) {
+        std::cout << "State is finished. Current state index: " << currentStateIndex << std::endl;
+        currentState->Finish();
+        currentStateIndex = currentState->GetNextState();
+
+        if (currentStateIndex >= 0 && currentStateIndex < static_cast<int>(gameplayStates.size())) {
+            std::cout << "Transitioning to state: " << currentStateIndex << std::endl;
+            currentState = gameplayStates[currentStateIndex];
+            currentState->Start();
+        }
+    }
+
+    // NUEVO: Detectar transición de nivel limpiamente
+    if (previousStateIndex == 2 && currentStateIndex == 0 && shouldTransitionLevel) {
+        std::cout << " TRANSITION DETECTED!" << std::endl;
+        std::cout << "  previousStateIndex=" << previousStateIndex << " (FinishWave)" << std::endl;
+        std::cout << "  currentStateIndex=" << currentStateIndex << " (Playing)" << std::endl;
+        std::cout << "  shouldTransitionLevel=" << shouldTransitionLevel << std::endl;
+        std::cout << "Transitioning from level " << currentLevel << " to next level..." << std::endl;
+
+        shouldTransitionLevel = false;
+        TransitionToNextLevel();
+        return;
     }
 
     UpdateHUD();
 }
 
 void Gameplay::Render() {
-    // Si estamos en DEATH state, solo renderizar el fondo negro y el texto
     if (currentStateIndex == 3) {
         currentState->Render();
         return;
     }
 
-    // En cualquier otro estado, renderizar todo normalmente
     Scene::Render();
     currentState->Render();
 }
 
 void Gameplay::InitializeGameplayElements() {
-    // Implementación existente
 }
 
 void Gameplay::RespawnPlayer() {
     if (!player) return;
 
-    // El Death state ya decrementó las vidas
     int currentLives = player->GetExtraLives();
-
-    // NO destruir, solo reemplazar el puntero
     player = new Player();
     player->SetExtraLives(currentLives);
     SPAWNER.SpawnObject(player);
 
-    // Actualizar referencias
     if (waveManager) {
         waveManager->SetPlayer(player);
         waveManager->RestartCurrentWave();
@@ -198,7 +225,6 @@ void Gameplay::RespawnPlayer() {
 }
 
 void Gameplay::ResetGameplayElements() {
-    // Solo destruir enemigos y proyectiles
     for (int i = _objects.size() - 1; i >= 0; i--) {
         Object* obj = _objects[i];
         if (dynamic_cast<Enemy*>(obj) != nullptr ||
@@ -290,12 +316,13 @@ void Gameplay::LoadLevel(int levelNumber) {
 void Gameplay::TransitionToNextLevel() {
     levelCompleted = true;
 
+    std::cout << "TransitionToNextLevel called. Current level: " << currentLevel << ", Max level: " << maxLevel << std::endl;
+
     if (IsLastLevel()) {
-        // Juego completado
         int finalScore = HSM->GetCurrentScore();
+        std::cout << "Last level reached! Final score: " << finalScore << std::endl;
 
         if (HSM->IsInTopTen(finalScore)) {
-            // Ir a pantalla de nombre
             SM.SetNextScene("NameInput");
         }
         else {
@@ -304,16 +331,22 @@ void Gameplay::TransitionToNextLevel() {
         return;
     }
 
-    // Siguiente nivel
     currentLevel++;
+    std::cout << "Loading level " << currentLevel << std::endl;
     LoadLevel(currentLevel);
     waveManager->Start();
 
     if (player) {
         player->ResetPosition();
+        player->RestoreFullEnergy();
+        player->SetExtraLives(3);
     }
+
+    HSM->ResetCurrentScore();
 
     currentStateIndex = 0;
     currentState = gameplayStates[currentStateIndex];
     currentState->Start();
+
+    std::cout << "Level transition complete!" << std::endl;
 }
