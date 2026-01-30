@@ -18,6 +18,7 @@ public:
 		text->GetTransform()->scale = Vector2(5.f, 5.f);
 		_ui.push_back(text);
 
+		// START GAME
 		Button* button1 = new Button([]()
 			{
 				SM.SetNextScene("Gameplay");
@@ -30,7 +31,7 @@ public:
 		text3->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.0f, (float)RM->WINDOW_HEIGHT / 2.0f };
 		_ui.push_back(text3);
 
-		//Level Selector
+		// LEVEL SELECTOR
 		Button* button2 = new Button([]()
 			{
 				SM.SetNextScene("LevelSelector");
@@ -42,6 +43,19 @@ public:
 		TextObject* text4 = new TextObject("LEVEL SELECTOR");
 		text4->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 2.0f };
 		_ui.push_back(text4);
+
+		// RANKING
+		Button* button3 = new Button([]()
+			{
+				SM.SetNextScene("Ranking");
+			}
+		);
+		button3->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 1.5f, (float)RM->WINDOW_HEIGHT / 1.7f };
+		_ui.push_back(button3);
+
+		TextObject* text5 = new TextObject("HIGH SCORES");
+		text5->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 1.4f, (float)RM->WINDOW_HEIGHT / 2.0f };
+		_ui.push_back(text5);
 	}
 
 	void Update() override {

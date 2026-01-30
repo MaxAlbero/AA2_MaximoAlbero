@@ -4,6 +4,7 @@
 #include "SceneManager.h"
 #include "Gameplay.h"
 #include "MainMenu.h"
+#include "Ranking.h"
 #include "SplashScreen.h"
 #include "LevelSelector.h"
 #include "NameInputScene.h"
@@ -44,12 +45,13 @@ void Game::Init() {
 	assert(SM.AddScene("Gameplay", new Gameplay()));
 	assert(SM.AddScene("LevelSelector", new LevelSelector()));
 	assert(SM.AddScene("NameInput", new NameInputScene()));
+	assert(SM.AddScene("Ranking", new Ranking()));
 
 	HSM->LoadRankingFromFile("resources/ranking.xml");
 
 	//assert(SM.InitFirstScene("SplashScreen"));
-	//assert(SM.InitFirstScene("MainMenu"));
-	assert(SM.InitFirstScene("Gameplay"));
+	assert(SM.InitFirstScene("MainMenu"));
+	//assert(SM.InitFirstScene("Gameplay"));
 
 	_isRunning = !IM->Listen();
 }
