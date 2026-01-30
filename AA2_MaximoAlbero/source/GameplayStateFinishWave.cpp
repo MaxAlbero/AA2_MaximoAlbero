@@ -141,19 +141,16 @@ void GameplayStateFinishWave::TransitionToVictory() {
         std::cout << "Bonus points awarded: " << _bonusPoints << std::endl;
     }
 
-    std::cout << "TransitionToVictory called. _context = " << (_context ? "VALID" : "NULL") << std::endl;
-    std::cout << "_isLevelComplete = " << _isLevelComplete << std::endl;
+    std::cout << "TransitionToVictory called. _isLevelComplete = " << _isLevelComplete << std::endl;
 
     _finished = true;
-    _nextState = 0;
+    _nextState = 0;  // Return to PLAYING state
 
-    // NUEVO: Llamar al método de Gameplay para solicitar transición
+    // FIXED: Only set flag, don't call SetNextScene here
+    // Scene transition will be handled by Gameplay::Update()
     if (_context) {
-        std::cout << "Calling RequestLevelTransition()" << std::endl;
+        std::cout << "Setting level transition flag" << std::endl;
         _context->RequestLevelTransition();
-    }
-    else {
-        std::cout << "ERROR: _context is nullptr!" << std::endl;
     }
 }
 

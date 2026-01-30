@@ -17,7 +17,7 @@ private:
     std::vector<GameplayStateBase*> gameplayStates;
     GameplayStateBase* currentState;
     int currentStateIndex;
-    int previousStateIndex;  // ← NUEVO: Guardar estado anterior
+    int previousStateIndex;
 
     TextObject* scoreText;
     TextObject* highScoreText;
@@ -37,10 +37,10 @@ private:
     int currentLevel;
     int maxLevel;
     bool levelCompleted;
-    bool shouldTransitionLevel;  // ← NUEVO: Flag para transicionar
+    bool shouldTransitionLevel;
 
 public:
-    Gameplay() : previousStateIndex(-1), shouldTransitionLevel(false) {}
+    Gameplay() : previousStateIndex(-1), shouldTransitionLevel(false), levelCompleted(false) {}
     ~Gameplay();
 
     void OnEnter() override;
@@ -59,5 +59,5 @@ public:
 
     void LoadLevel(int levelNumber);
     void TransitionToNextLevel() override;
-    void RequestLevelTransition() { shouldTransitionLevel = true; }  // ← NUEVO
+    void RequestLevelTransition() override { shouldTransitionLevel = true; }
 };

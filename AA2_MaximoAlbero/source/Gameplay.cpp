@@ -130,6 +130,15 @@ void Gameplay::OnEnter() {
 }
 
 void Gameplay::OnExit() {
+    // Destroy all text objects first
+    if (scoreText) { delete scoreText; scoreText = nullptr; }
+    if (highScoreText) { delete highScoreText; highScoreText = nullptr; }
+    if (extraLivesText) { delete extraLivesText; extraLivesText = nullptr; }
+    if (shieldText) { delete shieldText; shieldText = nullptr; }
+    if (cannonText) { delete cannonText; cannonText = nullptr; }
+    if (laserText) { delete laserText; laserText = nullptr; }
+
+    // Then call parent OnExit
     Scene::OnExit();
 }
 

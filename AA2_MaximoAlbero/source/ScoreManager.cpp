@@ -7,31 +7,6 @@
 
 using namespace rapidxml;
 
-void ScoreManager::AddToRanking(int score, const std::string& playerName) {
-    if (rankingScores.size() < 10) {
-        rankingScores.push_back(score);
-        rankingNames.push_back(playerName);
-        SortRanking();
-        return;
-    }
-
-    if (score > rankingScores.back()) {
-        rankingScores.pop_back();
-        rankingNames.pop_back();
-
-        rankingScores.push_back(score);
-        rankingNames.push_back(playerName);
-        SortRanking();
-    }
-}
-
-bool ScoreManager::IsInTopTen(int score) const {
-    if (rankingScores.size() < 10) {
-        return true;
-    }
-    return score > rankingScores.back();
-}
-
 void ScoreManager::SortRanking() {
     std::vector<std::pair<int, std::string>> temp;
     for (size_t i = 0; i < rankingScores.size(); i++) {

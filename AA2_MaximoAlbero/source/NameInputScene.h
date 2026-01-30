@@ -3,84 +3,127 @@
 #include "TextObject.h"
 #include "InputManager.h"
 #include "RenderManager.h"
+#include "SceneManager.h"
+#include "ScoreManager.h"
 #include <string>
 
 class NameInputScene : public Scene {
 private:
-    std::string _playerName;
-    TextObject* _titleText;
-    TextObject* _inputText;
-    TextObject* _instructionText;
-    bool _finished;
-    float _blinkTimer;
-    const float BLINK_SPEED = 0.5f;
+    std::string playerName;
+    TextObject* titleText;
+    TextObject* inputText;
+    TextObject* instructionText;
+    bool inputActive;
+    float blinkTimer;
+    const float BLINK_INTERVAL = 0.5f;
 
 public:
-    NameInputScene() : _finished(false), _blinkTimer(0.f) {}
+    NameInputScene()
+        : playerName(""), titleText(nullptr), inputText(nullptr),
+        instructionText(nullptr), inputActive(true), blinkTimer(0.f) {
+    }
 
     ~NameInputScene() {
-        if (_titleText) delete _titleText;
-        if (_inputText) delete _inputText;
-        if (_instructionText) delete _instructionText;
+        OnExit();
     }
 
     void OnEnter() override {
-        _playerName = "";
-        _finished = false;
-        _blinkTimer = 0.f;
+        playerName = "";
+        inputActive = true;
+        blinkTimer = 0.f;
 
-        // NUEVO: Asegurar que la fuente está cargada
-        RM->LoadFont("resources/fonts/cidergum.ttf");
+        // Create title
+        titleText = new TextObject("ENTER YOUR NAME");
+        titleText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.5f, (float)RM->WINDOW_HEIGHT / 3.5f };
+        titleText->GetTransform()->scale = Vector2(3.f, 3.f);
+        titleText->SetTextColor(SDL_Color{ 255, 215, 0, 255 });
+        _ui.push_back(titleText);
 
-        try {
-            // Título
-            _titleText = new TextObject("ENTER YOUR NAME");
-            _titleText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 4.f);
-            _titleText->GetTransform()->scale = Vector2(2.5f, 2.5f);
-            _titleText->SetTextColor(SDL_Color{ 0, 255, 255, 255 });
-            _ui.push_back(_titleText);
+        // Create instruction
+        instructionText = new TextObject("Type and press ENTER");
+        instructionText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.8f, (float)RM->WINDOW_HEIGHT / 2.5f };
+        instructionText->GetTransform()->scale = Vector2(2.f, 2.f);
+        instructionText->SetTextColor(SDL_Color{ 200, 200, 200, 255 });
+        _ui.push_back(instructionText);
 
-            // Entrada de nombre
-            _inputText = new TextObject("_");
-            _inputText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
-            _inputText->GetTransform()->scale = Vector2(2.f, 2.f);
-            _inputText->SetTextColor(SDL_Color{ 255, 255, 255, 255 });
-            _ui.push_back(_inputText);
+        // Create input display
+        inputText = new TextObject("_");
+        inputText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.0f, (float)RM->WINDOW_HEIGHT / 1.8f };
+        inputText->GetTransform()->scale = Vector2(2.5f, 2.5f);
+        inputText->SetTextColor(SDL_Color{ 100, 255, 100, 255 });
+        _ui.push_back(inputText);
 
-            // Instrucciones
-            _instructionText = new TextObject("PRESS ENTER TO SUBMIT");
-            _instructionText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT * 3.f / 4.f);
-            _instructionText->GetTransform()->scale = Vector2(1.f, 1.f);
-            _instructionText->SetTextColor(SDL_Color{ 150, 150, 150, 255 });
-            _ui.push_back(_instructionText);
-        }
-        catch (const std::exception& e) {
-            std::cout << "Error creating NameInputScene UI: " << e.what() << std::endl;
-        }
+        Scene::OnEnter();
     }
 
     void OnExit() override {
+        // Text objects will be cleaned up by Scene::OnExit()
         Scene::OnExit();
     }
 
     void Update() override {
-        _blinkTimer += TM.GetDeltaTime();
-
-        // Procesar teclas
-        HandleInput();
-
-        // Actualizar visual del nombre con cursor parpadeante
-        if (_inputText) {
-            std::string displayName = _playerName;
-            if (std::fmod(_blinkTimer, BLINK_SPEED * 2.f) < BLINK_SPEED) {
-                displayName += "_";
-            }
-            _inputText->SetText(displayName);
+        if (!inputActive) {
+            Scene::Update();
+            return;
         }
 
-        // Si se presionó enter y hay nombre, terminar
-        if (_finished) {
-            return;
+        // Handle character input (A-Z)
+        if (IM->GetEvent(SDLK_A, KeyState::DOWN) && playerName.length() < 10) playerName += 'A';
+        else if (IM->GetEvent(SDLK_B, KeyState::DOWN) && playerName.length() < 10) playerName += 'B';
+        else if (IM->GetEvent(SDLK_C, KeyState::DOWN) && playerName.length() < 10) playerName += 'C';
+        else if (IM->GetEvent(SDLK_D, KeyState::DOWN) && playerName.length() < 10) playerName += 'D';
+        else if (IM->GetEvent(SDLK_E, KeyState::DOWN) && playerName.length() < 10) playerName += 'E';
+        else if (IM->GetEvent(SDLK_F, KeyState::DOWN) && playerName.length() < 10) playerName += 'F';
+        else if (IM->GetEvent(SDLK_G, KeyState::DOWN) && playerName.length() < 10) playerName += 'G';
+        else if (IM->GetEvent(SDLK_H, KeyState::DOWN) && playerName.length() < 10) playerName += 'H';
+        else if (IM->GetEvent(SDLK_I, KeyState::DOWN) && playerName.length() < 10) playerName += 'I';
+        else if (IM->GetEvent(SDLK_J, KeyState::DOWN) && playerName.length() < 10) playerName += 'J';
+        else if (IM->GetEvent(SDLK_K, KeyState::DOWN) && playerName.length() < 10) playerName += 'K';
+        else if (IM->GetEvent(SDLK_L, KeyState::DOWN) && playerName.length() < 10) playerName += 'L';
+        else if (IM->GetEvent(SDLK_M, KeyState::DOWN) && playerName.length() < 10) playerName += 'M';
+        else if (IM->GetEvent(SDLK_N, KeyState::DOWN) && playerName.length() < 10) playerName += 'N';
+        else if (IM->GetEvent(SDLK_O, KeyState::DOWN) && playerName.length() < 10) playerName += 'O';
+        else if (IM->GetEvent(SDLK_P, KeyState::DOWN) && playerName.length() < 10) playerName += 'P';
+        else if (IM->GetEvent(SDLK_Q, KeyState::DOWN) && playerName.length() < 10) playerName += 'Q';
+        else if (IM->GetEvent(SDLK_R, KeyState::DOWN) && playerName.length() < 10) playerName += 'R';
+        else if (IM->GetEvent(SDLK_S, KeyState::DOWN) && playerName.length() < 10) playerName += 'S';
+        else if (IM->GetEvent(SDLK_T, KeyState::DOWN) && playerName.length() < 10) playerName += 'T';
+        else if (IM->GetEvent(SDLK_U, KeyState::DOWN) && playerName.length() < 10) playerName += 'U';
+        else if (IM->GetEvent(SDLK_V, KeyState::DOWN) && playerName.length() < 10) playerName += 'V';
+        else if (IM->GetEvent(SDLK_W, KeyState::DOWN) && playerName.length() < 10) playerName += 'W';
+        else if (IM->GetEvent(SDLK_X, KeyState::DOWN) && playerName.length() < 10) playerName += 'X';
+        else if (IM->GetEvent(SDLK_Y, KeyState::DOWN) && playerName.length() < 10) playerName += 'Y';
+        else if (IM->GetEvent(SDLK_Z, KeyState::DOWN) && playerName.length() < 10) playerName += 'Z';
+        else if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) && playerName.length() < 10) playerName += ' ';
+
+        // Handle backspace
+        if (IM->GetEvent(SDLK_BACKSPACE, KeyState::DOWN) && !playerName.empty()) {
+            playerName.pop_back();
+        }
+
+        // Handle enter - save score and transition to ranking
+        if (IM->GetEvent(SDLK_RETURN, KeyState::DOWN)) {
+            if (!playerName.empty()) {
+                // Save the score with the player name
+                HSM->SaveScore(playerName);
+                std::cout << "Score saved for: " << playerName << std::endl;
+                SM.SetNextScene("MainMenu");  // Or Ranking scene when ready
+            }
+        }
+
+        // Update display with blinking cursor
+        if (inputText) {
+            blinkTimer += TM.GetDeltaTime();
+            if (blinkTimer > BLINK_INTERVAL) {
+                blinkTimer = 0.f;
+            }
+
+            std::string displayText = playerName;
+            if (blinkTimer < BLINK_INTERVAL / 2.f) {
+                displayText += "_";
+            }
+
+            inputText->SetText(displayText.empty() ? "_" : displayText);
         }
 
         Scene::Update();
@@ -88,47 +131,5 @@ public:
 
     void Render() override {
         Scene::Render();
-    }
-
-    bool IsFinished() const { return _finished; }
-    std::string GetPlayerName() const { return _playerName; }
-
-private:
-    void HandleInput() {
-        const int MAX_NAME_LENGTH = 10;
-
-        // Letras mayúsculas (A-Z)
-        for (int key = SDLK_A; key <= SDLK_Z; key++) {
-            if (IM->GetEvent(key, KeyState::DOWN) && _playerName.length() < MAX_NAME_LENGTH) {
-                _playerName += static_cast<char>('A' + (key - SDLK_A));
-                return;
-            }
-        }
-
-        // Números (0-9)
-        for (int key = SDLK_0; key <= SDLK_9; key++) {
-            if (IM->GetEvent(key, KeyState::DOWN) && _playerName.length() < MAX_NAME_LENGTH) {
-                _playerName += static_cast<char>('0' + (key - SDLK_0));
-                return;
-            }
-        }
-
-        // Backspace (borrar)
-        if (IM->GetEvent(SDLK_BACKSPACE, KeyState::DOWN) && !_playerName.empty()) {
-            _playerName.pop_back();
-            return;
-        }
-
-        // Enter (enviar)
-        if (IM->GetEvent(SDLK_RETURN, KeyState::DOWN) && !_playerName.empty()) {
-            _finished = true;
-            return;
-        }
-
-        // Espacio
-        if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) && _playerName.length() < MAX_NAME_LENGTH) {
-            _playerName += " ";
-            return;
-        }
     }
 };
