@@ -25,7 +25,6 @@ public:
         float duration = 2.f;
         Vector2 targetPos = Vector2(RM->WINDOW_WIDTH / 1.2f, yThreshold);
 
-        // Movimiento simple: izquierda sin umbral (sale de pantalla)
         movements.push_back(new RightLinearMovement(_transform, _physics, xThreshold, speed));
         movements.push_back(new DownLinearMovement(_transform, _physics, yThreshold, speed));
         movements.push_back(new TargetMovement(_transform, _physics, targetPos, speed));

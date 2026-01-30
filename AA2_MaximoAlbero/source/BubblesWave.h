@@ -26,7 +26,6 @@ public:
     }
 
     void Update(float deltaTime) override {
-        // EnemyWave::IsFinished() se encarga de verificar si terminó
     }
 
     void End() override {
