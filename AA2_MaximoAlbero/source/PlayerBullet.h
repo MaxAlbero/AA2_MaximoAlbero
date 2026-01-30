@@ -12,7 +12,6 @@ public:
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 	}
 
-	// Nueva sobrecarga: dispara con un ángulo en grados (0 = hacia la derecha)
 	PlayerBullet(Vector2 initPos, float angleDegrees, float speed = 2000.f)
 		: Bullet() {
 		_transform->position = initPos;
@@ -24,7 +23,7 @@ public:
 		dir.Normalize();
 		_physics->SetVelocity(dir * speed);
 
-		_transform->rotation = angleDegrees; // opcional: rotar la sprite de la bala
+		_transform->rotation = angleDegrees;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 	}
 
@@ -35,7 +34,6 @@ public:
 
 	void SetLifeTime() override {
 		if (_transform->position.x > RM->WINDOW_WIDTH) {
-			//std::cout << "Bullet Destroyed" << std::endl;
 			Destroy();
 		}
 	}

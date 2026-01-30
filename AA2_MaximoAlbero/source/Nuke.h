@@ -8,7 +8,7 @@ public:
 		: Enemy() {
 		_renderer = new ImageRenderer(_transform, "resources/missile.png", Vector2(0.f, 0.f), Vector2(500.f, 500.f));
 
-		_transform->size = Vector2(200.f, 200.f);
+		_transform->scale = Vector2(0.5f, 0.5f);
 		_transform->position = spawnPos;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 
@@ -20,5 +20,9 @@ public:
 
 	void Update() override {
 		Enemy::Update();
+
+		if (_transform->position.x + _transform->size.x < 0.f) {
+			Destroy();
+		}
 	}
 };

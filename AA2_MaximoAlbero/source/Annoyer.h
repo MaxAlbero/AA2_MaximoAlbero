@@ -12,7 +12,7 @@ public:
         _renderer = new ImageRenderer(_transform, "resources/annoyer.png",
             Vector2(0.f, 0.f), Vector2(500, 500.f));
 
-        _transform->scale = Vector2(0.25f, 0.25f);
+        _transform->scale = Vector2(0.5f, 0.5f);
         _transform->position = spawnPos;
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 

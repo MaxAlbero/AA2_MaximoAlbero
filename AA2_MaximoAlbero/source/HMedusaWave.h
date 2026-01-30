@@ -16,10 +16,7 @@ public:
             int speed = rand() % 400 + 100;
             float positionY = rand() % (int)RM->WINDOW_HEIGHT;
 
-            Hmedusa* medusa = new Hmedusa(
-                Vector2(RM->WINDOW_WIDTH + 50.f, positionY),
-                (float)speed
-            );
+            Hmedusa* medusa = new Hmedusa(Vector2(RM->WINDOW_WIDTH + 50.f, positionY),(float)speed);
             RegisterEnemy(medusa);
         }
     }

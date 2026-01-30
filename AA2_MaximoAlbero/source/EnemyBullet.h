@@ -18,7 +18,6 @@ public:
 
 	void SetLifeTime() override {
 		if (_transform->position.x < 0) {
-			//std::cout << "EnemyBullet Destroyed" << std::endl;
 			Destroy();
 		}
 	}

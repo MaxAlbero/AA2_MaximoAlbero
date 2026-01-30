@@ -13,5 +13,5 @@ public:
     virtual bool IsLevelComplete() const = 0;
 
     virtual class Player* GetPlayer() = 0;
-    virtual void RequestLevelTransition() = 0;  // NUEVO
+    virtual void RequestLevelTransition() = 0;
 };

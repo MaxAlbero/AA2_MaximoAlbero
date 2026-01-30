@@ -19,13 +19,11 @@ public:
 
     bool IsFinished() const {
         if (!_finished) {
-            // Verificar si todos los enemigos están muertos
             for (Enemy* enemy : _spawnedEnemies) {
                 if (!enemy->IsPendingDestroy()) {
-                    return false; // Aún hay enemigos vivos
+                    return false;
                 }
             }
-            // Todos están muertos
             return true;
         }
         return _finished;

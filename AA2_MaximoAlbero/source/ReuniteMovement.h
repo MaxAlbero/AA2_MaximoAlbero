@@ -39,13 +39,13 @@ public:
             _initialized = true;
         }
 
-        // Asegurar que la velocidad sea 0 para que no interfiera
+        // Asegurar que la velocidad sea 0
         _rigidBody->SetVelocity(Vector2(0.f, 0.f));
 
         _elapsedTime += deltaTime;
         float t = std::min(1.f, _elapsedTime / _duration);
 
-        // Establecer posición directamente (como CirclerMovement)
+        // Establecer posición directamente
         _transform->position = Lerp(_startPosition, _targetPosition, SmoothStep(t));
 
         if (t >= 1.f) {

@@ -11,3 +11,7 @@ void Enemy::OnCollision(Object* other)
         }
     }
 }
+
+void Enemy::Attack(IDamageable* other) const {
+	std::cout << "Enemy attacks!" << std::endl;
+}

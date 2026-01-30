@@ -29,7 +29,6 @@ void Player::Move()
 }
 
 void Player::CheckBorders() {
-	// Tamaño efectivo considerando scale
 	float effectiveWidth = _transform->size.x * _transform->scale.x;
 	float effectiveHeight = _transform->size.y * _transform->scale.y;
 

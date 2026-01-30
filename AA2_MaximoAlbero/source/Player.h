@@ -59,32 +59,28 @@ public:
 		Move();
 		CheckBorders();
 		UpdateImmunity();
-		_weaponManager->Update(_transform->position); // Delegar responsabilidad
+		_weaponManager->Update(_transform->position);
 		Object::Update();
 	}
 
 	void Render() override {
 		Object::Render();
-		_weaponManager->Render(); // Delegar responsabilidad
+		_weaponManager->Render();
 	}
 
 	void Shoot() {
-		// Disparo principal
 		Vector2 bulletOffset = Vector2(_transform->size.x * 0.5f, 0.f);
 		SPAWNER.SpawnObject(new PlayerBullet(_transform->position + bulletOffset));
 
-		// Delegar a WeaponManager
 		_weaponManager->ShootAll(_transform->position);
 	}
 
-	//Getters delegados a WeaponManager
 	bool HasCannon() const { return _weaponManager->HasCannon(); }
 	int GetCannonAmmo() const { return _weaponManager->GetCannonAmmo(); }
 	bool HasLaser() const { return _weaponManager->HasLaser(); }
 	int GetLaserAmmo() const { return _weaponManager->GetLaserAmmo(); }
 	int GetNumOfTurrets() const { return _weaponManager->GetNumOfTurrets(); }
 
-	// Getters
 	int GetEnergy() const { return energy; }
 	int GetMaxEnergy() const { return maxEnergy; }
 	float GetMaxSpeed() const { return maxSpeed; }
@@ -96,7 +92,7 @@ public:
 		if (energy < 0) energy = 0;
 	}
 
-	void SetExtraLives(int newLives) {  // NUEVO
+	void SetExtraLives(int newLives) {
 		extraLives = newLives;
 		if (extraLives < 0) extraLives = 0;
 	}
@@ -113,13 +109,10 @@ public:
 	void InmunityTime();
 	void OnCollision(Object* other) override;
 
-	//PowerUps delegados a WeaponManager
 	void AddCannon() { _weaponManager->AddCannon(); }
 	void AddLaser() { _weaponManager->AddLaser(); }
 	void AddTwinTurrets() { _weaponManager->AddTurret(); }
 
-
-	//PowerUps
 	void IncreaseSpeed() {
 		maxSpeed += 0.5f;
 		std::cout << "Speed increased! New speed: " << maxSpeed << std::endl;
@@ -130,7 +123,6 @@ public:
 		std::cout << "Energy fully restored! Current energy: " << energy << std::endl;
 	}
 
-	// Interfaces
 	void Attack(IDamageable* other) const override {}
 
 	void ReceiveDamage(int damageToAdd) override {

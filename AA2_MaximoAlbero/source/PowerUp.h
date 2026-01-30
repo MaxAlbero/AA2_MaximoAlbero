@@ -36,8 +36,6 @@ private:
 
         currentHits++;
         if (currentHits == maxHits) {
-            //UPDATE SPRITE ACCORDING TO LEVEL
-            //_renderer = renderers[++lvl];
             lvl++;
             std::cout << "PWRUP LVL: " << lvl << std::endl;
 

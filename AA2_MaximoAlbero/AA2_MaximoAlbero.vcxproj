@@ -26,7 +26,6 @@
     <ClCompile Include="source\GameplayStateFinishWave.cpp" />
     <ClCompile Include="source\GameplayStatePaused.cpp" />
     <ClCompile Include="source\GameplayStatePlaying.cpp" />
-    <ClCompile Include="source\ImageRenderer.cpp" />
     <ClCompile Include="source\InputManager.cpp" />
     <ClCompile Include="source\LevelManager.cpp" />
     <ClCompile Include="source\LoadLevel.cpp" />
@@ -149,20 +148,28 @@
     <ClInclude Include="source\WeaponManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="resources\annoyer.png" />
     <Image Include="resources\background.jpg" />
     <Image Include="resources\bat.png" />
     <Image Include="resources\bebe.jpg" />
     <Image Include="resources\BillBuster.png" />
     <Image Include="resources\BulletBill.png" />
     <Image Include="resources\caballo.png" />
+    <Image Include="resources\chainsaw.png" />
+    <Image Include="resources\crab.png" />
+    <Image Include="resources\daniels.png" />
     <Image Include="resources\explosion.png" />
     <Image Include="resources\image.png" />
+    <Image Include="resources\missile.png" />
     <Image Include="resources\pacman.png" />
     <Image Include="resources\pinky.png" />
     <Image Include="resources\pompa.png" />
     <Image Include="resources\RayoNave.png" />
+    <Image Include="resources\Richard.png" />
     <Image Include="resources\slime.png" />
+    <Image Include="resources\torpedo.png" />
     <Image Include="resources\turret.png" />
+    <Image Include="resources\ufo.png" />
     <Image Include="resources\UmaSentimiento.jpg" />
     <Image Include="resources\VMedusa.png" />
     <Image Include="resources\Wailord.png" />

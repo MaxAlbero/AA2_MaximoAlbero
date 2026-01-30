@@ -14,23 +14,20 @@ public:
     Ranking() = default;
 
     void OnEnter() override {
-        // Título
         TextObject* titleText = new TextObject("HIGH SCORES");
         titleText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, 50.f };
         titleText->GetTransform()->scale = Vector2(2.5f, 2.5f);
         titleText->SetTextColor(SDL_Color{ 255, 215, 0, 255 });
         _ui.push_back(titleText);
 
-        // Obtener datos del ranking
         const std::vector<int>& scores = HSM->GetRankingScores();
         const std::vector<std::string>& names = HSM->GetRankingNames();
 
-        // Mostrar el top 10
         float startY = 150.f;
         float lineHeight = 50.f;
 
         for (size_t i = 0; i < scores.size() && i < 10; i++) {
-            // Crear texto con posición y nombre
+
             std::string rankingText = std::to_string(i + 1) + ". " + names[i] + " - " + std::to_string(scores[i]);
 
             TextObject* scoreText = new TextObject(rankingText);
@@ -49,7 +46,7 @@ public:
             rankingTexts.push_back(scoreText);
         }
 
-        // Si no hay ranking, mostrar mensaje
+
         if (scores.empty()) {
             TextObject* emptyText = new TextObject("NO HIGH SCORES YET");
             emptyText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 2.0f };

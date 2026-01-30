@@ -33,7 +33,6 @@ public:
     }
 
     void End() override {
-        std::cout << "NUKE WAVE CLEARED!" << std::endl;
         _spawnedEnemies.clear();
     }
 

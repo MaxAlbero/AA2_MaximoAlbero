@@ -8,7 +8,7 @@ public:
 		: Enemy() {
 		_renderer = new ImageRenderer(_transform, "resources/missile.png", Vector2(0.f, 0.f), Vector2(500.f, 500.f));
 
-		_transform->scale = Vector2(0.25f, 025.f);
+		_transform->scale = Vector2(0.25f, 0.25f);
 		_transform->rotation = 270.f;
 		_transform->position = spawnPos;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));

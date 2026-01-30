@@ -16,15 +16,12 @@ public:
         SetHealth(20);
         SetPointsValue(100);
 
-        // Movimiento simple: izquierda sin umbral (sale de pantalla)
         movements.push_back(new LeftLinearMovement(_transform, _physics, speed));
     }
 
-    void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
-        // Actualizar movimientos
+    void Update() override {
         Enemy::Update();
 
-        // Destruir si sale de pantalla
         if (_transform->position.x + _transform->size.x < 0.f) {
             Destroy();
         }
