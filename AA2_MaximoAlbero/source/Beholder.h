@@ -14,7 +14,7 @@ public:
         _transform->position = spawnPos;
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
-        SetHealth(100);
+        SetHealth(30);
         SetPointsValue(300);
 
         float speed = 200.f;
