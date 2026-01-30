@@ -41,7 +41,9 @@
     <ClInclude Include="source\Amoeba.h" />
     <ClInclude Include="source\AmoebaWave.h" />
     <ClInclude Include="source\Angrygons.h" />
+    <ClInclude Include="source\AngrygonsWave.h" />
     <ClInclude Include="source\Annoyer.h" />
+    <ClInclude Include="source\AnnoyerWave.h" />
     <ClInclude Include="source\Background.h" />
     <ClInclude Include="source\Beholder.h" />
     <ClInclude Include="source\BeholderWave.h" />
@@ -84,7 +86,9 @@
     <ClInclude Include="source\LaserWeapon.h" />
     <ClInclude Include="source\LeftLinearMovement.h" />
     <ClInclude Include="source\Missile.h" />
+    <ClInclude Include="source\MissileWave.h" />
     <ClInclude Include="source\Nuke.h" />
+    <ClInclude Include="source\NukeWave.h" />
     <ClInclude Include="source\ReuniteMovement.h" />
     <ClInclude Include="source\RightLinearMovement.h" />
     <ClInclude Include="source\RoboKrabs.h" />
@@ -121,10 +125,13 @@
     <ClInclude Include="source\TextRenderer.h" />
     <ClInclude Include="source\TimeManager.h" />
     <ClInclude Include="source\Torpedo.h" />
+    <ClInclude Include="source\TorpedoWave.h" />
     <ClInclude Include="source\Transform.h" />
     <ClInclude Include="source\TurboChainsaw.h" />
+    <ClInclude Include="source\TurboChainsawWave.h" />
     <ClInclude Include="source\TurretWeapon.h" />
     <ClInclude Include="source\Ufo.h" />
+    <ClInclude Include="source\UfoWave.h" />
     <ClInclude Include="source\UpLinearMovement.h" />
     <ClInclude Include="source\Vector2.h" />
     <ClInclude Include="source\VerticalLinearMovement.h" />
