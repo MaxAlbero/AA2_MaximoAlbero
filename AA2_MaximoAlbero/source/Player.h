@@ -2,56 +2,95 @@
 #include "ImageObject.h"
 #include "RenderManager.h"
 #include "InputManager.h"
-#include "Bullet.h"
+#include "PlayerBullet.h"
 #include "Spawner.h"
 #include "IAttacker.h"
 #include "IDamageable.h"
+#include "TimeManager.h"
+#include <cmath>
+#include "WeaponManager.h"
 
 class Player : public ImageObject, public IAttacker, public IDamageable
 {
 private:
-	int energy; //shields/shieldsPower... values from 0 to 100
+	int energy;
 	int maxEnergy;
 	float maxSpeed;
-	float currentSpeedMultiplier;
+	int extraLives;
+
+	bool isImmune;
+	float immunityTimer;
+	float immunityDuration;
+
+	float immunityTime = 0.f;
+	float maxImmunityTime = 0.5f;
+
+	WeaponManager* _weaponManager;
 
 public:
-	Player()
-		: ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
-
-		// Posició random en tota la finestra
-		//Vector2 randomPosition = Vector2(rand() % RM->WINDOW_WIDTH, rand() % RM->WINDOW_HEIGHT);
-
+public:
+	Player() : ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
 		_transform->scale = Vector2(0.5f, 0.5f);
-		//_transform->rotation = 30.f;
 
 		_physics->SetLinearDrag(10.f);
 		_physics->SetAngularDrag(0.1f);
 
-		energy = 30;
+		energy = 100;
 		maxEnergy = 100;
 		maxSpeed = 1.0f;
-		currentSpeedMultiplier = 1.0f;
+		extraLives = 3;
+		isImmune = false;
+		immunityTimer = 0.f;
+		immunityDuration = 1.0f;
+
+		_weaponManager = new WeaponManager();
 
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
-
-		std::cout << "Current energy: " << energy << std::endl;
 	}
 
+	~Player() {
+		delete _weaponManager;
+	}
+
+	void Update() override {
+		Move();
+		CheckBorders();
+		UpdateImmunity();
+		_weaponManager->Update(_transform->position); // Delegar responsabilidad
+		Object::Update();
+	}
+
+	void Render() override {
+		Object::Render();
+		_weaponManager->Render(); // Delegar responsabilidad
+	}
+
+	void Shoot() {
+		// Disparo principal
+		Vector2 bulletOffset = Vector2(_transform->size.x * 0.5f, 0.f);
+		SPAWNER.SpawnObject(new PlayerBullet(_transform->position + bulletOffset));
+
+		// Delegar a WeaponManager
+		_weaponManager->ShootAll(_transform->position);
+	}
+
+	//Getters delegados a WeaponManager
+	bool HasCannon() const { return _weaponManager->HasCannon(); }
+	int GetCannonAmmo() const { return _weaponManager->GetCannonAmmo(); }
+	bool HasLaser() const { return _weaponManager->HasLaser(); }
+	int GetLaserAmmo() const { return _weaponManager->GetLaserAmmo(); }
+	int GetNumOfTurrets() const { return _weaponManager->GetNumOfTurrets(); }
+
+	// Getters
 	int GetEnergy() const { return energy; }
 	int GetMaxEnergy() const { return maxEnergy; }
 	float GetMaxSpeed() const { return maxSpeed; }
-	float GetSpeedMultiplier() const { return currentSpeedMultiplier; }
+	int GetExtraLives() const { return extraLives; }
 
-	void Update() override {
 
-		Move();
-
-		CheckBorders();
-
-		Object::Update();
-	}
+	void UpdateImmunity();
+	void ActivateImmunity();
 
 	void SetEnergy(int newEnergy) {
 		energy = newEnergy;
@@ -63,9 +102,21 @@ public:
 		maxSpeed = newMaxSpeed;
 	}
 
-	void IncreaseSpeed(float multiplier) {
-		currentSpeedMultiplier += multiplier;
-		std::cout << "Speed increased! New multiplier: " << currentSpeedMultiplier << std::endl;
+	void Move();
+	void CheckBorders();
+	void InmunityTime();
+	void OnCollision(Object* other) override;
+
+	//PowerUps delegados a WeaponManager
+	void AddCannon() { _weaponManager->AddCannon(); }
+	void AddLaser() { _weaponManager->AddLaser(); }
+	void AddTwinTurrets() { _weaponManager->AddTurret(); }
+
+
+	//PowerUps
+	void IncreaseSpeed() {
+		maxSpeed += 0.5f;
+		std::cout << "Speed increased! New speed: " << maxSpeed << std::endl;
 	}
 
 	void RestoreFullEnergy() {
@@ -73,18 +124,16 @@ public:
 		std::cout << "Energy fully restored! Current energy: " << energy << std::endl;
 	}
 
-	void Move();
+	// Interfaces
+	void Attack(IDamageable* other) const override {}
 
-	void Shoot() {
-		//Bullet* bullet = new Bullet();
+	void ReceiveDamage(int damageToAdd) override {
+		energy -= damageToAdd;
+		std::cout << "Player received " << damageToAdd << " damage. Energy left: " << energy << std::endl;
 
-		SPAWNER.SpawnObject(new Bullet(Vector2(_transform->position.x + 1, _transform->position.y)));
+		if (energy <= 0) {
+			Destroy();
+			std::cout << "Player Dead!" << std::endl;
+		}
 	}
-
-	void CheckBorders();
-
-	//Interfaces para atacar y recibir daño
-	virtual void Attack(IDamageable* other) const override {}
-	virtual void ReceiveDamage(int damageToAdd) override {}
-
 };

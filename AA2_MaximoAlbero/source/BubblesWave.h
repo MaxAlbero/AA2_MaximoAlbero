@@ -1,0 +1,36 @@
+#pragma once
+#include "EnemyWave.h"
+#include "Bubbles.h"
+
+class BubblesWave : public EnemyWave {
+private:
+    int _count;
+    float _offsetX;
+
+public:
+    BubblesWave(int count) : _count(count), _offsetX(100.f) {}
+
+    void Start() override {
+        _started = true;
+        std::cout << "BubblesWave started - spawning " << _count << " pairs of bubbles" << std::endl;
+
+        for (int i = 0; i < _count; i++) {
+            Bubbles* bubbleUp = new Bubbles(TOP_TO_BOTTOM);
+            bubbleUp->GetTransform()->position.x += _offsetX * i;
+            RegisterEnemy(bubbleUp);
+
+            Bubbles* bubbleDown = new Bubbles(BOTTOM_TO_TOP);
+            bubbleDown->GetTransform()->position.x += _offsetX * i;
+            RegisterEnemy(bubbleDown);
+        }
+    }
+
+    void Update(float deltaTime) override {
+        // EnemyWave::IsFinished() se encarga de verificar si terminó
+    }
+
+    void End() override {
+        std::cout << "BubblesWave completed!" << std::endl;
+        _spawnedEnemies.clear();
+    }
+};

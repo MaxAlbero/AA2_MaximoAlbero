@@ -1,114 +1,61 @@
 #pragma once
 #include "Enemy.h"
+#include "TargetMovement.h"
+#include "CirclerMovement.h"
 
 class Circler : public Enemy {
-private:
-	float moveSpeed;
-
-	Vector2 circleCenter;
-	float circleRadius;
-	float circleAngle;
-	float circleSpeed;
-	bool circleComplete;
-	float horizontalMove;
-
-	int circleCount;
-	int maxCircles;
-	float startAngle;
-
 public:
-	Circler()
+	Circler() 
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
+		_renderer = new ImageRenderer(_transform, "resources/pacman.png",
+			Vector2(0.f, 0.f), Vector2(500.f, 500.f));
 
-		_transform->size = Vector2(100.f, 100.f);
+		_transform->scale = Vector2(0.5f, 0.5f);
 		_transform->position = Vector2(RM->WINDOW_WIDTH / 2.f, -_transform->size.y);
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 
-		enemyHealth = 1000;
-		currentState = SIMPLE_MOVE;
+		SetHealth(1000);
+		SetPointsValue(500);
 
-		circleRadius = 300.f;
-		circleAngle = 0.f;
-		circleSpeed = 3.0f;
-		circleComplete = false;
+		float speed = 200.f;
+		float radius = 300.f;
+		Vector2 screenCenter(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
+		float angularVelocity = 90.f; // grados por segundo
 
-		moveSpeed = 200.f;
+        // Patrón: bajar - círculo - moverse - círculo - moverse - círculo - salir
+        movements.push_back(new TargetMovement(_transform, _physics,
+            Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 4.f), speed));
 
-		circleCount = 0;
-		maxCircles = 5;
+        movements.push_back(new CirclerMovement(_transform, _physics,
+            radius, screenCenter, angularVelocity));
 
-		horizontalMove = 20.f;
-		startAngle = -1.5707963f;
-	}
+        movements.push_back(new TargetMovement(_transform, _physics,
+            Vector2(screenCenter.x + 50.f, screenCenter.y + 10.f), speed));
 
-	void Update() override {
+        movements.push_back(new CirclerMovement(_transform, _physics,
+            radius - 100.f, Vector2(screenCenter.x + 150.f, screenCenter.y + 100.f), angularVelocity));
 
-		switch (currentState) {
-		case SIMPLE_MOVE:
-			Move();
-			break;
-		case CIRCLE_MOVE:
-			CircleMove();
-			break;
-		case RETURN:
-			GoAway();
-			break;
-		}
+        movements.push_back(new TargetMovement(_transform, _physics,
+            Vector2(screenCenter.x + 200.f, screenCenter.y + 150.f), speed)); 
 
+        movements.push_back(new CirclerMovement(_transform, _physics,
+            radius - 250.f, Vector2(screenCenter.x + 250.f, screenCenter.y + 200.f), angularVelocity));
 
-		if (_transform->position.y < -_transform->size.y) {
-			std::cout << "Ah bueno adios master" << std::endl;
-			Destroy();
-		}
+        // Salir por arriba
+        movements.push_back(new TargetMovement(_transform, _physics,
+            Vector2(RM->WINDOW_WIDTH / 2.f, -200.f), speed));
+    }
 
-		Object::Update();
-	}
+    void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
+        // Actualizar movimientos
+        Enemy::Update();
 
-	void Move() override {
-		_physics->SetVelocity(Vector2(0.f, moveSpeed));
-		  
-		if (_transform->position.y >= RM->WINDOW_HEIGHT / 4.f) {
-			currentState = CIRCLE_MOVE;
-			circleCenter = Vector2(RM->WINDOW_WIDTH / 2.f,RM->WINDOW_HEIGHT / 2.f);
-			circleAngle = startAngle;
-			_physics->SetVelocity(Vector2(0.f, 0.f));
-			std::cout << "Iniciando movimiento circular" << std::endl;
-		}
-	}
-
-	void CircleMove() override {
-		float pi = 3.14159f;
-
-		circleAngle += circleSpeed * TM.GetDeltaTime();
-
-		float newX = circleCenter.x + circleRadius * cos(circleAngle);
-		float newY = circleCenter.y + circleRadius * sin(circleAngle);
-		_transform->position = Vector2(newX, newY);
-
-		if (circleAngle >= startAngle + 2.0f * pi) {
-			circleCount++;
-			std::cout << "Vueltas completadas: " << circleCount << std::endl;
-
-			// Resetear al ángulo inicial (punto alto)
-			circleAngle = startAngle;
-			circleRadius -= 50.f;
-
-			if (circleCount >= maxCircles) {
-				currentState = RETURN;
-				//Posicionar en el punto más alto antes de salir
-				_transform->position = Vector2(
-					circleCenter.x + circleRadius * cos(startAngle),
-					circleCenter.y + circleRadius * sin(startAngle)
-				);
-				std::cout << "5 vueltas completadas. Regresando desde punto alto..." << std::endl;
-			}
-			else {
-				circleCenter.x -= horizontalMove;
-			}
-		}
-	}
-	void GoAway() override {
-		_physics->SetVelocity(Vector2(0.f, -moveSpeed));
-	}
+        // Destruir si sale de pantalla
+        if (_transform->position.y + _transform->size.y < 0.f) {
+            std::cout << "CIRCLER DESTROYED" << std::endl;
+            Destroy();
+        }
+    }
 };
+
+// Vector2(_transform->position.x - 50.f, _transform->position.y - 100.f)

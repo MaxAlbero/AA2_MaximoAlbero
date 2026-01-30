@@ -1,31 +1,31 @@
 #pragma once
-#include "ImageObject.h"
-#include "RenderManager.h"
+#include "Bullet.h"
 
-class EnemyBullet : public ImageObject
-{
+class EnemyBullet : public Bullet {
 public:
-    EnemyBullet(Vector2 initPosition)
-        : ImageObject("resources/image.png", Vector2(0.f, 0.f), Vector2(100.f, 100.f))
-    {
-        _transform->position = Vector2(initPosition.x - 40.f, initPosition.y);
-        _transform->scale = Vector2(0.5f, 0.15f);
-        _physics->SetVelocity(Vector2(-1.f, 0.f)); // Velocidad hacia la izquierda
-        _physics->AddCollider(new AABB(_transform->position, _transform->size));
-    }
+	EnemyBullet(Vector2 initPos)
+		: Bullet() {
+		_transform->position = initPos;
+		_transform->scale = Vector2(0.5f, 0.15f);
+		_physics->SetVelocity(Vector2(-1500.f, 0.f));
+		_physics->AddCollider(new AABB(_transform->position, _transform->size));
+	}
 
-    void Update() override {
-        //SetLifeTime();
-        Object::Update();
-    }
+	void Update() override {
+		SetLifeTime();
+		Object::Update();
+	}
 
-    //void SetLifeTime() {
-    //    if (_transform->position.x < 0) {
-    //        Destroy();
-    //    }
-    //}
+	void SetLifeTime() override {
+		if (_transform->position.x < 0) {
+			//std::cout << "EnemyBullet Destroyed" << std::endl;
+			Destroy();
+		}
+	}
 
-    //void OnCollision(Object* other) override {
-    //    Destroy();
-    //}
+	void OnCollision(Object* other) override {}
+
+	void Attack(IDamageable* other) const override {
+		other->ReceiveDamage(15);
+	}
 };

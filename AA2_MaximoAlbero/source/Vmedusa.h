@@ -1,82 +1,46 @@
 #pragma once
 #include "Enemy.h"
-#include "TimeManager.h"
+#include "UpLinearMovement.h"
+#include "IdleMovement.h"
 
 class Vmedusa : public Enemy {
-private:
-	float moveSpeed;
-	float stopDistance;
-	float stopDuration;
-	float stopTimer;
-	float nextStopY;
-
 public:
 	Vmedusa(Vector2 spawnPosition)
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/bebe.jpg", Vector2(0.f, 0.f), Vector2(360.f, 360.f));
+		_renderer = new ImageRenderer(_transform, "resources/VMedusa.png", Vector2(0.f, 0.f), Vector2(360.f, 360.f));
 
 		_transform->size = Vector2(100.f, 100.f);
 		_transform->position = spawnPosition;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 		
-		enemyHealth = 200;
-		currentState = SIMPLE_MOVE;
+		SetHealth(30);  
+		SetPointsValue(100);
 		
-		moveSpeed = 100.f;
-		stopTimer = 0.f;
-		stopDuration = 1.f;
-		stopDistance = 150.f;
-		nextStopY = spawnPosition.y - stopDistance;
+		float speed = 200.f;
+		float yThreshold = RM->WINDOW_HEIGHT / 2.f;
+
+		/*do
+		{		*/	
+			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
+		//} while (!IsPendingDestroy());
 	}
 
-	void Update() override {
+	void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
+		// Actualizar movimientos
+		Enemy::Update();
 
-		switch (currentState) {
-		case SIMPLE_MOVE:
-			Move();
-			break;
-		case STAY:
-			EnemyBehaviour();
-			break;
-		}
-
-
+		// Destruir si sale de pantalla
 		if (_transform->position.y + _transform->size.y < 0.f) {
-			std::cout << "AAAAAAAAAAHHHHHHHHH" << std::endl;
+			std::cout << "Vertical Medusa DESTROYED" << std::endl;
 			Destroy();
-		}
-
-		Object::Update();
-	}
-
-	void Move() override {
-		_physics->SetVelocity(Vector2(0.f, -moveSpeed));
-
-		if (_transform->position.y <= nextStopY) {
-			currentState = STAY;
-			stopTimer = 0.f;
-			_physics->SetVelocity(Vector2(0.f, 0.f));
-
-			//std::cout << "Medusa detenida en Y: " << _transform->position.y
-			//	<< ", Siguiente parada en: " << nextStopY << std::endl;
-		}
-	}
-
-	//void OnCollision(Object* other) override;
-	void EnemyBehaviour() override {
-
-
-		stopTimer += TM.GetDeltaTime();
-
-		//std::cout << TM.GetDeltaTime() << std::endl;
-
-		if (stopTimer >= stopDuration) {
-
-			//std::cout << "VerticalMedusa Behaviour" << std::endl;
-			nextStopY -= stopDistance;
-
-			currentState = SIMPLE_MOVE;
-			stopTimer = 0.f;
 		}
 	}
 };

@@ -1,80 +1,66 @@
 #pragma once
 #include "Enemy.h"
+#include "LeftLinearMovement.h"
+#include "WaveMovement.h"
+#include "TargetMovement.h"
+
 class KillerWhale : public Enemy {
 private:
-	float attachedSpeed;
-	float moveSpeed;
-	Vector2 startPoint;
-	Vector2 endPoint;
-	bool hasDetached;
-	int health;
+    bool _startAtTop;
 
 public:
-	KillerWhale(bool startAtTop = false)
-		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/Wailord.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
-		_transform->size = Vector2(150.f, 80.f);
+    KillerWhale(bool startAtTop = false) : Enemy(), _startAtTop(startAtTop) {
+        _renderer = new ImageRenderer(_transform, "resources/Wailord.png",
+            Vector2(0.f, 0.f), Vector2(306.f, 562.f));
+        _transform->size = Vector2(150.f, 80.f);
 
-		// Set start and end positions
-		if (startAtTop) {
-			startPoint = Vector2(RM->WINDOW_WIDTH + _transform->size.x, 0.f);
-			endPoint = Vector2(-_transform->size.x, RM->WINDOW_HEIGHT - _transform->size.y);
-		}
-		else {
-			startPoint = Vector2(RM->WINDOW_WIDTH + _transform->size.x, RM->WINDOW_HEIGHT - _transform->size.y);
-			endPoint = Vector2(-_transform->size.x, 0.f);
-		}
+        // Posición inicial según si empieza arriba o abajo
+        if (startAtTop) {
+            _transform->position = Vector2(RM->WINDOW_WIDTH + _transform->size.x, 0.f);
+        }
+        else {
+            _transform->position = Vector2(RM->WINDOW_WIDTH + _transform->size.x,
+                RM->WINDOW_HEIGHT - _transform->size.y);
+        }
 
-		_transform->position = startPoint;
-		_physics->AddCollider(new AABB(_transform->position, _transform->size));
-		health = 100;
-		currentState = STAY;
-		hasDetached = false;
+        _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
-		attachedSpeed = 200.f;
-		moveSpeed = 20.f;
-	}
+        // Vida y puntos (ya en el constructor, como quieres)
+        SetHealth(100);
+        SetPointsValue(200);
 
-	void Update() override {
-		switch (currentState) {
-		case STAY:
-			EnemyBehaviour();
-			break;
-		case SIMPLE_MOVE:
-			Move();
-			break;
-		}
+        // --- Movimientos: definidos aquí en el constructor ---
+        float attachedSpeed = 200.f;     // Velocidad horizontal pegado al borde
+        float waveSpeed = 100.f;         // Velocidad horizontal en modo onda
+        float amplitude = 100.f;         // Amplitud de la onda (altura)
+        float frequency = 0.5f;          // Frecuencia (0.5 = media onda por segundo)
+        float detachPointX = RM->WINDOW_WIDTH / 2.f;
 
-		Object::Update();
-	}
+        // Calcular punto de inicio del movimiento ondulatorio (centro Y)
+        float startWaveY = startAtTop ?
+            RM->WINDOW_HEIGHT / 3.f :      // Si viene de arriba, baja un poco
+            RM->WINDOW_HEIGHT * 3.f / 4.f; // Si viene de abajo, sube un poco
 
-	void EnemyBehaviour() override {
-		// Move horizontally along the edge
-		_physics->SetVelocity(Vector2(-attachedSpeed, 0.f));
+        Vector2 detachPoint(detachPointX, startWaveY);
 
-		// Detach at screen center
-		if (!hasDetached && _transform->position.x <= RM->WINDOW_WIDTH / 2.f) {
-			currentState = SIMPLE_MOVE;
-			hasDetached = true;
-			std::cout << "Killer Whale se despego" << std::endl;
-		}
-	}
+        // 1) Moverse horizontalmente pegado al borde superior/inferior hasta detachPointX
+        movements.push_back(new LeftLinearMovement(_transform, _physics, detachPointX, attachedSpeed));
 
-	void Move() override {
-		// Move diagonally towards end point
-		Vector2 direction = endPoint - _transform->position;
-		float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
-		if (distance > 5.f) {
-			// Normalize and apply speed
-			direction.x /= distance;
-			direction.y /= distance;
+        // 2) Moverse a la posición de inicio del patrón ondulatorio (target)
+        movements.push_back(new TargetMovement(_transform, _physics, detachPoint, attachedSpeed));
 
-			_physics->SetVelocity(Vector2(direction.x * moveSpeed, direction.y * attachedSpeed));
-		}
-		else {
-			// Reached end point
-			Destroy();
-			std::cout << "Killer Whale salio de la pantalla" << std::endl;
-		}
-	}
+        // 3) Movimiento ondulatorio hasta salir de pantalla (inicia su centro en la Y actual al arrancar)
+        movements.push_back(new WaveMovement(_transform, _physics, waveSpeed, amplitude, frequency));
+        // --- fin movimientos ---
+    }
+
+public:
+    void Update() override {
+        Enemy::Update(); 
+
+        // Destruir cuando sale de la pantalla por la izquierda
+        if (_transform->position.x + _transform->size.x < 0.f) {
+            Destroy();
+        }
+    }
 };
