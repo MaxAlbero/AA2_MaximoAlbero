@@ -129,38 +129,28 @@ void Gameplay::OnExit() {
 void Gameplay::Update() {
     // Detectar muerte del player
     if (player && player->IsPendingDestroy() && currentStateIndex != 3) {
+        int deathLives = player->GetExtraLives();
+
         currentState->Finish();
-        currentStateIndex = 3;  // DEATH state
+        currentStateIndex = 3;
         currentState = gameplayStates[currentStateIndex];
         currentState->OnPlayerDeath(player);
         currentState->Start();
-        return;
+        return;  // IMPORTANTE: return aquí, no continuar
     }
 
     // Actualizar el estado actual
     currentState->Update(TM.GetDeltaTime());
 
-    // Si el estado permite actualizar la escena
     if (currentState->ShouldUpdateScene()) {
         if (waveManager) {
             waveManager->Update(TM.GetDeltaTime());
         }
     }
 
-    // Siempre limpiar objetos destruidos
     Scene::Update();
 
-    // Si WaveManager indica que está esperando la siguiente wave
-    if (!levelCompleted && waveManager && waveManager->IsWaitingForNextWave()) {
-        if (currentStateIndex != 2) {
-            currentState->Finish();
-            currentStateIndex = 2;
-            currentState = gameplayStates[currentStateIndex];
-            currentState->Start();
-        }
-    }
-
-    // Si el estado ha terminado, transicionar
+    // Transiciones DESPUÉS de que el state actualice
     if (currentState->IsFinished()) {
         currentState->Finish();
         currentStateIndex = currentState->GetNextState();
@@ -174,6 +164,13 @@ void Gameplay::Update() {
 }
 
 void Gameplay::Render() {
+    // Si estamos en DEATH state, solo renderizar el fondo negro y el texto
+    if (currentStateIndex == 3) {
+        currentState->Render();
+        return;
+    }
+
+    // En cualquier otro estado, renderizar todo normalmente
     Scene::Render();
     currentState->Render();
 }
