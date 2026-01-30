@@ -19,7 +19,7 @@ private:
 public:
 	Chomper(Vector2 spawnPos)
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/bat.png", Vector2(0.f,0.f), Vector2(54.f, 36.f));
+		_renderer = new ImageRenderer(_transform, "resources/bat.png", Vector2(0.f, 0.f), Vector2(54.f, 36.f));
 
 		_transform->size = Vector2(100.f, 100.f);
 		_transform->scale = Vector2(2.f, 2.f);
@@ -29,14 +29,14 @@ public:
 		SetHealth(20);
 		SetPointsValue(100);
 
-		movements.push_back(new IdleMovement(_transform, _physics, 1.5f)); // espera 1.5s
+		movements.push_back(new IdleMovement(_transform, _physics, 1.5f));
 		movements.push_back(new ChomperMovement(_transform, _physics,
-			_transform->position,   // centro inicial = posición de spawn
-			20.f,                   // radius
-			10.0f,                  // angularSpeed (rad/s)
-			50.f,                   // horizontalShiftPerLoop
-			0,                      // maxLoops = 0 => infinito
-			0.f                     // startAngle si se desea
+			_transform->position,
+			20.f,
+			10.0f,
+			50.f,
+			0,
+			0.f
 		));
 	}
 };

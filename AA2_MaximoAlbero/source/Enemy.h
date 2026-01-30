@@ -47,8 +47,6 @@ public:
 
     void OnCollision(Object* other) override;
 
-    virtual void Attack(IDamageable* other) const override;
-
     virtual void ReceiveDamage(int damageToAdd) override {
         enemyHealth -= damageToAdd;
         if (enemyHealth <= 0) {

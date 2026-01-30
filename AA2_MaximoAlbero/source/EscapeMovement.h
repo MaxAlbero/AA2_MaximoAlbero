@@ -47,7 +47,5 @@ public:
         }
 
         _rigidBody->SetVelocity(_escapeDirection * _speed);
-
-        // Este movimiento nunca termina, el enemigo se destruye al salir de pantalla
     }
 };

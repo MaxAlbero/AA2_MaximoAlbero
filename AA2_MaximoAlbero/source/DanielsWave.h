@@ -10,15 +10,15 @@ public:
         _started = true;
         std::cout << "DANIELS WAVE - " << _amount << " enemies incoming!" << std::endl;
 
-        float horizontalSpacing = 150.f; // Separación horizontal entre enemigos
-        float ceilingY = 80.f;           // Posición Y del techo
-        float floorY = RM->WINDOW_HEIGHT - 80.f; // Posición Y del suelo
+        float horizontalSpacing = 150.f;
+        float ceilingY = 80.f;
+        float floorY = RM->WINDOW_HEIGHT - 80.f;
 
         for (int i = 0; i < _amount; i++) {
-            // Posición X: cada enemigo más a la izquierda
+
             float xPos = -100.f - (i * horizontalSpacing);
 
-            // Alternar entre techo y suelo
+
             float yPos = (i % 2 == 0) ? ceilingY : floorY;
 
             Vector2 spawnPos(xPos, yPos);
@@ -41,7 +41,6 @@ public:
     }
 
     void End() override {
-        std::cout << "DANIELS WAVE DEFEATED!" << std::endl;
         _spawnedEnemies.clear();
     }
 

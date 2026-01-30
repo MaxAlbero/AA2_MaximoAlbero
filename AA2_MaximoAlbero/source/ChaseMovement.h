@@ -4,15 +4,15 @@
 
 class ChaseMovement : public EnemyMovement {
 private:
-    Transform* _targetTransform; // Transform del jugador
+    Transform* _targetTransform;
     float _speed;
-    float _tolerance; // Distancia mínima para considerar que alcanzó el objetivo
-    int _maxChases;   // Número máximo de persecuciones
+    float _tolerance;
+    int _maxChases;
     int _currentChase;
-    float _stopDuration; // Tiempo que se detiene entre persecuciones
+    float _stopDuration;
     float _stopTimer;
     bool _isChasing;
-    Vector2 _targetPosition; // Posición guardada del jugador
+    Vector2 _targetPosition;
 
 public:
     ChaseMovement(Transform* transform, RigidBody* rigidBody,
@@ -28,7 +28,6 @@ public:
         _stopTimer(0.f),
         _isChasing(false) {
 
-        // Guardar posición inicial del objetivo
         if (_targetTransform) {
             _targetPosition = _targetTransform->position;
         }
@@ -41,12 +40,10 @@ public:
         }
 
         if (!_isChasing) {
-            // Fase de espera
             _rigidBody->SetVelocity(Vector2(0.f, 0.f));
             _stopTimer += deltaTime;
 
             if (_stopTimer >= _stopDuration) {
-                // Iniciar nueva persecución
                 _targetPosition = _targetTransform->position;
                 _isChasing = true;
                 _stopTimer = 0.f;
@@ -54,24 +51,19 @@ public:
             }
         }
         else {
-            // Fase de persecución
             Vector2 direction = _targetPosition - _transform->position;
 
-            // Calcular distancia manualmente
             float distance = std::sqrt(direction.x * direction.x + direction.y * direction.y);
 
             if (distance <= _tolerance) {
-                // Alcanzó el objetivo, detenerse
                 _rigidBody->SetVelocity(Vector2(0.f, 0.f));
                 _isChasing = false;
 
-                // Verificar si alcanzó el máximo de persecuciones
                 if (_currentChase >= _maxChases) {
                     _finished = true;
                 }
             }
             else {
-                // Normalizar dirección y aplicar velocidad
                 direction.x /= distance;
                 direction.y /= distance;
                 _rigidBody->SetVelocity(Vector2(direction.x * _speed, direction.y * _speed));

@@ -11,11 +11,9 @@ public:
         _started = true;
         std::cout << "CirclerWave started" << std::endl;
 
-        // Crear cabeza
         Circler* head = new Circler();
         RegisterEnemy(head);
 
-        // Crear cuerpo (no los registramos en WM porque no dan puntos)
         Enemy* previousSegment = head;
         for (int i = 0; i < 3; i++) {
             CirclerBody* body = new CirclerBody(120.f);
@@ -25,7 +23,6 @@ public:
     }
 
     void Update(float deltaTime) override {
-        // Solo verificar la cabeza
         bool allDead = true;
         for (Enemy* enemy : _spawnedEnemies) {
             if (!enemy->IsPendingDestroy()) {

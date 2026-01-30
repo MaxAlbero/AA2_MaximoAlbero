@@ -10,7 +10,7 @@ private:
 
 public:
     LaserWeapon(Vector2 offset)
-        : WeaponComponent("resources/image.png", Vector2(120.f, 40.f), offset, Vector2(0.35f, 0.35f)),
+        : WeaponComponent("resources/BillBuster.png", Vector2(120.f, 40.f), offset, Vector2(0.4f, 0.4f)),
         _ammo(0), _maxAmmo(10) {
     }
 
