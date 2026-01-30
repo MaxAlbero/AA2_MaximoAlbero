@@ -14,21 +14,21 @@ private:
     std::queue<EnemyWave*> _waves;
     EnemyWave* _currentWave;
     float _delayTimer;
-    float _delayBetweenWaves;
+    float _delayBetweenWaves;  // Delay después de terminar una wave
     bool _waitingForNextWave;
     Player* _playerRef;
     Vector2 _lastEnemyPosition;
-    int _currentLevel;  // NUEVO: rastrear el nivel actual
+    int _currentLevel;
 
 public:
     WaveManager(Player* playerRef = nullptr, int levelNumber = 1)
         : _currentWave(nullptr),
         _delayTimer(0.f),
-        _delayBetweenWaves(3.0f),
+        _delayBetweenWaves(5.0f),  // CAMBIO: aumentar a 2 segundos (era 3.0f)
         _waitingForNextWave(false),
         _playerRef(playerRef),
         _lastEnemyPosition(0.f, 0.f),
-        _currentLevel(levelNumber) {  // NUEVO
+        _currentLevel(levelNumber) {
     }
 
     ~WaveManager() {
@@ -61,7 +61,6 @@ public:
             int enemyId = waveOrder[i];
             int amount = amountEnemies[i];
 
-            // NUEVO: pasar el nivel al factory
             EnemyWave* wave = WaveFactory::CreateWave(enemyId, amount, _playerRef, _currentLevel);
 
             if (wave) {
@@ -92,6 +91,7 @@ public:
         else if (_waitingForNextWave) {
             _delayTimer += deltaTime;
 
+            // Cuando el delay termina, iniciar la siguiente wave
             if (_delayTimer >= _delayBetweenWaves) {
                 _delayTimer = 0.f;
                 _waitingForNextWave = false;
@@ -180,7 +180,7 @@ private:
     void FinishCurrentWave() {
         if (!_currentWave) return;
 
-        std::cout << "Wave finished!" << std::endl;
+        std::cout << "Wave finished! Waiting " << _delayBetweenWaves << " seconds before next wave..." << std::endl;
 
         _currentWave->End();
 

@@ -47,7 +47,6 @@
     <ClInclude Include="source\BeholderWave.h" />
     <ClInclude Include="source\BioTitan.h" />
     <ClInclude Include="source\BioTitanWave.h" />
-    <ClInclude Include="source\BossWave.h" />
     <ClInclude Include="source\Bubbles.h" />
     <ClInclude Include="source\BubblesWave.h" />
     <ClInclude Include="source\Bullet.h" />
@@ -112,6 +111,7 @@
     <ClInclude Include="source\SceneManager.h" />
     <ClInclude Include="source\ShootMovement.h" />
     <ClInclude Include="source\SpaceBoss.h" />
+    <ClInclude Include="source\SpaceBossWave.h" />
     <ClInclude Include="source\Spawner.h" />
     <ClInclude Include="source\SplashScreen.h" />
     <ClInclude Include="source\SpreadMovement.h" />

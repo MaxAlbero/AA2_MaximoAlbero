@@ -41,18 +41,11 @@ public:
         case 7: // Amoeba
             return new AmoebaWave(amount);
 
-        case 99: // Boss (depende del nivel)
-            if (levelNumber == 1) {
-                return new BioTitanWave();
-            }
-            else if (levelNumber == 2) {
-                return new SpaceBossWave();
-            }
-            else {
-                std::cout << "Unknown boss for level: " << levelNumber << std::endl;
-                return nullptr;
-            }
+        case 10:
+            return new BioTitanWave();
 
+        case 20:
+            return new SpaceBossWave();
         default:
             std::cout << "Unknown enemy ID: " << enemyId << std::endl;
             return nullptr;

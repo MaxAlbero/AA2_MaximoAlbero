@@ -269,11 +269,13 @@ void Gameplay::TransitionToNextLevel() {
     LoadLevel(currentLevel);
     waveManager->Start();
 
-    // Reiniciar los estados (sin resetear el jugador)
+    // Resetear la posición del jugador para el nuevo nivel
+    if (player) {
+        player->ResetPosition();
+    }
+
+    // Reiniciar los estados (sin resetear el jugador completamente)
     currentStateIndex = 0;
     currentState = gameplayStates[currentStateIndex];
     currentState->Start();
-
-    // Opcionalmente: resetear vidas del jugador o mantenerlas
-    // player->ResetPosition();  // Si tienes este método
 }

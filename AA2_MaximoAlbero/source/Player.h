@@ -27,10 +27,12 @@ private:
 
 	WeaponManager* _weaponManager;
 
-public:
+	Vector2 _initialPosition;
+
 public:
 	Player() : ImageObject("resources/caballo.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
-		_transform->position = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
+		_initialPosition = Vector2(RM->WINDOW_WIDTH / 6.0f, RM->WINDOW_HEIGHT / 2.0f);
+		_transform->position = _initialPosition;
 		_transform->scale = Vector2(0.5f, 0.5f);
 
 		_physics->SetLinearDrag(10.f);
@@ -135,5 +137,14 @@ public:
 			Destroy();
 			std::cout << "Player Dead!" << std::endl;
 		}
+	}
+
+	void ResetPosition() {
+		_transform->position = _initialPosition;
+		_physics->SetVelocity(Vector2(0.f, 0.f));
+		isImmune = false;
+		immunityTimer = 0.f;
+		std::cout << "Player position reset to initial position ("
+			<< _initialPosition.x << ", " << _initialPosition.y << ")" << std::endl;
 	}
 };
