@@ -5,8 +5,31 @@
 #include "Background.h"
 #include "PowerUp.h"
 #include "Bubbles.h"
-#include "GameplayStateFinishWave.h"
+#include "SceneManager.h"
 #include <cassert>
+#include <sstream>
+#include <iostream>
+
+// Implementación de los métodos de IGameplayContext
+bool Gameplay::HasMoreWaves() const {
+    return waveManager ? waveManager->HasMoreWaves() : false;
+}
+
+void Gameplay::StartNextWave() {
+    if (waveManager) waveManager->StartNextWaveImmediate();
+}
+
+bool Gameplay::IsLastLevel() const {
+    return currentLevel >= maxLevel;
+}
+
+int Gameplay::GetCurrentLevel() const {
+    return currentLevel;
+}
+
+bool Gameplay::IsLevelComplete() const {
+    return levelCompleted;
+}
 
 Gameplay::~Gameplay() {
     for (auto state : gameplayStates) {
@@ -22,10 +45,22 @@ Gameplay::~Gameplay() {
 }
 
 void Gameplay::OnEnter() {
+    // Inicializar nivel
+    currentLevel = 1;
+    maxLevel = 2;  // Tenemos 2 niveles
+    levelCompleted = false;  // NUEVO
+
     // Crear estados: PLAYING (0), PAUSED (1), FINISH_WAVE (2)
-    gameplayStates.push_back(new GameplayStatePlaying());   // índice 0
-    gameplayStates.push_back(new GameplayStatePaused());    // índice 1
-    gameplayStates.push_back(new GameplayStateFinishWave(this)); // índice 2
+    gameplayStates.push_back(new GameplayStatePlaying());
+    gameplayStates.push_back(new GameplayStatePaused());
+    gameplayStates.push_back(new GameplayStateFinishWave());
+
+    // Pasar el contexto al estado FinishWave
+    GameplayStateFinishWave* finishWaveState =
+        dynamic_cast<GameplayStateFinishWave*>(gameplayStates[2]);
+    if (finishWaveState) {
+        finishWaveState->SetContext(this);
+    }
 
     currentStateIndex = 0;
     currentState = gameplayStates[currentStateIndex];
@@ -76,13 +111,10 @@ void Gameplay::OnEnter() {
     player = new Player();
     SPAWNER.SpawnObject(player);
 
-    // Inicializar WaveManager y cargar nivel (XML)
+    // Inicializar WaveManager y cargar nivel actual
     waveManager = new WaveManager(player);
     waveManager->SetPlayer(player);
-    if (!waveManager->LoadFromXML("resources/level_1.xml")) {
-        // Intento alternativo si la ruta anterior no existe
-        waveManager->LoadFromXML("level_1.xml");
-    }
+    LoadLevel(currentLevel);
     waveManager->Start();
 
     InitializeGameplayElements();
@@ -96,26 +128,17 @@ void Gameplay::Update() {
     // Actualizar el estado actual (input / lógica de transición)
     currentState->Update(TM.GetDeltaTime());
 
-    // Si el estado permite actualizar la escena, actualizamos el WaveManager y la escena.
+    // Si el estado permite actualizar la escena
     if (currentState->ShouldUpdateScene()) {
         if (waveManager) {
             waveManager->Update(TM.GetDeltaTime());
         }
-
-        // Actualizar escena (enemigos, balas, etc.)
         Scene::Update();
-    } else {
-        // Aunque la escena esté congelada, seguimos pudiendo detectar que waveManager
-        // está en modo "waiting" (es decir, la wave acaba de terminar) y debemos
-        // asegurarnos de entrar en el estado FINISH_WAVE exactamente cuando toque.
-        // Sin embargo, waveManager->Update() se llama solo cuando ShouldUpdateScene()==true,
-        // por lo que la bandera de waiting se establece antes de que el estado se convierta en FINISH_WAVE.
     }
 
-    // Si WaveManager indica que está esperando la siguiente wave, y no estamos ya en FINISH_WAVE,
-    // forzamos la transición al estado FINISH_WAVE.
-    if (waveManager && waveManager->IsWaitingForNextWave()) {
-        // Evitar sobrescribir si ya estamos en FINISH_WAVE
+    // Si WaveManager indica que está esperando la siguiente wave
+    // (pero SOLO si el nivel no está completado)
+    if (!levelCompleted && waveManager && waveManager->IsWaitingForNextWave()) {
         if (currentStateIndex != 2) {
             currentState->Finish();
             currentStateIndex = 2;
@@ -126,7 +149,7 @@ void Gameplay::Update() {
         }
     }
 
-    // Si el estado ha terminado, transicionar (esto cubre pausado -> playing, finish_wave -> playing, etc.)
+    // Si el estado ha terminado, transicionar
     if (currentState->IsFinished()) {
         currentState->Finish();
         currentStateIndex = currentState->GetNextState();
@@ -136,38 +159,20 @@ void Gameplay::Update() {
         }
     }
 
-    // El HUD se actualiza siempre
     UpdateHUD();
 }
 
 void Gameplay::UpdateGameplay() {
-    // SOLO se llama desde GameplayStatePlaying
     Scene::Update();
 }
 
 void Gameplay::Render() {
-    // Renderizar objetos de la escena (sin estado)
     Scene::Render();
-    // Renderizar lo específico del estado
     currentState->Render();
 }
 
 void Gameplay::InitializeGameplayElements() {
-    //PowerUp* s1 = new PowerUp();
-    //s1->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
-    //PowerUp* s2 = new PowerUp();
-    //s2->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 2.0f);
-    //PowerUp* s3 = new PowerUp();
-    //s3->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 1.5f);
-    //PowerUp* s4 = new PowerUp();
-    //s4->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 1.5f, RM->WINDOW_HEIGHT / 1.5f);
-    //SPAWNER.SpawnObject(s1);
-    //SPAWNER.SpawnObject(s2);
-    //SPAWNER.SpawnObject(s3);
-    //SPAWNER.SpawnObject(s4);
-
-    //Bubbles* bubble = new Bubbles(TOP_TO_BOTTOM);
-    //SPAWNER.SpawnObject(bubble);
+    // Implementación existente
 }
 
 void Gameplay::UpdateHUD() {
@@ -212,4 +217,62 @@ std::string Gameplay::FormatScore(int score) {
         scoreStr = std::string(6 - scoreStr.length(), '0') + scoreStr;
     }
     return scoreStr;
+}
+
+void Gameplay::LoadLevel(int levelNumber) {
+    // Construir el path del nivel
+    std::stringstream ss;
+    ss << "resources/level_" << levelNumber << ".xml";
+    std::string levelPath = ss.str();
+
+    // Si el WaveManager ya existe, lo limpiamos
+    if (waveManager) {
+        delete waveManager;
+    }
+
+    // Crear nuevo WaveManager y cargar el nivel
+    waveManager = new WaveManager(player);
+    waveManager->SetPlayer(player);
+
+    if (!waveManager->LoadFromXML(levelPath)) {
+        // Intento alternativo sin "resources/"
+        ss.str("");
+        ss << "level_" << levelNumber << ".xml";
+        levelPath = ss.str();
+        waveManager->LoadFromXML(levelPath);
+    }
+
+    std::cout << "Loaded level " << levelNumber << std::endl;
+    levelCompleted = false;  // NUEVO: resetear flag cuando cargamos un nuevo nivel
+}
+
+void Gameplay::TransitionToNextLevel() {
+    // Marcar el nivel como completado para evitar el bucle
+    levelCompleted = true;
+
+    std::cout << "Level " << currentLevel << " completed!" << std::endl;
+
+    // Verificar si hay más niveles
+    if (IsLastLevel()) {
+        // Ir a pantalla de game over / high scores
+        std::cout << "¡GAME COMPLETED! Mostrar pantalla de fin del juego." << std::endl;
+        SM.SetNextScene("GameOver");
+        return;
+    }
+
+    // Incrementar nivel y cargar el siguiente
+    currentLevel++;
+    std::cout << "Transitioning to level " << currentLevel << std::endl;
+
+    // Cargar el nuevo nivel
+    LoadLevel(currentLevel);
+    waveManager->Start();
+
+    // Reiniciar los estados (sin resetear el jugador)
+    currentStateIndex = 0;
+    currentState = gameplayStates[currentStateIndex];
+    currentState->Start();
+
+    // Opcionalmente: resetear vidas del jugador o mantenerlas
+    // player->ResetPosition();  // Si tienes este método
 }

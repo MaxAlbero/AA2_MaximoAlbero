@@ -80,6 +80,7 @@
     <ClInclude Include="source\GameplayStatePlaying.h" />
     <ClInclude Include="source\HMedusaWave.h" />
     <ClInclude Include="source\IdleMovement.h" />
+    <ClInclude Include="source\IGameplayContext.h" />
     <ClInclude Include="source\KillerWhaleWave.h" />
     <ClInclude Include="source\LaserWeapon.h" />
     <ClInclude Include="source\LeftLinearMovement.h" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <Xml Include="level_1.xml" />
     <Xml Include="resources\level_1.xml" />
+    <Xml Include="resources\level_2.xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

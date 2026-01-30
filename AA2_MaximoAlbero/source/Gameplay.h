@@ -1,18 +1,16 @@
-﻿// (VERSIÓN ACTUALIZADA CON STATE MACHINE)
-#pragma once
+﻿#pragma once
 #include "TextObject.h"
 #include "Scene.h"
 #include "Player.h"
 #include "GameplayStateBase.h"
 #include "GameplayStatePlaying.h"
 #include "GameplayStatePaused.h"
+#include "GameplayStateFinishWave.h"
+#include "IGameplayContext.h"
 #include "WaveManager.h"
 #include <vector>
 
-// Forward declaration para romper dependencias circulares
-class GameplayStateFinishWave;
-
-class Gameplay : public Scene {
+class Gameplay : public Scene, public IGameplayContext {
 private:
     Player* player;
     std::vector<GameplayStateBase*> gameplayStates;
@@ -30,12 +28,10 @@ private:
     std::string FormatScore(int score);
     void InitializeGameplayElements();
 
-    int currentWaveIndex;
-    int totalWaves;
-    std::vector<int> waveEnemyIds;
-    std::vector<int> waveAmounts;
-
     WaveManager* waveManager;
+    int currentLevel;
+    int maxLevel;
+    bool levelCompleted;  // NUEVO: flag para indicar que el nivel está completado
 
 public:
     Gameplay() = default;
@@ -46,14 +42,16 @@ public:
     void Update() override;
     void Render() override;
 
-    // Getters para que los estados accedan
     Player* GetPlayer() { return player; }
-
-    // Nueva: método para actualizar solo la escena (llamado solo desde PLAYING)
     void UpdateGameplay();
 
-    // Wrapper para que los estados puedan consultar/forzar waves
-    bool HasMoreWaves() const { return waveManager ? waveManager->HasMoreWaves() : false; }
-    bool IsLevelComplete() const { return waveManager ? waveManager->IsLevelComplete() : true; }
-    void ForceStartNextWave() { if (waveManager) waveManager->StartNextWaveImmediate(); }
+    // Implementación de IGameplayContext
+    bool HasMoreWaves() const override;
+    void StartNextWave() override;
+    bool IsLastLevel() const override;
+    int GetCurrentLevel() const override;
+    bool IsLevelComplete() const override;  // NUEVO
+
+    void LoadLevel(int levelNumber);
+    void TransitionToNextLevel() override;
 };

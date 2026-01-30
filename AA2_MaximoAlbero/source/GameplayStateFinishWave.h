@@ -1,12 +1,11 @@
 #pragma once
 #include "GameplayStateBase.h"
+#include "IGameplayContext.h"
 #include <iostream>
-
-class Gameplay;
 
 class GameplayStateFinishWave : public GameplayStateBase {
 private:
-    Gameplay* _gameplay;
+    IGameplayContext* _context;
     bool _finished;
     int _nextState;
     float _displayTimer;
@@ -14,7 +13,7 @@ private:
     bool _isLastWave;
 
 public:
-    GameplayStateFinishWave(Gameplay* gameplay);
+    GameplayStateFinishWave();
 
     void Start() override;
     void Update(float deltaTime) override;
@@ -23,8 +22,10 @@ public:
     int GetNextState() const override;
     void Finish() override;
 
-    // No actualizar la escena mientras estamos en esta pantalla
     bool ShouldUpdateScene() const override;
+
+    // Permitir que Gameplay le pase el contexto después de crear el estado
+    void SetContext(IGameplayContext* context) { _context = context; }
 
 private:
     void ContinueToNextWave();
