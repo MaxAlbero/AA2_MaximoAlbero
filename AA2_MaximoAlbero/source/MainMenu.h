@@ -18,9 +18,7 @@ public:
 		text->GetTransform()->scale = Vector2(5.f, 5.f);
 		_ui.push_back(text);
 
-
-
-		Button* button1 = new Button([]() 
+		Button* button1 = new Button([]()
 			{
 				SM.SetNextScene("Gameplay");
 			}
@@ -44,18 +42,6 @@ public:
 		TextObject* text4 = new TextObject("LEVEL SELECTOR");
 		text4->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 2.0f };
 		_ui.push_back(text4);
-
-		//Check Ranking
-
-
-		//Enable/Disable Audio
-
-
-		//Exit
-	}
-
-	void OnExit() override {
-		Scene::OnExit();
 	}
 
 	void Update() override {
@@ -66,4 +52,3 @@ public:
 		Scene::Render();
 	}
 };
-

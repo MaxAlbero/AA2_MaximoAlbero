@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ranking>
+	<score>
+		<points>50000</points>
+		<name>PLAYER1</name>
+	</score>
+	<score>
+		<points>45000</points>
+		<name>PLAYER2</name>
+	</score>
+	<score>
+		<points>40000</points>
+		<name>PLAYER3</name>
+	</score>
+	<score>
+		<points>35000</points>
+		<name>PLAYER4</name>
+	</score>
+	<score>
+		<points>30500</points>
+		<name>MAX</name>
+	</score>
+	<score>
+		<points>30000</points>
+		<name>PLAYER5</name>
+	</score>
+	<score>
+		<points>25000</points>
+		<name>PLAYER6</name>
+	</score>
+	<score>
+		<points>20000</points>
+		<name>PLAYER7</name>
+	</score>
+	<score>
+		<points>15000</points>
+		<name>PLAYER8</name>
+	</score>
+	<score>
+		<points>10000</points>
+		<name>PLAYER9</name>
+	</score>
+</ranking>

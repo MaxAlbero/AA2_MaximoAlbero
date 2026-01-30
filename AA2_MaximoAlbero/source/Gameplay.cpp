@@ -130,15 +130,15 @@ void Gameplay::OnEnter() {
 }
 
 void Gameplay::OnExit() {
-    // Destroy all text objects first
-    if (scoreText) { delete scoreText; scoreText = nullptr; }
-    if (highScoreText) { delete highScoreText; highScoreText = nullptr; }
-    if (extraLivesText) { delete extraLivesText; extraLivesText = nullptr; }
-    if (shieldText) { delete shieldText; shieldText = nullptr; }
-    if (cannonText) { delete cannonText; cannonText = nullptr; }
-    if (laserText) { delete laserText; laserText = nullptr; }
+    // NO ELIMINAR MANUALMENTE - Solo nullificar referencias
+    scoreText = nullptr;
+    highScoreText = nullptr;
+    extraLivesText = nullptr;
+    shieldText = nullptr;
+    cannonText = nullptr;
+    laserText = nullptr;
 
-    // Then call parent OnExit
+    // Scene::OnExit() se encarga de eliminar todo de _ui y _objects
     Scene::OnExit();
 }
 
@@ -164,7 +164,7 @@ void Gameplay::Update() {
 
     Scene::Update();
 
-    // NUEVO: Detectar cuando WaveManager dice que está esperando la siguiente wave
+    // Detectar cuando WaveManager dice que está esperando la siguiente wave
     if (!levelCompleted && waveManager && waveManager->IsWaitingForNextWave()) {
         if (currentStateIndex != 2) {  // Si NO estamos ya en FinishWave
             std::cout << " Entering FINISH_WAVE state" << std::endl;
@@ -190,7 +190,7 @@ void Gameplay::Update() {
         }
     }
 
-    // NUEVO: Detectar transición de nivel limpiamente
+    // Detectar transición de nivel limpiamente
     if (previousStateIndex == 2 && currentStateIndex == 0 && shouldTransitionLevel) {
         std::cout << " TRANSITION DETECTED!" << std::endl;
         std::cout << "  previousStateIndex=" << previousStateIndex << " (FinishWave)" << std::endl;

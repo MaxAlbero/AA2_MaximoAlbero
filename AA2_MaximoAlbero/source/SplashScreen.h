@@ -22,10 +22,6 @@ public:
 		_ui.push_back(text);
 	}
 
-	void OnExit() override {
-		Scene::OnExit();
-	}
-
 	void Update() override {
 		if (currentTime >= maxDisplayTime) {
 			SM.SetNextScene("MainMenu");

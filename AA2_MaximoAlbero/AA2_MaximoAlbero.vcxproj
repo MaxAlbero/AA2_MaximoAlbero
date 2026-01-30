@@ -74,7 +74,6 @@
     <ClInclude Include="source\EscapeMovement.h" />
     <ClInclude Include="source\FollowMovement.h" />
     <ClInclude Include="source\Game.h" />
-    <ClInclude Include="source\GameOverScreen.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\GameplayStateBase.h" />
     <ClInclude Include="source\GameplayStateDeath.h" />
@@ -173,6 +172,7 @@
     <Xml Include="level_1.xml" />
     <Xml Include="resources\level_1.xml" />
     <Xml Include="resources\level_2.xml" />
+    <Xml Include="resources\ranking.xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

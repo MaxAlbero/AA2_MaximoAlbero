@@ -1,23 +1,56 @@
 #include "ScoreManager.h"
 #include "../dependencies/inc/rapidXML/rapidxml.hpp"
+#include "../dependencies/inc/rapidXML/rapidxml_iterators.hpp"
+#include "../dependencies/inc/rapidXML/rapidxml_utils.hpp"
+#include <iostream>
 #include <fstream>
 #include <sstream>
-#include <iostream>
-#include <vector>
 
-using namespace rapidxml;
+void ScoreManager::AddToRanking(int score, const std::string& playerName) {
+    if (rankingScores.size() < 10) {
+        rankingScores.push_back(score);
+        rankingNames.push_back(playerName);
+        SortRanking();
+        return;
+    }
+
+    if (score > rankingScores.back()) {
+        rankingScores.pop_back();
+        rankingNames.pop_back();
+
+        rankingScores.push_back(score);
+        rankingNames.push_back(playerName);
+        SortRanking();
+    }
+}
+
+bool ScoreManager::IsInTopTen(int score) const {
+    if (rankingScores.size() < 10) {
+        return true;
+    }
+    return score > rankingScores.back();
+}
+
+void ScoreManager::SaveScore(const std::string& playerName) {
+    AddToRanking(currentScore, playerName);
+    SaveRankingToFile("resources/ranking.xml");
+    ResetCurrentScore();
+}
 
 void ScoreManager::SortRanking() {
+    // Crear vector temporal con pares (score, nombre)
     std::vector<std::pair<int, std::string>> temp;
     for (size_t i = 0; i < rankingScores.size(); i++) {
         temp.push_back({ rankingScores[i], rankingNames[i] });
     }
 
+    // Ordenar de mayor a menor
     std::sort(temp.begin(), temp.end(),
         [](const auto& a, const auto& b) {
             return a.first > b.first;
         });
 
+    // Limpiar y repoblar los vectores originales
     rankingScores.clear();
     rankingNames.clear();
     for (const auto& pair : temp) {
@@ -26,94 +59,65 @@ void ScoreManager::SortRanking() {
     }
 }
 
-void ScoreManager::SaveRankingToFile(const std::string& filepath) const {
+void ScoreManager::LoadRankingFromFile(const std::string& filepath) {
     try {
-        std::ofstream file(filepath);
-        if (!file.is_open()) {
-            std::cout << "Error: Could not save ranking to " << filepath << std::endl;
+        rapidxml::file<> xmlFile(filepath.c_str());
+        rapidxml::xml_document<> doc;
+        doc.parse<0>(xmlFile.data());
+
+        rapidxml::xml_node<>* rankingNode = doc.first_node("ranking");
+        if (!rankingNode) {
+            std::cout << "No ranking node found in XML file" << std::endl;
             return;
         }
 
-        // Escribir XML manualmente (más simple y sin conflictos)
-        file << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+        rankingScores.clear();
+        rankingNames.clear();
+
+        for (rapidxml::xml_node<>* scoreNode = rankingNode->first_node("score");
+            scoreNode != nullptr;
+            scoreNode = scoreNode->next_sibling("score")) {
+
+            rapidxml::xml_node<>* pointsNode = scoreNode->first_node("points");
+            rapidxml::xml_node<>* nameNode = scoreNode->first_node("name");
+
+            if (pointsNode && pointsNode->value() && nameNode && nameNode->value()) {
+                int points = std::stoi(pointsNode->value());
+                std::string name = nameNode->value();
+
+                rankingScores.push_back(points);
+                rankingNames.push_back(name);
+            }
+        }
+
+        std::cout << "Ranking loaded from file: " << rankingScores.size() << " entries" << std::endl;
+    }
+    catch (std::exception& e) {
+        std::cout << "Error loading ranking from file: " << e.what() << std::endl;
+    }
+}
+
+void ScoreManager::SaveRankingToFile(const std::string& filepath) const {
+    try {
+        std::ofstream file(filepath);
+
+        file << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         file << "<ranking>\n";
 
+        // Escribir cada puntuación
         for (size_t i = 0; i < rankingScores.size(); i++) {
-            file << "  <score position=\"" << (i + 1) << "\">\n";
-            file << "    <value>" << rankingScores[i] << "</value>\n";
-            file << "    <playerName>" << rankingNames[i] << "</playerName>\n";
-            file << "  </score>\n";
+            file << "\t<score>\n";
+            file << "\t\t<points>" << rankingScores[i] << "</points>\n";
+            file << "\t\t<name>" << rankingNames[i] << "</name>\n";
+            file << "\t</score>\n";
         }
 
         file << "</ranking>\n";
         file.close();
 
-        std::cout << "Ranking saved to " << filepath << std::endl;
+        std::cout << "Ranking saved to file: " << filepath << std::endl;
     }
-    catch (const std::exception& e) {
-        std::cout << "Error saving ranking: " << e.what() << std::endl;
-    }
-}
-
-void ScoreManager::LoadRankingFromFile(const std::string& filepath) {
-    try {
-        std::ifstream file(filepath);
-        if (!file.is_open()) {
-            std::cout << "No ranking file found. Starting with empty ranking." << std::endl;
-            return;
-        }
-
-        // Leer archivo completo
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        file.close();
-
-        std::string xmlContent = buffer.str();
-        std::vector<char> xml_copy(xmlContent.begin(), xmlContent.end());
-        xml_copy.push_back('\0');
-
-        // Parsear XML
-        xml_document<char> doc;
-        doc.parse<0>(&xml_copy[0]);
-
-        rankingScores.clear();
-        rankingNames.clear();
-
-        // Obtener nodo raíz
-        xml_node<char>* rootNode = doc.first_node("ranking");
-        if (!rootNode) {
-            std::cout << "Error: No ranking node found in XML" << std::endl;
-            return;
-        }
-
-        // Iterar sobre los scores
-        for (xml_node<char>* scoreNode = rootNode->first_node("score");
-            scoreNode;
-            scoreNode = scoreNode->next_sibling("score")) {
-
-            // Leer score
-            xml_node<char>* scoreValue = scoreNode->first_node("value");
-            xml_node<char>* playerName = scoreNode->first_node("playerName");
-
-            if (scoreValue && playerName && scoreValue->value() && playerName->value()) {
-                try {
-                    int score = std::stoi(scoreValue->value());
-                    std::string name = playerName->value();
-
-                    rankingScores.push_back(score);
-                    rankingNames.push_back(name);
-                }
-                catch (const std::exception& e) {
-                    std::cout << "Error parsing score entry: " << e.what() << std::endl;
-                }
-            }
-        }
-
-        std::cout << "Ranking loaded from " << filepath
-            << " (" << rankingScores.size() << " entries)" << std::endl;
-
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error loading ranking: " << e.what() << std::endl;
+    catch (std::exception& e) {
+        std::cout << "Error saving ranking to file: " << e.what() << std::endl;
     }
 }

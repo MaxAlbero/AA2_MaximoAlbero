@@ -7,7 +7,6 @@
 #include "SplashScreen.h"
 #include "LevelSelector.h"
 #include "NameInputScene.h"
-#include "Ranking.h"
 #include <cassert>
 
 
@@ -38,17 +37,15 @@ void Game::Init() {
 	RM->LoadTexture("resources/slime.png");
 
 	RM->LoadFont("resources/fonts/cidergum.ttf");
-	//RM->LoadFont("resources/fonts/hyperspace.ttf");
 
 	//Aqui la carrega de totes les escenes
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));
 	assert(SM.AddScene("Gameplay", new Gameplay()));
 	assert(SM.AddScene("LevelSelector", new LevelSelector()));
-	assert(SM.AddScene("NameInput", new NameInputScene()));  // NUEVA
-	//assert(SM.AddScene("RankingScreen", new RankingScreen()));
+	assert(SM.AddScene("NameInput", new NameInputScene()));
 
-	HSM->LoadRankingFromFile("resources/ranking.json");
+	HSM->LoadRankingFromFile("resources/ranking.xml");
 
 	//assert(SM.InitFirstScene("SplashScreen"));
 	//assert(SM.InitFirstScene("MainMenu"));

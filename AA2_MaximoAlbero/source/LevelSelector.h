@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Button.h"
 
-class LevelSelector : public Scene  {
+class LevelSelector : public Scene {
 public:
 	LevelSelector() = default;
 
@@ -10,7 +10,6 @@ public:
 		TextObject* text = new TextObject("SELECT THE LEVEL YOU WANT TO PLAY");
 		text->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.5f, (float)RM->WINDOW_HEIGHT / 3.2f };
 		_ui.push_back(text);
-
 
 		//Level 1
 		Button* button1 = new Button([]()
@@ -25,10 +24,6 @@ public:
 		text1->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.2f, (float)RM->WINDOW_HEIGHT / 2.5f };
 		_ui.push_back(text1);
 
-		//Level 2
-		//TODO: ADD LEVEL 2 FIRST
-
-
 		//Return to MainMenu
 		Button* button3 = new Button([]()
 			{
@@ -41,10 +36,6 @@ public:
 		TextObject* text3 = new TextObject("RETURN TO MAIN MENU");
 		text3->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.2f, (float)RM->WINDOW_HEIGHT / 4.8f };
 		_ui.push_back(text3);
-	}
-
-	void OnExit() override {
-		Scene::OnExit();
 	}
 
 	void Update() override {

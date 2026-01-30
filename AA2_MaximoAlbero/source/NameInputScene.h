@@ -24,7 +24,7 @@ public:
     }
 
     ~NameInputScene() {
-        OnExit();
+        // No hacer delete aquí - Scene::OnExit() se encarga
     }
 
     void OnEnter() override {
@@ -52,12 +52,16 @@ public:
         inputText->GetTransform()->scale = Vector2(2.5f, 2.5f);
         inputText->SetTextColor(SDL_Color{ 100, 255, 100, 255 });
         _ui.push_back(inputText);
-
-        Scene::OnEnter();
     }
 
     void OnExit() override {
-        // Text objects will be cleaned up by Scene::OnExit()
+        // Solo nullificar referencias
+        titleText = nullptr;
+        instructionText = nullptr;
+        inputText = nullptr;
+        playerName = "";
+
+        //Scene::OnExit() elimina todo de _ui
         Scene::OnExit();
     }
 
@@ -107,7 +111,8 @@ public:
                 // Save the score with the player name
                 HSM->SaveScore(playerName);
                 std::cout << "Score saved for: " << playerName << std::endl;
-                SM.SetNextScene("MainMenu");  // Or Ranking scene when ready
+                SM.SetNextScene("MainMenu");
+                inputActive = false;
             }
         }
 
