@@ -13,8 +13,9 @@ class WaveManager {
 private:
     std::queue<EnemyWave*> _waves;
     EnemyWave* _currentWave;
+    EnemyWave* _lastWave;  // NUEVO: guardar la última wave para poder reiniciarla
     float _delayTimer;
-    float _delayBetweenWaves;  // Delay después de terminar una wave
+    float _delayBetweenWaves;
     bool _waitingForNextWave;
     Player* _playerRef;
     Vector2 _lastEnemyPosition;
@@ -23,8 +24,9 @@ private:
 public:
     WaveManager(Player* playerRef = nullptr, int levelNumber = 1)
         : _currentWave(nullptr),
+        _lastWave(nullptr),  // NUEVO
         _delayTimer(0.f),
-        _delayBetweenWaves(5.0f),  // CAMBIO: aumentar a 2 segundos (era 3.0f)
+        _delayBetweenWaves(5.0f),
         _waitingForNextWave(false),
         _playerRef(playerRef),
         _lastEnemyPosition(0.f, 0.f),
@@ -39,6 +41,10 @@ public:
 
         if (_currentWave) {
             delete _currentWave;
+        }
+
+        if (_lastWave) {  // NUEVO
+            delete _lastWave;
         }
     }
 
@@ -137,9 +143,45 @@ public:
         _delayTimer = 0.f;
     }
 
+    void RestartCurrentWave() {
+        std::cout << "Restarting current wave..." << std::endl;
+
+        if (_currentWave) {
+            _currentWave->End();
+
+            if (_lastWave) {
+                delete _lastWave;
+            }
+            _lastWave = _currentWave;
+            _currentWave = nullptr;
+        }
+
+        if (_lastWave) {
+            _currentWave = _lastWave;
+            _lastWave = nullptr;
+
+            std::cout << "Wave restarted!" << std::endl;
+
+            _currentWave->Start();
+            _waitingForNextWave = false;
+            _delayTimer = 0.f;
+        }
+        else {
+            std::cout << "No wave to restart!" << std::endl;
+        }
+    }
+
 private:
     void StartNextWave() {
         if (_waves.empty()) return;
+
+        // NUEVO: Si había una wave anterior, guardarla
+        if (_currentWave) {
+            if (_lastWave) {
+                delete _lastWave;
+            }
+            _lastWave = _currentWave;
+        }
 
         _currentWave = _waves.front();
         _waves.pop();
@@ -186,7 +228,11 @@ private:
 
         SpawnPowerUp();
 
-        delete _currentWave;
+        // MODIFICADO: Guardar en _lastWave en lugar de eliminar directamente
+        if (_lastWave) {
+            delete _lastWave;
+        }
+        _lastWave = _currentWave;
         _currentWave = nullptr;
 
         _waitingForNextWave = true;

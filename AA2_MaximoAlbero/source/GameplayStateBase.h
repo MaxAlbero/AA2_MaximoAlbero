@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 
 class GameplayStateBase {
 public:
@@ -11,6 +12,9 @@ public:
     virtual int GetNextState() const = 0;
     virtual void Finish() = 0;
 
-    // Indica si la escena (objetos, enemigos, Time) debe actualizarse
     virtual bool ShouldUpdateScene() const { return true; }
+
+    // Callbacks para comunicación sin referencias cruzadas
+    virtual void OnPlayerDeath(Player* player) {}  // NUEVO
+    virtual void SetGameplayReference(void* gameplayPtr) {}  // NUEVO - void pointer genérico
 };

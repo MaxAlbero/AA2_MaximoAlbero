@@ -95,13 +95,15 @@ public:
 
     // Getters para UI
     bool HasCannon() const { return _cannon->IsEquipped(); }
-    int GetCannonAmmo() const { return _cannon->GetAmmo(); }
+    int GetCannonAmmo() const {
+        return _cannon != nullptr ? _cannon->GetAmmo() : 0;
+    }
     bool HasLaser() const { return _laser->IsEquipped(); }
-    int GetLaserAmmo() const { return _laser->GetAmmo(); }
+    int GetLaserAmmo() const {
+        return _laser != nullptr ? _laser->GetAmmo() : 0;
+    }
     int GetNumOfTurrets() const {
-        int count = 0;
-        if (_topTurret->IsEquipped()) count++;
-        if (_bottomTurret->IsEquipped()) count++;
-        return count;
+        return _bottomTurret != nullptr && _topTurret != nullptr ? 2 :
+            (_bottomTurret != nullptr || _topTurret != nullptr ? 1 : 0);
     }
 };

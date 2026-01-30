@@ -6,6 +6,7 @@
 #include "GameplayStatePlaying.h"
 #include "GameplayStatePaused.h"
 #include "GameplayStateFinishWave.h"
+#include "GameplayStateDeath.h"
 #include "IGameplayContext.h"
 #include "WaveManager.h"
 #include <vector>
@@ -28,6 +29,10 @@ private:
     std::string FormatScore(int score);
     void InitializeGameplayElements();
 
+    // NUEVOS: Métodos para reset y respawn
+    void ResetGameplayElements();
+    void RespawnPlayer();
+
     WaveManager* waveManager;
     int currentLevel;
     int maxLevel;
@@ -42,7 +47,7 @@ public:
     void Update() override;
     void Render() override;
 
-    Player* GetPlayer() override { return player; }  // NUEVO: implementar IGameplayContext
+    Player* GetPlayer() override { return player; }
     void UpdateGameplay();
 
     bool HasMoreWaves() const override;

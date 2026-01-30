@@ -38,7 +38,7 @@ public:
 		_physics->SetLinearDrag(10.f);
 		_physics->SetAngularDrag(0.1f);
 
-		energy = 100;
+		energy = 10;
 		maxEnergy = 100;
 		maxSpeed = 1.0f;
 		extraLives = 3;
@@ -90,15 +90,19 @@ public:
 	float GetMaxSpeed() const { return maxSpeed; }
 	int GetExtraLives() const { return extraLives; }
 
-
-	void UpdateImmunity();
-	void ActivateImmunity();
-
 	void SetEnergy(int newEnergy) {
 		energy = newEnergy;
 		if (energy > maxEnergy) energy = maxEnergy;
 		if (energy < 0) energy = 0;
 	}
+
+	void SetExtraLives(int newLives) {  // NUEVO
+		extraLives = newLives;
+		if (extraLives < 0) extraLives = 0;
+	}
+
+	void UpdateImmunity();
+	void ActivateImmunity();
 
 	void SetMaxSpeed(float newMaxSpeed) {
 		maxSpeed = newMaxSpeed;
@@ -140,6 +144,16 @@ public:
 	}
 
 	void ResetPosition() {
+		if (!_transform) {
+			std::cout << "Error: Transform is null! Cannot reset position." << std::endl;
+			return;
+		}
+
+		if (!_physics) {
+			std::cout << "Error: Physics is null! Cannot reset position." << std::endl;
+			return;
+		}
+
 		_transform->position = _initialPosition;
 		_physics->SetVelocity(Vector2(0.f, 0.f));
 		isImmune = false;
