@@ -2,13 +2,13 @@
 #include "EnemyWave.h"
 #include "BioTitan.h"
 
-class BossWave : public EnemyWave {
+class BioTitanWave : public EnemyWave {
 public:
-    BossWave() {}
+    BioTitanWave() {}
 
     void Start() override {
         _started = true;
-        std::cout << "BOSS WAVE - BIO TITAN INCOMING!" << std::endl;
+        std::cout << "LEVEL 1 BOSS - BIO TITAN INCOMING!" << std::endl;
 
         BioTitan* boss = new BioTitan();
         RegisterEnemy(boss);
@@ -29,7 +29,7 @@ public:
     }
 
     void End() override {
-        std::cout << "BOSS DEFEATED! LEVEL COMPLETE!" << std::endl;
+        std::cout << "BIO TITAN DEFEATED! LEVEL 1 COMPLETE!" << std::endl;
         _spawnedEnemies.clear();
     }
 };

@@ -4,9 +4,10 @@
 #include "LoadLevel.h"
 #include "PowerUp.h"
 #include "Player.h"
-#include "RenderManager.h" // necesario para comprobar límites de pantalla (RM->WINDOW_WIDTH / HEIGHT)
+#include "RenderManager.h"
 #include <queue>
 #include <string>
+#include <iostream>
 
 class WaveManager {
 private:
@@ -17,15 +18,17 @@ private:
     bool _waitingForNextWave;
     Player* _playerRef;
     Vector2 _lastEnemyPosition;
+    int _currentLevel;  // NUEVO: rastrear el nivel actual
 
 public:
-    WaveManager(Player* playerRef = nullptr)
+    WaveManager(Player* playerRef = nullptr, int levelNumber = 1)
         : _currentWave(nullptr),
         _delayTimer(0.f),
         _delayBetweenWaves(3.0f),
         _waitingForNextWave(false),
         _playerRef(playerRef),
-        _lastEnemyPosition(0.f, 0.f) {
+        _lastEnemyPosition(0.f, 0.f),
+        _currentLevel(levelNumber) {  // NUEVO
     }
 
     ~WaveManager() {
@@ -58,14 +61,15 @@ public:
             int enemyId = waveOrder[i];
             int amount = amountEnemies[i];
 
-            EnemyWave* wave = WaveFactory::CreateWave(enemyId, amount, _playerRef);
+            // NUEVO: pasar el nivel al factory
+            EnemyWave* wave = WaveFactory::CreateWave(enemyId, amount, _playerRef, _currentLevel);
 
             if (wave) {
                 _waves.push(wave);
             }
         }
 
-        std::cout << "Loaded " << _waves.size() << " waves from XML" << std::endl;
+        std::cout << "Loaded " << _waves.size() << " waves from level " << _currentLevel << std::endl;
         return true;
     }
 
@@ -79,10 +83,8 @@ public:
         if (_currentWave) {
             _currentWave->Update(deltaTime);
 
-            // Trackear enemigos de la wave actual DESPUÉS de update
             CheckWaveCompletion();
 
-            // Verificar si la wave terminó
             if (_currentWave->IsFinished()) {
                 FinishCurrentWave();
             }
@@ -116,10 +118,10 @@ public:
         _playerRef = player;
     }
 
-    // Nuevo API público para integrarse con GameState
-    bool IsWaitingForNextWave() const { return _waitingForNextWave; }
+    bool IsWaitingForNextWave() const {
+        return _waitingForNextWave;
+    }
 
-    // Forzar inicio inmediato de la siguiente wave (usado cuando FinishWave termina)
     void StartNextWaveImmediate() {
         if (_currentWave) return;
         if (_waves.empty()) return;
@@ -152,13 +154,11 @@ private:
 
         const std::vector<Enemy*>& enemies = _currentWave->GetSpawnedEnemies();
 
-        // Contar enemigos vivos y guardar posición del último
         int aliveCount = 0;
         Enemy* lastAlive = nullptr;
 
         for (Enemy* enemy : enemies) {
             if (!enemy) continue;
-            // Comprobar que GetTransform() no devuelva nullptr antes de acceder
             Transform* t = enemy->GetTransform();
             if (t && !enemy->IsPendingDestroy()) {
                 aliveCount++;
@@ -166,14 +166,12 @@ private:
             }
         }
 
-        // Si hay enemigos, guardar posición del último vivo si su transform es válido
         if (lastAlive) {
             Transform* t = lastAlive->GetTransform();
             if (t) {
                 _lastEnemyPosition = t->position;
             }
             else {
-                // No confiamos en posición si transform es nulo
                 _lastEnemyPosition = Vector2(0.f, 0.f);
             }
         }
@@ -186,7 +184,6 @@ private:
 
         _currentWave->End();
 
-        // Spawnear PowerUp en la posición del último enemigo
         SpawnPowerUp();
 
         delete _currentWave;
@@ -197,15 +194,12 @@ private:
     }
 
     void SpawnPowerUp() {
-        // Verificar que la posición es válida (no usar 0,0 como condición)
         if (_lastEnemyPosition.x == 0.f && _lastEnemyPosition.y == 0.f) {
             return;
         }
 
-        // Comprobar que la posición del último enemigo está dentro de los límites de la pantalla
         if (RM == nullptr) {
-            // Si por alguna razón RM no está inicializado, evitamos el spawn
-            std::cout << "RenderManager not available — skipping PowerUp spawn." << std::endl;
+            std::cout << "RenderManager not available – skipping PowerUp spawn." << std::endl;
             _lastEnemyPosition = Vector2(0.f, 0.f);
             return;
         }
@@ -225,7 +219,7 @@ private:
                 << _lastEnemyPosition.y << ")" << std::endl;
         }
         else {
-            std::cout << "Last enemy position out of screen bounds — not spawning PowerUp ("
+            std::cout << "Last enemy position out of screen bounds – not spawning PowerUp ("
                 << px << ", " << py << ")." << std::endl;
         }
 

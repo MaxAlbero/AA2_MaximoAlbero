@@ -231,7 +231,8 @@ void Gameplay::LoadLevel(int levelNumber) {
     }
 
     // Crear nuevo WaveManager y cargar el nivel
-    waveManager = new WaveManager(player);
+    // NUEVO: pasar levelNumber al constructor
+    waveManager = new WaveManager(player, levelNumber);
     waveManager->SetPlayer(player);
 
     if (!waveManager->LoadFromXML(levelPath)) {
@@ -243,7 +244,7 @@ void Gameplay::LoadLevel(int levelNumber) {
     }
 
     std::cout << "Loaded level " << levelNumber << std::endl;
-    levelCompleted = false;  // NUEVO: resetear flag cuando cargamos un nuevo nivel
+    levelCompleted = false;
 }
 
 void Gameplay::TransitionToNextLevel() {

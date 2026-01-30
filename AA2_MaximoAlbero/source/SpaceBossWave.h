@@ -1,16 +1,16 @@
 #pragma once
 #include "EnemyWave.h"
-#include "BioTitan.h"
+#include "SpaceBoss.h"
 
-class BossWave : public EnemyWave {
+class SpaceBossWave : public EnemyWave {
 public:
-    BossWave() {}
+    SpaceBossWave() {}
 
     void Start() override {
         _started = true;
-        std::cout << "BOSS WAVE - BIO TITAN INCOMING!" << std::endl;
+        std::cout << "LEVEL 2 BOSS - SPACE BOSS INCOMING!" << std::endl;
 
-        BioTitan* boss = new BioTitan();
+        SpaceBoss* boss = new SpaceBoss();
         RegisterEnemy(boss);
     }
 
@@ -29,7 +29,7 @@ public:
     }
 
     void End() override {
-        std::cout << "BOSS DEFEATED! LEVEL COMPLETE!" << std::endl;
+        std::cout << "SPACE BOSS DEFEATED! LEVEL 2 COMPLETE!" << std::endl;
         _spawnedEnemies.clear();
     }
 };

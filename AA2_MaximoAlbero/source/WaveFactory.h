@@ -8,12 +8,14 @@
 #include "BeholderWave.h"
 #include "ChomperWave.h"
 #include "AmoebaWave.h"
-#include "BossWave.h"
+#include "BioTitanWave.h"
+#include "SpaceBossWave.h"
 #include "Player.h"
+#include <iostream>
 
 class WaveFactory {
 public:
-    static EnemyWave* CreateWave(int enemyId, int amount, Player* playerRef = nullptr) {
+    static EnemyWave* CreateWave(int enemyId, int amount, Player* playerRef = nullptr, int levelNumber = 1) {
         switch (enemyId) {
         case 0: // Bubbles
             return new BubblesWave(amount);
@@ -39,8 +41,17 @@ public:
         case 7: // Amoeba
             return new AmoebaWave(amount);
 
-        case 99: // Boss (puedes usar un ID especial)
-            return new BossWave();
+        case 99: // Boss (depende del nivel)
+            if (levelNumber == 1) {
+                return new BioTitanWave();
+            }
+            else if (levelNumber == 2) {
+                return new SpaceBossWave();
+            }
+            else {
+                std::cout << "Unknown boss for level: " << levelNumber << std::endl;
+                return nullptr;
+            }
 
         default:
             std::cout << "Unknown enemy ID: " << enemyId << std::endl;
