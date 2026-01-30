@@ -33,6 +33,7 @@ void Game::Init() {
 	RM->LoadTexture("resources/BillBuster.png");
 	RM->LoadTexture("resources/bat.png");
 	RM->LoadTexture("resources/turret.png");
+	RM->LoadTexture("resources/slime.png");
 
 	RM->LoadFont("resources/fonts/cidergum.ttf");
 	//RM->LoadFont("resources/fonts/hyperspace.ttf");

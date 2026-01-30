@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\AABB.h" />
+    <ClInclude Include="source\Amoeba.h" />
     <ClInclude Include="source\AmoebaWave.h" />
     <ClInclude Include="source\Angrygons.h" />
     <ClInclude Include="source\Annoyer.h" />
@@ -84,6 +85,7 @@
     <ClInclude Include="source\LeftLinearMovement.h" />
     <ClInclude Include="source\Missile.h" />
     <ClInclude Include="source\Nuke.h" />
+    <ClInclude Include="source\ReuniteMovement.h" />
     <ClInclude Include="source\RightLinearMovement.h" />
     <ClInclude Include="source\RoboKrabs.h" />
     <ClInclude Include="source\RoboKrabsMovement.h" />
@@ -111,6 +113,7 @@
     <ClInclude Include="source\SpaceBoss.h" />
     <ClInclude Include="source\Spawner.h" />
     <ClInclude Include="source\SplashScreen.h" />
+    <ClInclude Include="source\SpreadMovement.h" />
     <ClInclude Include="source\TargetMovement.h" />
     <ClInclude Include="source\TestObject.h" />
     <ClInclude Include="source\TextObject.h" />

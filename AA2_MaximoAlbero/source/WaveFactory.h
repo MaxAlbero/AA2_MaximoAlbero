@@ -7,6 +7,7 @@
 #include "VMedusaWave.h"
 #include "BeholderWave.h"
 #include "ChomperWave.h"
+#include "AmoebaWave.h"
 #include "BossWave.h"
 #include "Player.h"
 
@@ -36,7 +37,7 @@ public:
             return new ChomperWave(amount);
 
         case 7: // Amoeba
-            //return new AmoebaWave(amount);
+            return new AmoebaWave(amount);
 
         case 99: // Boss (puedes usar un ID especial)
             return new BossWave();
