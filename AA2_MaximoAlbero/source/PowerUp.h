@@ -2,15 +2,6 @@
 #include "ImageObject.h"
 #include "Player.h"
 
-enum PowerUpType {
-    SCORE,
-    CANNON,
-    LASER,
-    SPEED,
-    OUTRIDER,
-    SHIELD
-};
-
 class PowerUp : public ImageObject {
 public:
     PowerUp() 
@@ -23,8 +14,6 @@ public:
         _transform->scale = Vector2(0.5f, 0.5f);
 
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
-
-        _powerUp = SCORE;
     }
 
     ~PowerUp() {}
@@ -33,7 +22,6 @@ public:
     void Update() override;
 
 private:
-    PowerUpType _powerUp;
 
     int lvl = 0;
     const int maxLevel = 5;

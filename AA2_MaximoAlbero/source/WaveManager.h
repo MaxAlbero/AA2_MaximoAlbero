@@ -13,7 +13,7 @@ class WaveManager {
 private:
     std::queue<EnemyWave*> _waves;
     EnemyWave* _currentWave;
-    EnemyWave* _lastWave;  // NUEVO: guardar la última wave para poder reiniciarla
+    EnemyWave* _lastWave;
     float _delayTimer;
     float _delayBetweenWaves;
     bool _waitingForNextWave;
@@ -24,7 +24,7 @@ private:
 public:
     WaveManager(Player* playerRef = nullptr, int levelNumber = 1)
         : _currentWave(nullptr),
-        _lastWave(nullptr),  // NUEVO
+        _lastWave(nullptr),
         _delayTimer(0.f),
         _delayBetweenWaves(5.0f),
         _waitingForNextWave(false),
@@ -43,7 +43,7 @@ public:
             delete _currentWave;
         }
 
-        if (_lastWave) {  // NUEVO
+        if (_lastWave) {
             delete _lastWave;
         }
     }
@@ -97,7 +97,6 @@ public:
         else if (_waitingForNextWave) {
             _delayTimer += deltaTime;
 
-            // Cuando el delay termina, iniciar la siguiente wave
             if (_delayTimer >= _delayBetweenWaves) {
                 _delayTimer = 0.f;
                 _waitingForNextWave = false;
@@ -175,7 +174,6 @@ private:
     void StartNextWave() {
         if (_waves.empty()) return;
 
-        // NUEVO: Si había una wave anterior, guardarla
         if (_currentWave) {
             if (_lastWave) {
                 delete _lastWave;
@@ -228,7 +226,6 @@ private:
 
         SpawnPowerUp();
 
-        // MODIFICADO: Guardar en _lastWave en lugar de eliminar directamente
         if (_lastWave) {
             delete _lastWave;
         }

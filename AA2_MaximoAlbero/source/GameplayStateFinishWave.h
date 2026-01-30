@@ -1,6 +1,7 @@
 #pragma once
 #include "GameplayStateBase.h"
 #include "IGameplayContext.h"
+#include "TextObject.h"  // AÑADE ESTO
 #include <iostream>
 
 class GameplayStateFinishWave : public GameplayStateBase {

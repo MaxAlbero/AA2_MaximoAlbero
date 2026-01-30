@@ -11,10 +11,10 @@ enum ChainsawDirection {
 class TurboChainsaw : public Enemy {
 public:
     TurboChainsaw(ChainsawDirection direction) : Enemy() {
-        _renderer = new ImageRenderer(_transform, "resources/image.png",
-            Vector2(0.f, 0.f), Vector2(100.f, 100.f));
+        _renderer = new ImageRenderer(_transform, "resources/chainsaw.png",
+            Vector2(0.f, 0.f), Vector2(500.f, 500.f));
 
-        _transform->size = Vector2(80.f, 80.f);
+        _transform->scale = Vector2(0.25f, 0.25f);
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
         SetHealth(50);

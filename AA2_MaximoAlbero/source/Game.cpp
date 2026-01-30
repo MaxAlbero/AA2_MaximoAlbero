@@ -37,10 +37,17 @@ void Game::Init() {
 	RM->LoadTexture("resources/bat.png");
 	RM->LoadTexture("resources/turret.png");
 	RM->LoadTexture("resources/slime.png");
+	RM->LoadTexture("resources/Richard.png");
+	RM->LoadTexture("resources/daniels.png");
+	RM->LoadTexture("resources/torpedo.png");
+	RM->LoadTexture("resources/ufo.png");
+	RM->LoadTexture("resources/chainsaw.png");
+	RM->LoadTexture("resources/annoyer.png");
+	RM->LoadTexture("resources/missile.png");
+	RM->LoadTexture("resources/crab.png");
 
 	RM->LoadFont("resources/fonts/cidergum.ttf");
 
-	//Aqui la carrega de totes les escenes
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));
 	assert(SM.AddScene("Gameplay", new Gameplay()));
@@ -50,9 +57,7 @@ void Game::Init() {
 
 	HSM->LoadRankingFromFile("resources/ranking.xml");
 
-	//assert(SM.InitFirstScene("SplashScreen"));
-	assert(SM.InitFirstScene("MainMenu"));
-	//assert(SM.InitFirstScene("Gameplay"));
+	assert(SM.InitFirstScene("SplashScreen"));
 
 	_isRunning = !IM->Listen();
 }

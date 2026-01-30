@@ -23,7 +23,6 @@ void PowerUp::OnCollision(Object* other)
             player->IncreaseSpeed();
             break;
         case 4:
-            //TODO: ADD TWIN TURRETS
             player->AddTwinTurrets();
             break;
         case 5:

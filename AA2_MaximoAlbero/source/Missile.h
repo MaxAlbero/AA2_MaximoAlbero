@@ -6,9 +6,10 @@ class Missile : public Enemy {
 public:
 	Missile(Vector2 spawnPos, float speed)
 		: Enemy() {
-		_renderer = new ImageRenderer(_transform, "resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
+		_renderer = new ImageRenderer(_transform, "resources/missile.png", Vector2(0.f, 0.f), Vector2(500.f, 500.f));
 
-		_transform->size = Vector2(100.f, 100.f);
+		_transform->scale = Vector2(0.25f, 025.f);
+		_transform->rotation = 270.f;
 		_transform->position = spawnPos;
 		_physics->AddCollider(new AABB(_transform->position, _transform->size));
 
@@ -18,11 +19,9 @@ public:
 		movements.push_back(new LeftLinearMovement(_transform, _physics, speed));
 	}
 
-	void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
-		// Actualizar movimientos
+	void Update() override {
 		Enemy::Update();
 
-		// Destruir si sale de pantalla
 		if (_transform->position.x + _transform->size.x < 0.f) {
 			Destroy();
 		}

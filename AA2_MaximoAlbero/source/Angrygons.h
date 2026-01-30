@@ -13,7 +13,6 @@ public:
         _renderer = new ImageRenderer(_transform, "resources/bebe.jpg",
             Vector2(0.f, 0.f), Vector2(360.f, 360.f));
 
-        //_transform->rotation = 270.f;
         _transform->scale = Vector2(0.5f, 0.5f);
         _transform->position = spawnPos;
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
@@ -33,13 +32,11 @@ public:
         movements.push_back(new UpLinearMovement(_transform, _physics, speed));
     }
 
-    void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
-        // Actualizar movimientos
+    void Update() override {
         Enemy::Update();
 
-        // Destruir si sale de pantalla
-        //if (_transform->position.x + _transform->size.x < 0.f) {
-        //    Destroy();
-        //}
+        if (_transform->position.y + _transform->size.y < 0.f) {
+            Destroy();
+        }
     }
 };

@@ -66,6 +66,7 @@
     <ClInclude Include="source\CirclerMovement.h" />
     <ClInclude Include="source\CirclerWave.h" />
     <ClInclude Include="source\Daniels.h" />
+    <ClInclude Include="source\DanielsWave.h" />
     <ClInclude Include="source\DiagonalMovement.h" />
     <ClInclude Include="source\DownLinearMovement.h" />
     <ClInclude Include="source\Enemy.h" />

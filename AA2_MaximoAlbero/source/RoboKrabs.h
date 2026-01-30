@@ -8,10 +8,10 @@
 class RoboKrabs : public Enemy {
 public:
     RoboKrabs(Vector2 spawnPos, Transform* playerTransform) : Enemy() {
-        _renderer = new ImageRenderer(_transform, "resources/image.png",
-            Vector2(0.f, 0.f), Vector2(306.f, 562.f));
+        _renderer = new ImageRenderer(_transform, "resources/crab.png",
+            Vector2(0.f, 0.f), Vector2(517.f, 483.f));
 
-        _transform->size = Vector2(100.f, 100.f);
+        _transform->scale = Vector2(0.25f, 0.25f);
         _transform->position = spawnPos;
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
