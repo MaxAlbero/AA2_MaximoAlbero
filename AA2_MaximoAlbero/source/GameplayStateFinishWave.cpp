@@ -1,10 +1,22 @@
 #include "GameplayStateFinishWave.h"
 #include "InputManager.h"
+#include "ScoreManager.h"
+#include "Player.h"
+#include "TextObject.h"
 #include <iostream>
+#include <sstream>
 
 GameplayStateFinishWave::GameplayStateFinishWave()
     : _context(nullptr), _finished(false), _nextState(-1),
-    _displayTimer(0.f), _displayDuration(2.0f), _isLastWave(false) {
+    _displayTimer(0.f), _displayDuration(2.0f), _isLastWave(false),
+    _isLevelComplete(false), _levelCompleteText(nullptr),
+    _bonusPointsText(nullptr), _continueText(nullptr), _bonusPoints(0) {
+}
+
+GameplayStateFinishWave::~GameplayStateFinishWave() {
+    if (_levelCompleteText) delete _levelCompleteText;
+    if (_bonusPointsText) delete _bonusPointsText;
+    if (_continueText) delete _continueText;
 }
 
 void GameplayStateFinishWave::Start() {
@@ -12,16 +24,69 @@ void GameplayStateFinishWave::Start() {
     _nextState = -1;
     _displayTimer = 0.f;
 
+    // Limpiar textos anteriores
+    if (_levelCompleteText) delete _levelCompleteText;
+    if (_bonusPointsText) delete _bonusPointsText;
+    if (_continueText) delete _continueText;
+    _levelCompleteText = nullptr;
+    _bonusPointsText = nullptr;
+    _continueText = nullptr;
+
     // Verificar si es la última wave
     _isLastWave = (_context == nullptr) ? false : !_context->HasMoreWaves();
-    std::cout << "¡OLEADA COMPLETADA!" << std::endl;
+
+    // Si es la última wave, es fin de nivel
+    _isLevelComplete = _isLastWave;
+
+    if (_isLevelComplete) {
+        std::cout << "¡NIVEL COMPLETADO!" << std::endl;
+
+        // Calcular puntos bonus por vidas restantes
+        CalculateBonusPoints();
+
+        // Crear textos para la pantalla de fin de nivel
+        _levelCompleteText = new TextObject("LEVEL COMPLETE!");
+        _levelCompleteText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 4.f);
+        _levelCompleteText->SetTextColor(SDL_Color{ 255, 215, 0, 255 });
+
+        // Texto con los puntos bonus
+        std::stringstream ss;
+        ss << "BONUS: +" << _bonusPoints << " PTS";
+        _bonusPointsText = new TextObject(ss.str());
+        _bonusPointsText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f - 50.f);
+        _bonusPointsText->SetTextColor(SDL_Color{ 100, 255, 100, 255 });
+
+        // Texto adicional con info de vidas
+        std::stringstream ss2;
+        int extraLives = _context ? (_context->GetPlayer() ? _context->GetPlayer()->GetExtraLives() : 0) : 0;
+        ss2 << "+" << (10000) << " per life x " << extraLives;
+        _continueText = new TextObject(ss2.str());
+        _continueText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
+        _continueText->SetTextColor(SDL_Color{ 150, 150, 150, 255 });
+
+        // Texto para continuar
+        TextObject* continuePrompt = new TextObject("Press SPACE to continue...");
+        continuePrompt->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT * 3.f / 4.f);
+        continuePrompt->SetTextColor(SDL_Color{ 200, 200, 200, 255 });
+        delete continuePrompt; // Solo para referencia, crear en UI list si es necesario
+    }
+    else {
+        std::cout << "¡OLEADA COMPLETADA!" << std::endl;
+    }
 }
 
 void GameplayStateFinishWave::Update(float deltaTime) {
     _displayTimer += deltaTime;
 
-    if (_isLastWave) {
-        // Es la última wave, esperar input o tiempo para transicionar
+    if (_isLevelComplete) {
+        // Fin de nivel: esperar input del jugador
+        if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
+            IM->GetLeftClick()) {
+            TransitionToVictory();
+        }
+    }
+    else if (_isLastWave) {
+        // Última wave pero no es fin de nivel (para futuros niveles)
         if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
             IM->GetLeftClick() ||
             _displayTimer >= 5.0f) {
@@ -29,13 +94,20 @@ void GameplayStateFinishWave::Update(float deltaTime) {
         }
     }
     else {
-        // Hay más waves, continuar automáticamente
-        ContinueToNextWave();
+        // Fin de wave normal: continuar automáticamente después de 2 segundos
+        if (_displayTimer >= _displayDuration) {
+            ContinueToNextWave();
+        }
     }
 }
 
 void GameplayStateFinishWave::Render() {
-    // TODO: renderizar mensaje de "wave cleared" o "Level complete!"
+    if (_isLevelComplete) {
+        // Renderizar pantalla de fin de nivel
+        if (_levelCompleteText) _levelCompleteText->Render();
+        if (_bonusPointsText) _bonusPointsText->Render();
+        if (_continueText) _continueText->Render();
+    }
 }
 
 bool GameplayStateFinishWave::IsFinished() const {
@@ -47,7 +119,7 @@ int GameplayStateFinishWave::GetNextState() const {
 }
 
 void GameplayStateFinishWave::Finish() {
-    std::cout << "Continuando al siguiente estado..." << std::endl;
+    std::cout << "Saliendo de FINISH_WAVE" << std::endl;
 }
 
 bool GameplayStateFinishWave::ShouldUpdateScene() const {
@@ -63,11 +135,33 @@ void GameplayStateFinishWave::ContinueToNextWave() {
 }
 
 void GameplayStateFinishWave::TransitionToVictory() {
-    // Llamar a TransitionToNextLevel que maneja todo (cambio de nivel o GameOver)
+    // Agregar puntos bonus si es fin de nivel
+    if (_isLevelComplete && _context && _context->GetPlayer()) {
+        HSM->AddPoints(_bonusPoints);
+        std::cout << "Bonus points awarded: " << _bonusPoints << std::endl;
+    }
+
+    // Transicionar al siguiente nivel o GameOver
     if (_context) {
         _context->TransitionToNextLevel();
     }
-    
+
     _finished = true;
     _nextState = 0; // volver a PLAYING (con el nuevo nivel cargado)
+}
+
+void GameplayStateFinishWave::CalculateBonusPoints() {
+    if (!_context || !_context->GetPlayer()) {
+        _bonusPoints = 0;
+        return;
+    }
+
+    Player* player = _context->GetPlayer();
+    int extraLives = player->GetExtraLives();
+
+    // +10000 puntos por cada vida extra restante
+    _bonusPoints = extraLives * 10000;
+
+    std::cout << "Bonus points calculated: " << _bonusPoints << " ("
+        << extraLives << " lives x 10000)" << std::endl;
 }

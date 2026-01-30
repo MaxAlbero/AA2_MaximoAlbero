@@ -31,7 +31,7 @@ private:
     WaveManager* waveManager;
     int currentLevel;
     int maxLevel;
-    bool levelCompleted;  // NUEVO: flag para indicar que el nivel está completado
+    bool levelCompleted;
 
 public:
     Gameplay() = default;
@@ -42,15 +42,14 @@ public:
     void Update() override;
     void Render() override;
 
-    Player* GetPlayer() { return player; }
+    Player* GetPlayer() override { return player; }  // NUEVO: implementar IGameplayContext
     void UpdateGameplay();
 
-    // Implementación de IGameplayContext
     bool HasMoreWaves() const override;
     void StartNextWave() override;
     bool IsLastLevel() const override;
     int GetCurrentLevel() const override;
-    bool IsLevelComplete() const override;  // NUEVO
+    bool IsLevelComplete() const override;
 
     void LoadLevel(int levelNumber);
     void TransitionToNextLevel() override;

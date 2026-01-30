@@ -3,6 +3,8 @@
 #include "IGameplayContext.h"
 #include <iostream>
 
+class TextObject;  // Forward declaration
+
 class GameplayStateFinishWave : public GameplayStateBase {
 private:
     IGameplayContext* _context;
@@ -11,9 +13,17 @@ private:
     float _displayTimer;
     float _displayDuration;
     bool _isLastWave;
+    bool _isLevelComplete;
+
+    // TextObjects para renderizar información del final de nivel
+    TextObject* _levelCompleteText;
+    TextObject* _bonusPointsText;
+    TextObject* _continueText;
+    int _bonusPoints;
 
 public:
     GameplayStateFinishWave();
+    ~GameplayStateFinishWave();
 
     void Start() override;
     void Update(float deltaTime) override;
@@ -24,10 +34,10 @@ public:
 
     bool ShouldUpdateScene() const override;
 
-    // Permitir que Gameplay le pase el contexto después de crear el estado
     void SetContext(IGameplayContext* context) { _context = context; }
 
 private:
     void ContinueToNextWave();
     void TransitionToVictory();
+    void CalculateBonusPoints();
 };
