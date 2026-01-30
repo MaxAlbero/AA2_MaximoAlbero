@@ -3,8 +3,6 @@
 #include "IGameplayContext.h"
 #include <iostream>
 
-class TextObject;  // Forward declaration
-
 class GameplayStateFinishWave : public GameplayStateBase {
 private:
     IGameplayContext* _context;

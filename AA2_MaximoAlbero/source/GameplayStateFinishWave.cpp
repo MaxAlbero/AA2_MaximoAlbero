@@ -79,14 +79,12 @@ void GameplayStateFinishWave::Update(float deltaTime) {
     _displayTimer += deltaTime;
 
     if (_isLevelComplete) {
-        // Fin de nivel: esperar input del jugador
         if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
             IM->GetLeftClick()) {
             TransitionToVictory();
         }
     }
     else if (_isLastWave) {
-        // Última wave pero no es fin de nivel (para futuros niveles)
         if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
             IM->GetLeftClick() ||
             _displayTimer >= 5.0f) {
@@ -94,7 +92,6 @@ void GameplayStateFinishWave::Update(float deltaTime) {
         }
     }
     else {
-        // Fin de wave normal: continuar automáticamente después de 2 segundos
         if (_displayTimer >= _displayDuration) {
             ContinueToNextWave();
         }
@@ -103,7 +100,6 @@ void GameplayStateFinishWave::Update(float deltaTime) {
 
 void GameplayStateFinishWave::Render() {
     if (_isLevelComplete) {
-        // Renderizar pantalla de fin de nivel
         if (_levelCompleteText) _levelCompleteText->Render();
         if (_bonusPointsText) _bonusPointsText->Render();
         if (_continueText) _continueText->Render();
@@ -135,7 +131,6 @@ void GameplayStateFinishWave::ContinueToNextWave() {
 }
 
 void GameplayStateFinishWave::TransitionToVictory() {
-    // Agregar puntos bonus si es fin de nivel
     if (_isLevelComplete && _context && _context->GetPlayer()) {
         HSM->AddPoints(_bonusPoints);
         std::cout << "Bonus points awarded: " << _bonusPoints << std::endl;
@@ -144,10 +139,8 @@ void GameplayStateFinishWave::TransitionToVictory() {
     std::cout << "TransitionToVictory called. _isLevelComplete = " << _isLevelComplete << std::endl;
 
     _finished = true;
-    _nextState = 0;  // Return to PLAYING state
+    _nextState = 0;
 
-    // FIXED: Only set flag, don't call SetNextScene here
-    // Scene transition will be handled by Gameplay::Update()
     if (_context) {
         std::cout << "Setting level transition flag" << std::endl;
         _context->RequestLevelTransition();

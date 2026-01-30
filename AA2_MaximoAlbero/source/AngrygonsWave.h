@@ -9,10 +9,9 @@ public:
     void Start() override {
         _started = true;
         std::cout << "ANGRYGONS WAVE - " << _amount << " enemies incoming!" << std::endl;
-
         float speed = 150.f;
         for (int i = 0; i < _amount; i++) {
-            Vector2 spawnPos(RM->WINDOW_WIDTH + i * 150.f, RM->WINDOW_HEIGHT / 4.f);
+            Vector2 spawnPos(-150.f - i * 150.f, RM->WINDOW_HEIGHT / 4.f);
             Angrygons* enemy = new Angrygons(spawnPos, speed);
             RegisterEnemy(enemy);
         }
@@ -26,14 +25,12 @@ public:
                 break;
             }
         }
-
         if (allDead) {
             _finished = true;
         }
     }
 
     void End() override {
-        std::cout << "ANGRYGONS WAVE DEFEATED!" << std::endl;
         _spawnedEnemies.clear();
     }
 

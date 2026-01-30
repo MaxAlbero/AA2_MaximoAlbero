@@ -14,6 +14,7 @@
 #include "AnnoyerWave.h"
 #include "MissileWave.h"
 #include "NukeWave.h"
+#include "DanielsWave.h"
 #include "TorpedoWave.h"
 #include "TurboChainsawWave.h"
 #include "UfoWave.h"
@@ -71,6 +72,9 @@ public:
 
         case 17: // Ufo
             return new UfoWave(amount);
+
+        case 18:
+            return new DanielsWave(amount);
 
         case 20:
             return new SpaceBossWave();
