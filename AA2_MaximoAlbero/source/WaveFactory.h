@@ -10,6 +10,13 @@
 #include "AmoebaWave.h"
 #include "BioTitanWave.h"
 #include "SpaceBossWave.h"
+#include "AngrygonsWave.h"
+#include "AnnoyerWave.h"
+#include "MissileWave.h"
+#include "NukeWave.h"
+#include "TorpedoWave.h"
+#include "TurboChainsawWave.h"
+#include "UfoWave.h"
 #include "Player.h"
 #include <iostream>
 
@@ -43,6 +50,27 @@ public:
 
         case 10:
             return new BioTitanWave();
+
+        case 11: // Angrygons
+            return new AngrygonsWave(amount);
+
+        case 12: // Annoyer
+            return new AnnoyerWave(amount, playerRef);
+
+        case 13: // Missile
+            return new MissileWave(amount);
+
+        case 14: // Nuke
+            return new NukeWave(amount);
+
+        case 15: // Torpedo
+            return new TorpedoWave(amount);
+
+        case 16: // TurboChainsaw
+            return new TurboChainsawWave();
+
+        case 17: // Ufo
+            return new UfoWave(amount);
 
         case 20:
             return new SpaceBossWave();
