@@ -1,47 +1,59 @@
 #pragma once
 #include <string>
-#include <map>
+#include <vector>
+#include <algorithm>
 
 #define HSM ScoreManager::GetInstance()
 
 class ScoreManager {
 public:
-	static ScoreManager* GetInstance() {
-		static ScoreManager instance;
-		return &instance;
-	}
+    static ScoreManager* GetInstance() {
+        static ScoreManager instance;
+        return &instance;
+    }
 
-	void LoadScores(std::string path);
-	void SaveScores(std::string path);
-	void AddScore(int value, std::string name);
-	std::map<int, std::string> GetScores();
+    // Getters
+    int GetCurrentScore() const { return currentScore; }
+    int GetHighScore() const { return highScore; }
 
-	std::pair<int, std::string> scores[3][10];
+    const std::vector<int>& GetRankingScores() const { return rankingScores; }
+    const std::vector<std::string>& GetRankingNames() const { return rankingNames; }
 
-	
+    // Setters
+    void AddPoints(int pointsAdded) {
+        currentScore += pointsAdded;
+        if (currentScore > highScore) {
+            highScore = currentScore;
+        }
+    }
 
-	//PSEUDOCODE: EL ScoreManager acumula 1000 puntos a la puntuación actual del jugador al obtener el powerUp de 1000 puntos.
-	void AddPoints(int pointsAdded) {
-		currentScore += pointsAdded;
+    void SetHighScore(int newHighScore) {
+        highScore = newHighScore;
+    }
 
-		if (currentScore > highScore) {
-			highScore = currentScore;
-		}
-	}
-
-	int GetCurrentScore() const { return currentScore; }
-	int GetHighScore() const { return highScore; }
-
-	void SetHighScore(int newHighScore) {
-		highScore = newHighScore;
-	}
+    // Ranking
+    void AddToRanking(int score, const std::string& playerName);
+    bool IsInTopTen(int score) const;
+    void LoadRankingFromFile(const std::string& filepath);
+    void SaveRankingToFile(const std::string& filepath) const;
+    void ResetCurrentScore() { currentScore = 0; }
 
 private:
-	ScoreManager() = default;
-	ScoreManager(ScoreManager&) = delete;
-	ScoreManager& operator=(const ScoreManager&) = delete;
+    ScoreManager() : highScore(0), currentScore(0) {
+        rankingScores.reserve(10);
+        rankingNames.reserve(10);
+        LoadRankingFromFile("resources/ranking.xml");
+    }
 
-	int highScore; //Ahora mismo no tiene uso, pero esta variable es la que tiene que marcar la puntuación más alta obtenida, en una unica partida funciona, 
-	//pero falta la logica de guardado de puntuaciones en un archivo binario
-	int currentScore = 0; //TODO: VER SI HAY UNA FORMA MAS ELEGANTE DE HACER ESTO
+    ScoreManager(ScoreManager&) = delete;
+    ScoreManager& operator=(const ScoreManager&) = delete;
+    ~ScoreManager() = default;
+
+    int highScore;
+    int currentScore;
+
+    std::vector<int> rankingScores;      // Top 10 scores ordenados de mayor a menor
+    std::vector<std::string> rankingNames; // Nombres asociados a cada score
+
+    void SortRanking();  // Ordena el ranking de mayor a menor
 };

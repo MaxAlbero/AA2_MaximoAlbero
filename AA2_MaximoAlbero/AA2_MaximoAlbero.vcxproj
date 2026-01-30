@@ -34,6 +34,7 @@
     <ClCompile Include="source\PowerUp.cpp" />
     <ClCompile Include="source\RenderManager.cpp" />
     <ClCompile Include="source\RigidBody.cpp" />
+    <ClCompile Include="source\ScoreManager.cpp" />
     <ClCompile Include="source\TextRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +74,7 @@
     <ClInclude Include="source\EscapeMovement.h" />
     <ClInclude Include="source\FollowMovement.h" />
     <ClInclude Include="source\Game.h" />
+    <ClInclude Include="source\GameOverScreen.h" />
     <ClInclude Include="source\Gameplay.h" />
     <ClInclude Include="source\GameplayStateBase.h" />
     <ClInclude Include="source\GameplayStateDeath.h" />
@@ -87,8 +89,10 @@
     <ClInclude Include="source\LeftLinearMovement.h" />
     <ClInclude Include="source\Missile.h" />
     <ClInclude Include="source\MissileWave.h" />
+    <ClInclude Include="source\NameInputScene.h" />
     <ClInclude Include="source\Nuke.h" />
     <ClInclude Include="source\NukeWave.h" />
+    <ClInclude Include="source\Ranking.h" />
     <ClInclude Include="source\ReuniteMovement.h" />
     <ClInclude Include="source\RightLinearMovement.h" />
     <ClInclude Include="source\RoboKrabs.h" />
