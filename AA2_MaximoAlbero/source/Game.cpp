@@ -6,6 +6,8 @@
 #include "MainMenu.h"
 #include "SplashScreen.h"
 #include "LevelSelector.h"
+#include "NameInputScene.h"
+#include "Ranking.h"
 #include <cassert>
 
 
@@ -43,7 +45,10 @@ void Game::Init() {
 	assert(SM.AddScene("MainMenu", new MainMenu()));
 	assert(SM.AddScene("Gameplay", new Gameplay()));
 	assert(SM.AddScene("LevelSelector", new LevelSelector()));
+	assert(SM.AddScene("NameInput", new NameInputScene()));  // NUEVA
+	//assert(SM.AddScene("RankingScreen", new RankingScreen()));
 
+	HSM->LoadRankingFromFile("resources/ranking.json");
 
 	//assert(SM.InitFirstScene("SplashScreen"));
 	//assert(SM.InitFirstScene("MainMenu"));

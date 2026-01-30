@@ -290,17 +290,22 @@ void Gameplay::LoadLevel(int levelNumber) {
 void Gameplay::TransitionToNextLevel() {
     levelCompleted = true;
 
-    std::cout << "Level " << currentLevel << " completed!" << std::endl;
-
     if (IsLastLevel()) {
-        std::cout << "¡GAME COMPLETED!" << std::endl;
-        SM.SetNextScene("GameOver");
+        // Juego completado
+        int finalScore = HSM->GetCurrentScore();
+
+        if (HSM->IsInTopTen(finalScore)) {
+            // Ir a pantalla de nombre
+            SM.SetNextScene("NameInput");
+        }
+        else {
+            SM.SetNextScene("MainMenu");
+        }
         return;
     }
 
+    // Siguiente nivel
     currentLevel++;
-    std::cout << "Transitioning to level " << currentLevel << std::endl;
-
     LoadLevel(currentLevel);
     waveManager->Start();
 

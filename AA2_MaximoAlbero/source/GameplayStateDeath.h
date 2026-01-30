@@ -6,6 +6,7 @@
 #include "TextObject.h"
 #include <iostream>
 #include <functional>
+#include "ScoreManager.h"
 
 class GameplayStateDeath : public GameplayStateBase {
 private:
@@ -101,8 +102,16 @@ public:
     }
 
     int GetNextState() const override {
-        if (!_player) return 4;
-        return _player->GetExtraLives() <= 0 ? 4 : 0;
+        if (!_player) {
+            return 4;  // GAME_OVER
+        }
+
+        int remainingLives = _player->GetExtraLives();
+        if (remainingLives <= 0) {
+            return 4;  // GAME_OVER
+        }
+
+        return 0;  // PLAYING
     }
 
     void Finish() override {}
