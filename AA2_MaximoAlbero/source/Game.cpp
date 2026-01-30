@@ -2,6 +2,7 @@
 #include "RenderManager.h"
 #include "InputManager.h"
 #include "SceneManager.h"
+#include "LevelManager.h"
 #include "Gameplay.h"
 #include "MainMenu.h"
 #include "Ranking.h"

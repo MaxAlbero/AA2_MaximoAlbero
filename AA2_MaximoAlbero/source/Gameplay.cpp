@@ -46,8 +46,13 @@ Gameplay::~Gameplay() {
 }
 
 void Gameplay::OnEnter() {
-    currentLevel = 1;
-    maxLevel = 2;
+    // Obtener el nivel seleccionado del LevelManager
+    int selectedLevelIndex = LM->GetCurrentLevelIndex();
+    currentLevel = selectedLevelIndex + 1;  // +1 porque levelNumber comienza en 1
+
+    // maxLevel es el total de niveles disponibles
+    maxLevel = LM->GetLevelCount();
+
     levelCompleted = false;
     previousStateIndex = -1;
     shouldTransitionLevel = false;

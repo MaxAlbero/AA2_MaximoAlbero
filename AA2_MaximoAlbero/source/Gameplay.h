@@ -9,6 +9,7 @@
 #include "GameplayStateDeath.h"
 #include "IGameplayContext.h"
 #include "WaveManager.h"
+#include "LevelManager.h"
 #include <vector>
 
 class Gameplay : public Scene, public IGameplayContext {
