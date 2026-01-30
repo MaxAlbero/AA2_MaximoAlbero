@@ -1,8 +1,8 @@
 #pragma once
 #include "GameplayStateBase.h"
+#include "Gameplay.h"
+#include "LevelManager.h"
 #include <iostream>
-
-class Gameplay;
 
 class GameplayStateFinishWave : public GameplayStateBase {
 private:
@@ -23,7 +23,6 @@ public:
     int GetNextState() const override;
     void Finish() override;
 
-    // No actualizar la escena mientras estamos en esta pantalla
     bool ShouldUpdateScene() const override;
 
 private:

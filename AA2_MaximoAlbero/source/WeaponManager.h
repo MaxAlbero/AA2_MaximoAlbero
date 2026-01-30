@@ -29,6 +29,9 @@ public:
         delete _bottomTurret;
     }
 
+    WeaponManager(const WeaponManager&) = delete;
+    WeaponManager& operator=(const WeaponManager&) = delete;
+
     void Update(Vector2 playerPosition) {
         // Actualizar rotación de torretas
         float deltaX = playerPosition.x - _previousPosition.x;
@@ -95,13 +98,21 @@ public:
 
     // Getters para UI
     bool HasCannon() const { return _cannon->IsEquipped(); }
-    int GetCannonAmmo() const { return _cannon->GetAmmo(); }
     bool HasLaser() const { return _laser->IsEquipped(); }
-    int GetLaserAmmo() const { return _laser->GetAmmo(); }
+    int GetCannonAmmo() const {
+        if (!_cannon) return 0;
+        return _cannon->GetAmmo();
+    }
+
+    int GetLaserAmmo() const {
+        if (!_laser) return 0;
+        return _laser->GetAmmo();
+    }
+
     int GetNumOfTurrets() const {
         int count = 0;
-        if (_topTurret->IsEquipped()) count++;
-        if (_bottomTurret->IsEquipped()) count++;
+        if (_topTurret && _topTurret->IsEquipped()) count++;
+        if (_bottomTurret && _bottomTurret->IsEquipped()) count++;
         return count;
     }
 };

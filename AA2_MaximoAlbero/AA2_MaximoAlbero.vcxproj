@@ -28,6 +28,7 @@
     <ClCompile Include="source\GameplayStatePlaying.cpp" />
     <ClCompile Include="source\ImageRenderer.cpp" />
     <ClCompile Include="source\InputManager.cpp" />
+    <ClCompile Include="source\LevelManager.cpp" />
     <ClCompile Include="source\LoadLevel.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Player.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="source\KillerWhaleWave.h" />
     <ClInclude Include="source\LaserWeapon.h" />
     <ClInclude Include="source\LeftLinearMovement.h" />
+    <ClInclude Include="source\LevelManager.h" />
     <ClInclude Include="source\Missile.h" />
     <ClInclude Include="source\Nuke.h" />
     <ClInclude Include="source\ReuniteMovement.h" />
@@ -161,6 +163,7 @@
   <ItemGroup>
     <Xml Include="level_1.xml" />
     <Xml Include="resources\level_1.xml" />
+    <Xml Include="resources\level_2.xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

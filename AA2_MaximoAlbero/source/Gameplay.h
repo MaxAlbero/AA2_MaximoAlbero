@@ -1,16 +1,14 @@
-﻿// (VERSIÓN ACTUALIZADA CON STATE MACHINE)
-#pragma once
+﻿#pragma once
 #include "TextObject.h"
 #include "Scene.h"
 #include "Player.h"
 #include "GameplayStateBase.h"
 #include "GameplayStatePlaying.h"
 #include "GameplayStatePaused.h"
+#include "GameplayStateFinishWave.h"
 #include "WaveManager.h"
+#include "LevelManager.h"
 #include <vector>
-
-// Forward declaration para romper dependencias circulares
-class GameplayStateFinishWave;
 
 class Gameplay : public Scene {
 private:
@@ -37,6 +35,8 @@ private:
 
     WaveManager* waveManager;
 
+    int currentLevelNumber;
+
 public:
     Gameplay() = default;
     ~Gameplay();
@@ -49,11 +49,17 @@ public:
     // Getters para que los estados accedan
     Player* GetPlayer() { return player; }
 
-    // Nueva: método para actualizar solo la escena (llamado solo desde PLAYING)
+    // Método para actualizar solo la escena (llamado solo desde PLAYING)
     void UpdateGameplay();
 
     // Wrapper para que los estados puedan consultar/forzar waves
     bool HasMoreWaves() const { return waveManager ? waveManager->HasMoreWaves() : false; }
     bool IsLevelComplete() const { return waveManager ? waveManager->IsLevelComplete() : true; }
     void ForceStartNextWave() { if (waveManager) waveManager->StartNextWaveImmediate(); }
+
+    // Nuevo: Recargar el nivel actual (para transición entre niveles)
+    void ReloadLevel() {
+        OnExit();  // Limpiar nivel actual
+        OnEnter(); // Entrar en el nuevo nivel
+    }
 };

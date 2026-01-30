@@ -79,9 +79,15 @@ void Gameplay::OnEnter() {
     // Inicializar WaveManager y cargar nivel (XML)
     waveManager = new WaveManager(player);
     waveManager->SetPlayer(player);
-    if (!waveManager->LoadFromXML("resources/level_1.xml")) {
-        // Intento alternativo si la ruta anterior no existe
-        waveManager->LoadFromXML("level_1.xml");
+
+    // Obtener el nivel actual del LevelManager
+    currentLevelNumber = LM.GetCurrentLevel();
+    std::string levelPath = "resources/level_" + std::to_string(currentLevelNumber) + ".xml";
+
+    std::cout << "Loading Level " << currentLevelNumber << " from: " << levelPath << std::endl;
+
+    if (!waveManager->LoadFromXML(levelPath)) {
+        std::cout << "Error: Failed to load " << levelPath << std::endl;
     }
     waveManager->Start();
 

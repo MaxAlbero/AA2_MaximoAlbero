@@ -50,7 +50,10 @@ public:
 	}
 
 	~Player() {
-		delete _weaponManager;
+		if (_weaponManager) {
+			delete _weaponManager;
+			_weaponManager = nullptr;
+		}
 	}
 
 	void Update() override {
