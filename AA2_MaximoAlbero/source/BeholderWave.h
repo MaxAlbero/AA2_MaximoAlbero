@@ -55,7 +55,8 @@ public:
                 break;
             }
         }
-        if (allDead) _finished = true;
+        if (allDead) 
+            _finished = true;
     }
 
     void End() override {

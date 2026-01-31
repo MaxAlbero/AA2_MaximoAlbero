@@ -50,17 +50,15 @@ public:
 		else
 			centerY = RM->WINDOW_HEIGHT / 1.5f;
 
-		movements.push_back(new LeftLinearMovement(_transform, _physics, stopPointX, moveSpeed));
-
-		Vector2 circleCenter = Vector2(stopPointX, centerY);
-		movements.push_back(new CirclePartialMovement(_transform, _physics, circleRadius, circleCenter, circleAngularVelDeg, circleDegrees));
-
 		float directionY;
 		if (dir == TOP_TO_BOTTOM)
 			directionY = RM->WINDOW_HEIGHT / 1.5f;
 		else
 			directionY = RM->WINDOW_HEIGHT / 3.f;
 
+		Vector2 circleCenter = Vector2(stopPointX, centerY);
+		movements.push_back(new LeftLinearMovement(_transform, _physics, stopPointX, moveSpeed));
+		movements.push_back(new CirclePartialMovement(_transform, _physics, circleRadius, circleCenter, circleAngularVelDeg, circleDegrees));
 		movements.push_back(new DiagonalMovement(_transform, _physics, directionY, moveSpeed, 1.f));
 		movements.push_back(new RightLinearMovement(_transform, _physics, moveSpeed));
 
