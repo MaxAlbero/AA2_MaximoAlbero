@@ -32,9 +32,9 @@ public:
 
 	void OnHoverEnter()
 	{
+		AM->PlaySound("resources/audio/sfx/button1.wav");
 		_transform->scale = Vector2(1.2f, 1.2f);
 		_isHovered = true;
-		AM->PlaySound("resources/audio/music/button1.mp3");
 	}
 
 	void OnHoverExit()
@@ -45,11 +45,10 @@ public:
 	}
 
 	void OnClicked() {
+		AM->PlaySound("resources/audio/sfx/sub_select.wav");
 		_transform->scale = Vector2(1.5f, 1.5f);
 		_onClick();
 	}
-
-
 
 	virtual void Render() override  {
 		Object::Render();

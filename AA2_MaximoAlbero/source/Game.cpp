@@ -53,6 +53,8 @@ void Game::Init() {
 	AM->LoadSoundData("resources/audio/sfx/explode10.wav");
 	AM->LoadSoundData("resources/audio/sfx/button1.wav");
 	AM->LoadSoundData("resources/audio/sfx/pickup_battery.wav");
+	AM->LoadSoundData("resources/audio/sfx/LegoYodaDeath.wav");
+	AM->LoadSoundData("resources/audio/sfx/sub_select.wav");
 
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));

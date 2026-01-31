@@ -511,5 +511,11 @@
     <Media Include="resources\audio\sfx\pickup_battery.wav">
       <Filter>Resource Files</Filter>
     </Media>
+    <Media Include="resources\audio\sfx\LegoYodaDeath.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\sfx\sub_select.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

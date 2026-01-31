@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "ScoreManager.h"
 #include <iostream>
+#include "AudioManager.h"
 
 void PowerUp::OnCollision(Object* other)
 {
@@ -31,6 +32,8 @@ void PowerUp::OnCollision(Object* other)
         }
 
         this->Destroy();
+
+        AM->PlaySound("resources/audio/sfx/pickup_battery.wav");
     }
     else if (PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other)){
         bullet->Destroy();

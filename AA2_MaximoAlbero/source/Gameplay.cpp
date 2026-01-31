@@ -48,9 +48,8 @@ Gameplay::~Gameplay() {
 void Gameplay::OnEnter() {
     // Obtener el nivel seleccionado del LevelManager
     int selectedLevelIndex = LM->GetCurrentLevelIndex();
-    currentLevel = selectedLevelIndex + 1;  // +1 porque levelNumber comienza en 1
+    currentLevel = selectedLevelIndex + 1;
 
-    // maxLevel es el total de niveles disponibles
     maxLevel = LM->GetLevelCount();
 
     levelCompleted = false;
@@ -162,7 +161,7 @@ void Gameplay::Update() {
             waveManager->Update(TM.GetDeltaTime());
         }
 
-        Scene::Update();  // Only update scene objects when not paused
+        Scene::Update();
     }
 
     // Detectar cuando WaveManager dice que está esperando la siguiente wave

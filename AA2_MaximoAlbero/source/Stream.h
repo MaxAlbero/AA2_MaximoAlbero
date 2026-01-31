@@ -1,120 +1,127 @@
 #pragma once
 #include <SDL3/SDL_audio.h>
-#include <atomic>
 #include <vector>
+#include <iostream>
 
-//Estructura para guardar los datos de un .wav
-struct SoundData {
-	SDL_AudioSpec spec; //Formato del audio
+//Estructura per desar les dades d'un .wav
+struct SoundData
+{
 	Uint8* wavData;
-	Uint32 wavDataLength; //Cuantos bytes hay en wavData
+	Uint32 wavDataLength;
+	SDL_AudioSpec spec;		//Format de l'àudio
 };
 
-enum StreamState {
-	READY = 1,
-	PLAYING = 2,
-	STOPPED = 3
+enum StreamState
+{
+	READY = 1, PLAYING = 2, STOPPED = 3
 };
 
-class Stream {
+class Stream
+{
 private:
 	SDL_AudioStream* _stream;
 	StreamState _state;
 
-	void StopStream() {
-		//1) Limpia el SDL_AudioStream
+public:
+	Stream(SDL_AudioSpec soundSpec, SDL_AudioDeviceID deviceId)
+	{
+		//1) Crear un stream d'àudio i:
+			//- Utilitzar com a format source el mateix que el del .wav
+			//- Deixar el format destí a NULL (canviarà al desitjat pel hardware en ser bindejat)
+		_stream = SDL_CreateAudioStream(&soundSpec, NULL);
+
+		//2) Bind (vincular) el stream al dispositiu d'àudio pel qual es desitja que soni
+		SDL_BindAudioStream(deviceId, _stream);
+
+		//3) Indicar estat actual
+		_state = READY;
+	}
+	~Stream() {}
+
+	void CheckPlayback(SoundData* soundData, std::atomic<bool>& haltRequest)
+	{
+		while (_state != STOPPED)
+		{
+			//Si ja s'ha reproduït un cop el stream i la reproducció ha acabat
+			//O si cal parar el thread
+			if ((_state != READY && SDL_GetAudioStreamQueued(_stream) == 0) || haltRequest)
+			{
+				StopStream();
+			}
+			//Si el stream encara no s'ha reproduït i està preparat per fer-ho
+			if (_state == READY)
+			{
+				Uint32 bytesQueued = SDL_GetAudioStreamQueued(_stream);
+				int bytesRemaining = ((int)soundData->wavDataLength) - bytesQueued;
+
+				//"Triquinyuela" per variable-length arrays
+				std::vector<Uint8> wavDataRemainingVec = std::vector<Uint8>(bytesRemaining, '\0');
+				Uint8* wavDataRemaining = &wavDataRemainingVec[0];
+
+				//Copiar memòria: dst, src, len
+				SDL_memcpy(wavDataRemaining, (const Uint32*)&soundData->wavData[bytesQueued], bytesRemaining);
+				SDL_PutAudioStreamData(_stream, wavDataRemaining, bytesRemaining);
+
+				//Indicar que no es desitja afegir res més al stream fins que no acabi
+				SDL_FlushAudioStream(_stream);
+
+				//Evitar que a la següent iteració es repeteixi el so
+				_state = PLAYING;
+			}
+		}
+	}
+
+	void CheckPlaybackLooping(SoundData* soundData, std::atomic<bool>& haltRequest)
+	{
+		while (_state != STOPPED)
+		{
+			//Si cal parar el thread
+			if (haltRequest)
+			{
+				StopStream();
+			}
+			//Si el stream encara no s'ha reproduït i està preparat per fer-ho
+			if (_state == READY)
+			{
+				Uint32 bytesQueued = SDL_GetAudioStreamQueued(_stream);
+				int bytesRemaining = ((int)soundData->wavDataLength) - bytesQueued;
+
+				//"Triquinyuela" per variable-length arrays
+				std::vector<Uint8> wavDataRemainingVec = std::vector<Uint8>(bytesRemaining, '\0');
+				Uint8* wavDataRemaining = &wavDataRemainingVec[0];
+
+				//Copiar memòria: dst, src, len
+				SDL_memcpy(wavDataRemaining, (const Uint32*)&soundData->wavData[bytesQueued], bytesRemaining);
+				SDL_PutAudioStreamData(_stream, wavDataRemaining, bytesRemaining);
+
+				//Indicar que no es desitja afegir res més al stream fins que no acabi
+				SDL_FlushAudioStream(_stream);
+
+				//Evitar que a la següent iteració es repeteixi el so
+				_state = PLAYING;
+			}
+			//Si s'ha acabat el so i cal un nou cicle de reproducció
+			if (_state != READY && _state != STOPPED && SDL_GetAudioStreamQueued(_stream) == 0)
+			{
+				SDL_ClearAudioStream(_stream);
+				_state = READY;
+			}
+		}
+	}
+
+	void StopStream()
+	{
+		//1) Neteja el SDL_AudioStream
 		SDL_ClearAudioStream(_stream);
 
-		//2) Desvincular el SDL_AudioStream del dispositivo de Audio
+		//2) Fes unbind del SDL_AudioStream
 		SDL_UnbindAudioStream(_stream);
 
-		//3) Destruir el SDL_AudioStream
+		//3) Destrueix el SDL_AudioStream
 		SDL_DestroyAudioStream(_stream);
 
-		//4) Actualizar el estado
+		//4) Actualitza estat
 		_state = STOPPED;
 	}
 
-public:
-	Stream(SDL_AudioSpec spec, SDL_AudioDeviceID deviceId) {
-		//1) Crea un SDL_AudioStream
-			//- Utiliza como formato de origne el mismo que el del .wav
-			//- Deja el formato destino a NULL (cambiara al desado por el hardware en hacer bind)
-		_stream = SDL_CreateAudioStream(&spec, NULL);
-
-		//2) Bindear, vincula el stream al dispositivo de audio deseado
-		SDL_BindAudioStream(deviceId, _stream);
-
-		//3) Indicar el estado
-			// - Ahora mismo el stream esta listo para añadirle datos, pero por ahora esta vacio
-		_state = READY;
-	}
-
-	~Stream() {}
-
-	void CheckPlayback(SoundData* soundData, std::atomic<bool>& haltRequest) {
-		while (_state != STOPPED) {
-			//Si ya se ha reproducido una vez el stream y la reproduccion ha acabado
-			//O hay que parar el proceso / la reproduccion
-			if ((_state != READY && SDL_GetAudioStreamQueued(_stream) == 0) || haltRequest) {
-				StopStream();
-			}
-
-			//Si el stream todavia no se reproducido y esta preparado para hacerlo
-			if (_state == READY) {
-				Uint32 bytesQueued = SDL_GetAudioStreamQueued(_stream);
-				int bytesRemaining = ((int)soundData->wavDataLength) - bytesQueued;
-
-				//Paso para conseguir array con tamaño variable
-				std::vector<Uint8> wavDataRemainingVec = std::vector<Uint8>(bytesRemaining, '\0');
-				Uint8* wavDataRemaining = &wavDataRemainingVec[0];
-
-				//dst, src, len
-				SDL_memcpy(wavDataRemaining, (const Uint32*)&soundData->wavData[bytesQueued], bytesRemaining);
-				SDL_PutAudioStreamData(_stream, wavDataRemaining, bytesRemaining);
-
-				//Indicar que no se desea añadir nada más al stream hasta que no acabe (añadimos-consumimos, añadimos-consumimos...)
-				SDL_FlushAudioStream(_stream);
-
-				//Evitar que en la siguiente iteracion se repita la copia de memoria 
-				_state = PLAYING;
-			}
-		}
-	}
-
-	void CheckPlaybackLooping(SoundData* soundData, std::atomic<bool>& haltRequest) {
-		while (_state != STOPPED) {
-			//Si hay que parar el proceso / la reproduccion
-			if (haltRequest) {
-				StopStream();
-			}
-
-			//Si el stream todavia no se reproducido y esta preparado para hacerlo
-			if (_state == READY) {
-				Uint32 bytesQueued = SDL_GetAudioStreamQueued(_stream);
-				int bytesRemaining = ((int)soundData->wavDataLength) - bytesQueued;
-
-				//Paso para conseguir array con tamaño variable
-				std::vector<Uint8> wavDataRemainingVec = std::vector<Uint8>(bytesRemaining, '\0');
-				Uint8* wavDataRemaining = &wavDataRemainingVec[0];
-
-				//dst, src, len
-				SDL_memcpy(wavDataRemaining, (const Uint32*)&soundData->wavData[bytesQueued], bytesRemaining);
-				SDL_PutAudioStreamData(_stream, wavDataRemaining, bytesRemaining);
-
-				//Indicar que no se desea añadir nada más al stream hasta que no acabe (añadimos-consumimos, añadimos-consumimos...)
-				SDL_FlushAudioStream(_stream);
-
-				//Evitar que en la siguiente iteracion se repita la copia de memoria 
-				_state = PLAYING;
-			}
-
-			//Si ha acabado el sonido y hay que empezar un nuevo ciclo de reproduccion
-			if (_state == PLAYING && SDL_GetAudioStreamQueued(_stream) == 0) {
-				SDL_ClearAudioStream(_stream);
-				_state = READY;
-
-			}
-		}
-	}
 };
