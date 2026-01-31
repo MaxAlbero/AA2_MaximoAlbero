@@ -7,9 +7,9 @@ private:
     bool _finished;
     int _nextState;
     Button* _resumeButton;
-    std::vector<Object*> _ui;
+
 public:
-    GameplayStatePaused(); 
+    GameplayStatePaused();
     void Start() override;
     void Update(float deltaTime) override;
     void Render() override;
