@@ -48,6 +48,7 @@ void Game::Init() {
 	RM->LoadTexture("resources/missile.png");
 	RM->LoadTexture("resources/crab.png");
 	RM->LoadTexture("resources/father.png");
+	RM->LoadTexture("resources/beholder.png");
 	RM->LoadTexture("resources/powerup_spritesheet.png");
 	RM->LoadTexture("resources/explosion_spritesheet.png");
 

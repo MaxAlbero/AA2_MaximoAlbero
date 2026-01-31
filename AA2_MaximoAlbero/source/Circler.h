@@ -14,7 +14,7 @@ public:
         _transform->position = Vector2(RM->WINDOW_WIDTH / 2.f, -_transform->size.y);
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
-        SetHealth(1000);
+        SetHealth(100);
         SetPointsValue(500);
 
         float speed = 200.f;
