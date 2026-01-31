@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "LevelManager.h"
+#include "AudioManager.h"
 #include "Gameplay.h"
 #include "MainMenu.h"
 #include "Ranking.h"
@@ -47,6 +48,11 @@ void Game::Init() {
 	RM->LoadTexture("resources/crab.png");
 
 	RM->LoadFont("resources/fonts/cidergum.ttf");
+
+	AM->LoadSoundData("resources/audio/sfx/defeat.wav");
+	AM->LoadSoundData("resources/audio/sfx/explode10.wav");
+	AM->LoadSoundData("resources/audio/sfx/button1.wav");
+	AM->LoadSoundData("resources/audio/sfx/pickup_battery.wav");
 
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));

@@ -43,22 +43,21 @@ void GameplayStatePaused::Update(float deltaTime) {
 }
 
 void GameplayStatePaused::Render() {
-    // Render dark overlay
     SDL_SetRenderDrawColor(RM->GetRenderer(), 0, 0, 0, 200);
     SDL_FRect overlay = { 0.f, 0.f, (float)RM->WINDOW_WIDTH, (float)RM->WINDOW_HEIGHT };
     SDL_RenderFillRect(RM->GetRenderer(), &overlay);
 
-    // Create and render pause text
-    TextObject* pauseText = new TextObject("PAUSED - Press P, ESC or the button to Resume");
-    pauseText->GetTransform()->position = Vector2(
+
+    _pauseText = new TextObject("PAUSED - Press P, ESC or the button to Resume");
+    _pauseText->GetTransform()->position = Vector2(
         RM->WINDOW_WIDTH / 2.f,
         RM->WINDOW_HEIGHT / 2.f
     );
-    pauseText->GetTransform()->scale = Vector2(2.f, 2.f);
-    pauseText->SetTextColor(SDL_Color{ 255, 255, 255, 255 });
-    pauseText->Render();
+    _pauseText->GetTransform()->scale = Vector2(2.f, 2.f);
+    _pauseText->SetTextColor(SDL_Color{ 255, 255, 255, 255 });
+    _pauseText->Render();
 
-    // Render the button
+
     if (_resumeButton) {
         _resumeButton->Render();
     }

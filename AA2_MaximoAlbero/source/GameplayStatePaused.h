@@ -1,12 +1,14 @@
 #pragma once
 #include "GameplayStateBase.h"
 #include "Button.h"
+#include "TextObject.h"
 
 class GameplayStatePaused : public GameplayStateBase {
 private:
     bool _finished;
     int _nextState;
     Button* _resumeButton;
+    TextObject* _pauseText;
 
 public:
     GameplayStatePaused();

@@ -43,8 +43,12 @@
     <ClInclude Include="source\AmoebaWave.h" />
     <ClInclude Include="source\Angrygons.h" />
     <ClInclude Include="source\AngrygonsWave.h" />
+    <ClInclude Include="source\AnimatedImageObject.h" />
+    <ClInclude Include="source\AnimatedImageRenderer.h" />
     <ClInclude Include="source\Annoyer.h" />
     <ClInclude Include="source\AnnoyerWave.h" />
+    <ClInclude Include="source\AtomicWrapper.h" />
+    <ClInclude Include="source\AudioManager.h" />
     <ClInclude Include="source\Background.h" />
     <ClInclude Include="source\Beholder.h" />
     <ClInclude Include="source\BeholderWave.h" />
@@ -124,7 +128,9 @@
     <ClInclude Include="source\Spawner.h" />
     <ClInclude Include="source\SplashScreen.h" />
     <ClInclude Include="source\SpreadMovement.h" />
+    <ClInclude Include="source\Stream.h" />
     <ClInclude Include="source\TargetMovement.h" />
+    <ClInclude Include="source\TestAnimation.h" />
     <ClInclude Include="source\TextObject.h" />
     <ClInclude Include="source\TextRenderer.h" />
     <ClInclude Include="source\TimeManager.h" />
@@ -183,6 +189,12 @@
     <Xml Include="resources\level_1.xml" />
     <Xml Include="resources\level_2.xml" />
     <Xml Include="resources\ranking.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\audio\sfx\button1.wav" />
+    <Media Include="resources\audio\sfx\defeat.wav" />
+    <Media Include="resources\audio\sfx\explode10.wav" />
+    <Media Include="resources\audio\sfx\pickup_battery.wav" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

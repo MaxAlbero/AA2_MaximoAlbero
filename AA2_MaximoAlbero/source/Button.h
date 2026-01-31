@@ -1,6 +1,7 @@
 #pragma once
 #include "ImageObject.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 #include <functional>
 
 class Button : public ImageObject {
@@ -33,6 +34,7 @@ public:
 	{
 		_transform->scale = Vector2(1.2f, 1.2f);
 		_isHovered = true;
+		AM->PlaySound("resources/audio/music/button1.mp3");
 	}
 
 	void OnHoverExit()

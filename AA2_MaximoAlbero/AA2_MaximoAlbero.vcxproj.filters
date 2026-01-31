@@ -24,9 +24,6 @@
     <ClCompile Include="source\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\ImageRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,6 +61,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\ScoreManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\LevelManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -165,9 +165,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\SplashScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\TestObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\TextObject.h">
@@ -389,7 +386,28 @@
     <ClInclude Include="source\Ranking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\GameOverScreen.h">
+    <ClInclude Include="source\DanielsWave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\LevelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\AtomicWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\AnimatedImageObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\AnimatedImageRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TestAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -445,6 +463,30 @@
     <Image Include="resources\explosion.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\annoyer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\chainsaw.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\crab.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\daniels.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\missile.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\Richard.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\torpedo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\ufo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\hyperspace.ttf" />
@@ -454,5 +496,20 @@
     <Xml Include="level_1.xml" />
     <Xml Include="resources\level_1.xml" />
     <Xml Include="resources\level_2.xml" />
+    <Xml Include="resources\ranking.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="resources\audio\sfx\explode10.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\sfx\button1.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\sfx\defeat.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\sfx\pickup_battery.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
