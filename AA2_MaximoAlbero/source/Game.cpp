@@ -47,10 +47,15 @@ void Game::Init() {
 	RM->LoadTexture("resources/annoyer.png");
 	RM->LoadTexture("resources/missile.png");
 	RM->LoadTexture("resources/crab.png");
+	RM->LoadTexture("resources/father.png");
+	RM->LoadTexture("resources/powerup_spritesheet.png");
 
+	//Text Fonts
 	RM->LoadFont("resources/fonts/cidergum.ttf");
 
+	//SFX and Music
 	AM->LoadSoundData("resources/audio/sfx/defeat.wav");
+	AM->LoadSoundData("resources/audio/sfx/victory.wav");
 	AM->LoadSoundData("resources/audio/sfx/explode10.wav");
 	AM->LoadSoundData("resources/audio/sfx/button1.wav");
 	AM->LoadSoundData("resources/audio/sfx/pickup_battery.wav");

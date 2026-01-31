@@ -15,12 +15,11 @@ public:
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 
         SetHealth(300);
-        SetPointsValue(500);
+        SetPointsValue(1000);
 
         float speed = 100.f;
         Vector2 stopPos(RM->WINDOW_WIDTH - _transform->size.x, RM->WINDOW_HEIGHT / 2.f);
 
-        // Patrón: entrar - disparar - pausa - disparar - pausa - disparar - salir
         movements.push_back(new TargetMovement(_transform, _physics, stopPos, speed));
 
         movements.push_back(new IdleMovement(_transform, _physics, 2.0f));

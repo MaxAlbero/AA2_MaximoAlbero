@@ -124,6 +124,8 @@ void Gameplay::OnEnter() {
     LoadLevel(currentLevel);
     waveManager->Start();
 
+    //decorationSpawner = new BackgroundDecorationSpawner();
+
     InitializeGameplayElements();
 
     GameplayStateDeath* deathState = dynamic_cast<GameplayStateDeath*>(gameplayStates[3]);
@@ -140,6 +142,11 @@ void Gameplay::OnExit() {
     shieldText = nullptr;
     cannonText = nullptr;
     laserText = nullptr;
+
+    //if (decorationSpawner) {
+    //    delete decorationSpawner;
+    //    decorationSpawner = nullptr;
+    //}
 
     Scene::OnExit();
 }
@@ -160,6 +167,11 @@ void Gameplay::Update() {
         if (waveManager) {
             waveManager->Update(TM.GetDeltaTime());
         }
+
+        //if (decorationSpawner) {
+        //    decorationSpawner->Update(TM.GetDeltaTime());
+        //}
+
 
         Scene::Update();
     }
