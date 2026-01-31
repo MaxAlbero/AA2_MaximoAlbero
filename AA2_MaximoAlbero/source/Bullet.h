@@ -2,6 +2,7 @@
 #include "ImageObject.h"
 #include "RenderManager.h"
 #include "IAttacker.h"
+#include "AudioManager.h"
 
 class Bullet : public ImageObject, public IAttacker
 {
@@ -17,14 +18,12 @@ public:
 	}
 
 	void Update() override {
-		SetLifeTime();
 		Object::Update();
 	}
 
-	virtual void SetLifeTime() {}
-	
-
-	void OnCollision(Object* other) override {}
+	void OnCollision(Object* other) override {
+		AM->PlaySound("resources/audio/sfx/hit_wall.wav");
+	}
 
 	virtual void Attack(IDamageable* other) const override {}
 };

@@ -12,17 +12,11 @@ public:
 	}
 
 	void Update() override {
-		SetLifeTime();
-		Object::Update();
-	}
-
-	void SetLifeTime() override {
 		if (_transform->position.x < 0) {
 			Destroy();
 		}
+		Object::Update();
 	}
-
-	void OnCollision(Object* other) override {}
 
 	void Attack(IDamageable* other) const override {
 		other->ReceiveDamage(15);

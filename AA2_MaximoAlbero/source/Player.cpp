@@ -23,9 +23,6 @@ void Player::Move()
 	if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN)) {
 		Shoot();
 	}
-	else if (IM->GetLeftClick()) {
-		Shoot();
-	}
 }
 
 void Player::CheckBorders() {

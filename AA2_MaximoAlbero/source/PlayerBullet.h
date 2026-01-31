@@ -28,17 +28,12 @@ public:
 	}
 
 	void Update() override {
-		SetLifeTime();
-		Object::Update();
-	}
-
-	void SetLifeTime() override {
 		if (_transform->position.x > RM->WINDOW_WIDTH) {
 			Destroy();
 		}
-	}
 
-	void OnCollision(Object* other) override {}
+		Object::Update();
+	}
 
 	void Attack(IDamageable* other) const override {
 		other->ReceiveDamage(10);

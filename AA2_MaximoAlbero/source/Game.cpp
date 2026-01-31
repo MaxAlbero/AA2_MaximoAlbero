@@ -21,6 +21,7 @@ void Game::HandleEvents()
 void Game::Init() {
 	srand(time(NULL));
 	RM->Init();
+	AM->Init();
 
 	//Aqui la carrega de tots els recursos del joc
 	RM->LoadTexture("resources/image.png");
@@ -55,6 +56,9 @@ void Game::Init() {
 	AM->LoadSoundData("resources/audio/sfx/pickup_battery.wav");
 	AM->LoadSoundData("resources/audio/sfx/LegoYodaDeath.wav");
 	AM->LoadSoundData("resources/audio/sfx/sub_select.wav");
+	AM->LoadSoundData("resources/audio/sfx/move.wav");
+	AM->LoadSoundData("resources/audio/sfx/fire1.wav");
+	AM->LoadSoundData("resources/audio/sfx/hit_wall.wav");
 
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));
@@ -84,5 +88,6 @@ void Game::Render() {
 
 void Game::Release() {
 	RM->Release();
+	AM->HaltAudio();
 	SDL_Quit();
 }

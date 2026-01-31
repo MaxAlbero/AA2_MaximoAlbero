@@ -52,6 +52,8 @@ public:
     }
 
     void ShootAll(Vector2 playerPosition) {
+
+        AM->PlaySound("resources/audio/sfx/fire1.wav");
         _cannon->Shoot(playerPosition);
         _laser->Shoot(playerPosition);
         _topTurret->Shoot(playerPosition);
