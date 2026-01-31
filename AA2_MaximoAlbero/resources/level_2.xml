@@ -33,6 +33,10 @@
 		<amount>8</amount>
 	</wave>
 	<wave>
+		<spawned_enemy_id>19</spawned_enemy_id>
+		<amount>6</amount>
+	</wave>
+	<wave>
 		<spawned_enemy_id>18</spawned_enemy_id>
 		<amount>8</amount>
 	</wave>

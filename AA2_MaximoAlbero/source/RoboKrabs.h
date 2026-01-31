@@ -19,23 +19,24 @@ public:
         SetPointsValue(300);
 
         float speed = 200.f;
-        float xThreshold = RM->WINDOW_WIDTH * 2.f / 3.f; // Se detiene en 2/3 de la pantalla
+        float xThreshold = RM->WINDOW_WIDTH * 2.f / 3.f;
 
-        // Patrón: moverse a la izquierda hasta un punto - perseguir 3 veces - escapar
+        // Move to center position first
         movements.push_back(new RightLinearMovement(_transform, _physics, xThreshold, speed));
+
+        // Then attach to wall and jump at player
         bool attachToCeiling = (spawnPos.y < RM->WINDOW_HEIGHT / 2.f);
         movements.push_back(new RoboKrabsMovement(_transform, _physics, playerTransform, spawnPos, attachToCeiling,
             700.f /*jumpSpeed*/, 420.f /*returnSpeed*/, 3.f /*minDelay*/, 5.f /*maxDelay*/, 12.f /*tolerance*/));
 
-
-        movements.push_back(new EscapeMovement(_transform, _physics, speed)); // Escapar al borde más cercano
+        // Finally escape
+        movements.push_back(new EscapeMovement(_transform, _physics, speed));
     }
 
     void Update() override {
-        // Actualizar movimientos
         Enemy::Update();
 
-        // Destruir si sale de pantalla
+        // Destroy if off screen
         if (_transform->position.x + _transform->size.x < 0.f ||
             _transform->position.x > RM->WINDOW_WIDTH ||
             _transform->position.y + _transform->size.y < 0.f ||

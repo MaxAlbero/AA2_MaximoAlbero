@@ -1,14 +1,8 @@
-#pragma once //TODO: REVIEW ALL THIS CODE TO MAKE IT LIKE THE ORIGINAL GAME
+#pragma once
 #include "EnemyMovement.h"
 #include <random>
 #include <cmath>
 
-// Movimiento específico para RoboKrabs:
-// - se queda "pegado" a una pared (posición de attach)
-// - espera un intervalo aleatorio [minDelay, maxDelay]
-// - salta hacia la posición actual del player (velocidad jumpSpeed)
-// - al llegar, vuelve a la posición de attach (velocidad returnSpeed)
-// - repite el ciclo indefinidamente
 class RoboKrabsMovement : public EnemyMovement {
 private:
 	Transform* _playerTransform;
@@ -36,9 +30,6 @@ private:
 	}
 
 public:
-	// playerTransform: referencia al transform del jugador
-	// attachPos: posición en pared donde se "pega" inicialmente
-	// attachToCeiling: no usado directamente pero semántico (puedes usarlo para orientación)
 	RoboKrabsMovement(Transform* transform, RigidBody* rigidBody,
 		Transform* playerTransform,
 		const Vector2& attachPos,
@@ -83,14 +74,11 @@ public:
 			_timer += deltaTime;
 			// permanecer pegado
 			if (_rigidBody) _rigidBody->SetVelocity(Vector2(0.f, 0.f));
-			// iniciar salto cuando termine el delay
 			if (_timer >= _currentDelay) {
 				_timer = 0.f;
 				_currentDelay = _dist(_rng);
 				_phase = JUMPING;
-				// fijar target en la posición actual del jugador
 				_currentTarget = _playerTransform->position;
-				// calcular dirección y aplicar velocidad
 				Vector2 dir = _currentTarget - _transform->position;
 				float dist = std::sqrt(dir.x * dir.x + dir.y * dir.y);
 				if (dist > 0.001f) {
@@ -102,15 +90,12 @@ public:
 			break;
 		}
 		case JUMPING: {
-			// comprobar llegada al target (player pos en el momento del salto)
 			float d2 = DistanceSq(_transform->position, _currentTarget);
 			if (d2 <= _tolerance * _tolerance) {
 				// detener
 				if (_rigidBody) _rigidBody->SetVelocity(Vector2(0.f, 0.f));
-				// preparar retorno al attach
 				_phase = RETURNING;
 				_currentTarget = _attachPos;
-				// aplicar velocidad de retorno
 				Vector2 dir = _currentTarget - _transform->position;
 				float dist = std::sqrt(dir.x * dir.x + dir.y * dir.y);
 				if (dist > 0.001f) {
@@ -120,7 +105,6 @@ public:
 				}
 			}
 			else {
-				// actualizar la velocidad en caso de que el salto deba ajustarse frame a frame
 				Vector2 dir = _currentTarget - _transform->position;
 				float dist = std::sqrt(dir.x * dir.x + dir.y * dir.y);
 				if (dist > 0.001f) {
@@ -133,7 +117,6 @@ public:
 		case RETURNING: {
 			float d2 = DistanceSq(_transform->position, _currentTarget);
 			if (d2 <= _tolerance * _tolerance) {
-				// volver al attach exacto y esperar de nuevo
 				_transform->position = _attachPos;
 				if (_rigidBody) _rigidBody->SetVelocity(Vector2(0.f, 0.f));
 				_phase = WAITING;
@@ -141,7 +124,6 @@ public:
 				_currentDelay = _dist(_rng);
 			}
 			else {
-				// asegurar velocidad de retorno
 				Vector2 dir = _currentTarget - _transform->position;
 				float dist = std::sqrt(dir.x * dir.x + dir.y * dir.y);
 				if (dist > 0.001f) {

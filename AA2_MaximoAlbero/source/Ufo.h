@@ -11,7 +11,7 @@ public:
         _renderer = new ImageRenderer(_transform, "resources/ufo.png",
             Vector2(0.f, 0.f), Vector2(499.f, 499.f));
 
-        _transform->scale = Vector2(0.5f, 05.f);
+        _transform->scale = Vector2(0.5f, 0.5f);
         _transform->position = spawnPos;
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 

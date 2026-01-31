@@ -11,11 +11,10 @@ public:
         std::cout << "UFO WAVE - " << _amount << " ufos incoming!" << std::endl;
 
         float speed = 180.f;
-        for (int i = 0; i < _amount; i++) {
-            Vector2 spawnPos(RM->WINDOW_WIDTH + i * 200.f, 100.f + i * 120.f);
-            Ufo* enemy = new Ufo(spawnPos, speed);
-            RegisterEnemy(enemy);
-        }
+
+        Vector2 spawnPos(-100.f, RM->WINDOW_HEIGHT / 2.f);
+        Ufo* enemy = new Ufo(spawnPos, speed);
+        RegisterEnemy(enemy);
     }
 
     void Update(float deltaTime) override {
@@ -33,7 +32,6 @@ public:
     }
 
     void End() override {
-        std::cout << "UFO WAVE CLEARED!" << std::endl;
         _spawnedEnemies.clear();
     }
 

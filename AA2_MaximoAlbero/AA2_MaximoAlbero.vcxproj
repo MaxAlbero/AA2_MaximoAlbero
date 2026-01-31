@@ -105,6 +105,7 @@
     <ClInclude Include="source\RightLinearMovement.h" />
     <ClInclude Include="source\RoboKrabs.h" />
     <ClInclude Include="source\RoboKrabsMovement.h" />
+    <ClInclude Include="source\RoboKrabsWave.h" />
     <ClInclude Include="source\ScoreManager.h" />
     <ClInclude Include="source\Hmedusa.h" />
     <ClInclude Include="source\IAttacker.h" />

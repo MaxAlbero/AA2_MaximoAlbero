@@ -18,6 +18,7 @@
 #include "TorpedoWave.h"
 #include "TurboChainsawWave.h"
 #include "UfoWave.h"
+#include "RoboKrabsWave.h"
 #include "Player.h"
 #include <iostream>
 
@@ -75,6 +76,9 @@ public:
 
         case 18:
             return new DanielsWave(amount);
+
+        case 19:
+            return new RoboKrabsWave(amount, playerRef);
 
         case 20:
             return new SpaceBossWave();

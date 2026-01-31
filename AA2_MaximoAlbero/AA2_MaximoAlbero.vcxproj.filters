@@ -419,6 +419,9 @@
     <ClInclude Include="source\Explosion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\RoboKrabsWave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
