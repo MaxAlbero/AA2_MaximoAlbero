@@ -13,10 +13,6 @@
 		<amount>7</amount>
 	</wave>
 	<wave>
-		<spawned_enemy_id>14</spawned_enemy_id>
-		<amount>1</amount>
-	</wave>
-	<wave>
 		<spawned_enemy_id>15</spawned_enemy_id>
 		<amount>7</amount>
 	</wave>

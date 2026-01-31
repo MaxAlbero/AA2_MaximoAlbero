@@ -135,7 +135,6 @@ void Gameplay::OnEnter() {
 }
 
 void Gameplay::OnExit() {
-    // NO ELIMINAR MANUALMENTE - Solo nullificar referencias
     scoreText = nullptr;
     highScoreText = nullptr;
     extraLivesText = nullptr;
@@ -143,12 +142,10 @@ void Gameplay::OnExit() {
     cannonText = nullptr;
     laserText = nullptr;
 
-    // Scene::OnExit() se encarga de eliminar todo de _ui y _objects
     Scene::OnExit();
 }
 
 void Gameplay::Update() {
-    // Detectar muerte del player
     if (player && player->IsPendingDestroy() && currentStateIndex != 3) {
         currentState->Finish();
         currentStateIndex = 3;
@@ -158,16 +155,15 @@ void Gameplay::Update() {
         return;
     }
 
-    // Actualizar el estado actual
     currentState->Update(TM.GetDeltaTime());
 
     if (currentState->ShouldUpdateScene()) {
         if (waveManager) {
             waveManager->Update(TM.GetDeltaTime());
         }
-    }
 
-    Scene::Update();
+        Scene::Update();  // Only update scene objects when not paused
+    }
 
     // Detectar cuando WaveManager dice que está esperando la siguiente wave
     if (!levelCompleted && waveManager && waveManager->IsWaitingForNextWave()) {
@@ -180,7 +176,6 @@ void Gameplay::Update() {
         }
     }
 
-    // Transiciones DESPUÉS de que el state actualice
     previousStateIndex = currentStateIndex;
 
     if (currentState->IsFinished()) {
@@ -197,12 +192,6 @@ void Gameplay::Update() {
 
     // Detectar transición de nivel limpiamente
     if (previousStateIndex == 2 && currentStateIndex == 0 && shouldTransitionLevel) {
-        std::cout << " TRANSITION DETECTED!" << std::endl;
-        std::cout << "  previousStateIndex=" << previousStateIndex << " (FinishWave)" << std::endl;
-        std::cout << "  currentStateIndex=" << currentStateIndex << " (Playing)" << std::endl;
-        std::cout << "  shouldTransitionLevel=" << shouldTransitionLevel << std::endl;
-        std::cout << "Transitioning from level " << currentLevel << " to next level..." << std::endl;
-
         shouldTransitionLevel = false;
         TransitionToNextLevel();
         return;
@@ -212,13 +201,16 @@ void Gameplay::Update() {
 }
 
 void Gameplay::Render() {
-    if (currentStateIndex == 3) {
-        currentState->Render();
-        return;
+    if (currentState && currentState->ShouldUpdateScene()) {
+        if (player) {
+            player->Render();
+        }
+        Scene::Render();
     }
 
-    Scene::Render();
-    currentState->Render();
+    if (currentState) {
+        currentState->Render();
+    }
 }
 
 void Gameplay::InitializeGameplayElements() {

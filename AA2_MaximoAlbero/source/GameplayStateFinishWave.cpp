@@ -136,8 +136,6 @@ void GameplayStateFinishWave::TransitionToVictory() {
         std::cout << "Bonus points awarded: " << _bonusPoints << std::endl;
     }
 
-    std::cout << "TransitionToVictory called. _isLevelComplete = " << _isLevelComplete << std::endl;
-
     _finished = true;
     _nextState = 0;
 

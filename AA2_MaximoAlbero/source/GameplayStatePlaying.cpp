@@ -14,9 +14,6 @@ void GameplayStatePlaying::Start() {
 }
 
 void GameplayStatePlaying::Update(float deltaTime) {
-    // El gameplay normal se actualiza en Gameplay::Update()
-    // Este estado solo escucha si se presiona pausa
-
     if (IM->GetEvent(SDLK_ESCAPE, KeyState::DOWN) ||
         IM->GetEvent(SDLK_P, KeyState::DOWN)) {
         _finished = true;
@@ -25,7 +22,6 @@ void GameplayStatePlaying::Update(float deltaTime) {
 }
 
 void GameplayStatePlaying::Render() {
-    // El render del gameplay se hace en Gameplay::Render()
 }
 
 bool GameplayStatePlaying::IsFinished() const {

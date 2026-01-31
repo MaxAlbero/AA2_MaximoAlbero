@@ -16,5 +16,5 @@ public:
 
     virtual void OnPlayerDeath(Player* player) {}
     virtual void SetGameplayReference(void* gameplayPtr) {}
-    virtual void RequestLevelTransition() {}  // NUEVO: Para que el estado pueda solicitar transición
+    virtual void RequestLevelTransition() {}
 };

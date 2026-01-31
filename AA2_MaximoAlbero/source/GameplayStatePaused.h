@@ -1,13 +1,15 @@
 #pragma once
 #include "GameplayStateBase.h"
+#include "Button.h"
 
 class GameplayStatePaused : public GameplayStateBase {
 private:
     bool _finished;
     int _nextState;
-
+    Button* _resumeButton;
+    std::vector<Object*> _ui;
 public:
-    GameplayStatePaused();  // Sin parámetros
+    GameplayStatePaused(); 
     void Start() override;
     void Update(float deltaTime) override;
     void Render() override;
