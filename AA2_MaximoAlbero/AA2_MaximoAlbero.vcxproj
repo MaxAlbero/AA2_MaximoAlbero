@@ -79,6 +79,7 @@
     <ClInclude Include="source\EnemyMovement.h" />
     <ClInclude Include="source\EnemyWave.h" />
     <ClInclude Include="source\EscapeMovement.h" />
+    <ClInclude Include="source\Explosion.h" />
     <ClInclude Include="source\FollowMovement.h" />
     <ClInclude Include="source\Game.h" />
     <ClInclude Include="source\Gameplay.h" />
@@ -167,6 +168,7 @@
     <Image Include="resources\crab.png" />
     <Image Include="resources\daniels.png" />
     <Image Include="resources\explosion.png" />
+    <Image Include="resources\explosion_spritesheet.png" />
     <Image Include="resources\father.png" />
     <Image Include="resources\image.png" />
     <Image Include="resources\missile.png" />

@@ -7,6 +7,7 @@
 #include "ScoreManager.h"
 #include <vector>
 #include "AudioManager.h"
+#include "Explosion.h"
 
 class Enemy : public ImageObject, public IAttacker, public IDamageable
 {
@@ -60,6 +61,10 @@ public:
     void Destroy() override {
         HSM->AddPoints(pointsValue);
         AM->PlaySound("resources/audio/sfx/LegoYodaDeath.wav");
+
+        Explosion* explosion = new Explosion(_transform->position);
+        SPAWNER.SpawnObject(explosion);
+
         Object::Destroy();
     }
 

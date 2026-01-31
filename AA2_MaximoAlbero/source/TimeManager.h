@@ -30,12 +30,13 @@ private:
 public:
 	static TimeManager& Instance() {
 		static TimeManager instance;
-		
+
 		return instance;
 	}
 
 	float GetDeltaTime() const { return _deltaTime; }
 	float GetElapsedTime() const { return _elapsedTime; }
+	float GetFrameTime() const { return _frameTime; }
 	bool ShouldUpdateGame() const { return _deltaTime >= _frameTime; }
 
 	void ResetDeltaTime() {

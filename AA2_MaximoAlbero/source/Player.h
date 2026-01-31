@@ -7,6 +7,7 @@
 #include "IAttacker.h"
 #include "IDamageable.h"
 #include "TimeManager.h"
+#include "Explosion.h"
 #include <cmath>
 #include "WeaponManager.h"
 
@@ -130,6 +131,10 @@ public:
 		std::cout << "Player received " << damageToAdd << " damage. Energy left: " << energy << std::endl;
 
 		if (energy <= 0) {
+			// Spawn explosion at player position
+			Explosion* explosion = new Explosion(_transform->position);
+			SPAWNER.SpawnObject(explosion);
+
 			Destroy();
 			std::cout << "Player Dead!" << std::endl;
 		}
