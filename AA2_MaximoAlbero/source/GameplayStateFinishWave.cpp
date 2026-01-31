@@ -119,7 +119,7 @@ void GameplayStateFinishWave::Finish() {
 }
 
 bool GameplayStateFinishWave::ShouldUpdateScene() const {
-    return false;
+    return true;
 }
 
 void GameplayStateFinishWave::ContinueToNextWave() {

@@ -16,6 +16,7 @@ public:
 
         SetHealth(300);
         SetPointsValue(1000);
+        SetIsBoss(true);
 
         float speed = 100.f;
         Vector2 stopPos(RM->WINDOW_WIDTH - _transform->size.x, RM->WINDOW_HEIGHT / 2.f);

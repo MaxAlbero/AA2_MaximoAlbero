@@ -17,6 +17,7 @@ protected:
     std::vector<EnemyMovement*> movements;
     int currentMovementIndex;
     bool _hasBeenOnScreen;
+    bool _isBoss;
 
 public:
     Enemy()
@@ -76,6 +77,9 @@ public:
     void SetPointsValue(int points) { pointsValue = points; }
 
     bool HasBeenOnScreen() const { return _hasBeenOnScreen; }
+
+    bool IsBoss() const { return _isBoss; }
+    void SetIsBoss(bool isBoss) { _isBoss = isBoss; }
 
 protected:
     virtual bool ShouldDestroyOutOfBounds() const {
