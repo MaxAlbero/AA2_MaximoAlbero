@@ -30,7 +30,6 @@ void Game::Init() {
 	RM->LoadTexture("resources/bebe.jpg");
 	RM->LoadTexture("resources/pompa.png");
 	RM->LoadTexture("resources/caballo.png");
-	RM->LoadTexture("resources/RayoNave.png");
 	RM->LoadTexture("resources/Wailord.png");
 	RM->LoadTexture("resources/pacman.png");
 	RM->LoadTexture("resources/pinky.png");

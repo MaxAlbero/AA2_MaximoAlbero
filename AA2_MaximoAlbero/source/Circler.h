@@ -48,7 +48,6 @@ public:
         Enemy::Update();
 
         if (_transform->position.y + _transform->size.y < 0.f) {
-            std::cout << "CIRCLER DESTROYED" << std::endl;
             Destroy();
         }
     }

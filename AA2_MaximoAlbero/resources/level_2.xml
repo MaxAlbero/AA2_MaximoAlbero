@@ -21,6 +21,10 @@
 		<amount>4</amount>
 	</wave>
 	<wave>
+		<spawned_enemy_id>14</spawned_enemy_id>
+		<amount>8</amount>
+	</wave>
+	<wave>
 		<spawned_enemy_id>12</spawned_enemy_id>
 		<amount>2</amount>
 	</wave>

@@ -161,13 +161,13 @@
     <Image Include="resources\background.jpg" />
     <Image Include="resources\bat.png" />
     <Image Include="resources\bebe.jpg" />
+    <Image Include="resources\beholder.png" />
     <Image Include="resources\BillBuster.png" />
     <Image Include="resources\BulletBill.png" />
     <Image Include="resources\caballo.png" />
     <Image Include="resources\chainsaw.png" />
     <Image Include="resources\crab.png" />
     <Image Include="resources\daniels.png" />
-    <Image Include="resources\explosion.png" />
     <Image Include="resources\explosion_spritesheet.png" />
     <Image Include="resources\father.png" />
     <Image Include="resources\image.png" />
