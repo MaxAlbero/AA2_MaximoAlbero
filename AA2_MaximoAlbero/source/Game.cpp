@@ -61,6 +61,9 @@ void Game::Init() {
 	AM->LoadSoundData("resources/audio/sfx/hit_wall.wav");
 	AM->LoadSoundData("resources/audio/sfx/gurp2.wav");
 
+	AM->LoadSoundData("resources/audio/music/MenuBackground.wav");
+	AM->LoadSoundData("resources/audio/music/GameplayBackground.wav");
+
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));
 	assert(SM.AddScene("Gameplay", new Gameplay()));
@@ -70,8 +73,8 @@ void Game::Init() {
 
 	HSM->LoadRankingFromFile("resources/ranking.xml");
 
-	//assert(SM.InitFirstScene("SplashScreen"));
-	assert(SM.InitFirstScene("Gameplay"));
+	assert(SM.InitFirstScene("SplashScreen"));
+	//assert(SM.InitFirstScene("Gameplay"));
 
 	_isRunning = !IM->Listen();
 }

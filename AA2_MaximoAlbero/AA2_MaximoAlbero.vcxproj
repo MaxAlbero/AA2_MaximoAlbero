@@ -191,6 +191,8 @@
     <Xml Include="resources\ranking.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="resources\audio\music\GameplayBackground.wav" />
+    <Media Include="resources\audio\music\MenuBackground.wav" />
     <Media Include="resources\audio\sfx\button1.wav" />
     <Media Include="resources\audio\sfx\defeat.wav" />
     <Media Include="resources\audio\sfx\explode10.wav" />

@@ -8,6 +8,7 @@ GameplayStatePlaying::GameplayStatePlaying()
 }
 
 void GameplayStatePlaying::Start() {
+    AM->PlaySoundLooping("resources/audio/music/GameplayBackground.wav");
     _finished = false;
     _nextState = -1;
     std::cout << "Estado: PLAYING" << std::endl;
@@ -17,7 +18,7 @@ void GameplayStatePlaying::Update(float deltaTime) {
     if (IM->GetEvent(SDLK_ESCAPE, KeyState::DOWN) ||
         IM->GetEvent(SDLK_P, KeyState::DOWN)) {
         _finished = true;
-        _nextState = 1; // Ir a PAUSED (índice 1)
+        _nextState = 1; // PAUSED STATE
     }
 }
 
@@ -34,4 +35,5 @@ int GameplayStatePlaying::GetNextState() const {
 
 void GameplayStatePlaying::Finish() {
     std::cout << "Saliendo de PLAYING" << std::endl;
+    AM->HaltAudio();
 }
