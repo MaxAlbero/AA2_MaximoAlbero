@@ -60,8 +60,8 @@ public:
 			directionY = RM->WINDOW_HEIGHT / 1.5f;
 		else
 			directionY = RM->WINDOW_HEIGHT / 3.f;
-		movements.push_back(new DiagonalMovement(_transform, _physics, directionY, moveSpeed, 1.f));
 
+		movements.push_back(new DiagonalMovement(_transform, _physics, directionY, moveSpeed, 1.f));
 		movements.push_back(new RightLinearMovement(_transform, _physics, moveSpeed));
 
 		SetHealth(20);

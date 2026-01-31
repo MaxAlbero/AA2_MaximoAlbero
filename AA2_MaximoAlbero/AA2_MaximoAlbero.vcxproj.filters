@@ -505,7 +505,6 @@
     <Font Include="resources\fonts\cidergum.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="level_1.xml" />
     <Xml Include="resources\level_1.xml" />
     <Xml Include="resources\level_2.xml" />
     <Xml Include="resources\ranking.xml" />

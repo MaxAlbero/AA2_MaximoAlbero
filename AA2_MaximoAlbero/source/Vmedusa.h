@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "TargetMovement.h"
 #include "UpLinearMovement.h"
 #include "IdleMovement.h"
 
@@ -17,29 +18,27 @@ public:
 		SetPointsValue(100);
 		
 		float speed = 200.f;
-		float yThreshold = RM->WINDOW_HEIGHT / 2.f;
+		float yThreshold1 = RM->WINDOW_HEIGHT / 1.5f;
+		float yThreshold2 = RM->WINDOW_HEIGHT / 2.5f;
+		float yThreshold3 = RM->WINDOW_HEIGHT / 4.f;
 
-		/*do
-		{		*/	
-			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
+			movements.push_back(new TargetMovement(_transform, _physics, 
+				Vector2(_transform->position.x, yThreshold1), speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new TargetMovement(_transform, _physics,
+				Vector2(_transform->position.x, yThreshold2), speed));
+			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
+			movements.push_back(new TargetMovement(_transform, _physics,
+				Vector2(_transform->position.x, yThreshold3), speed));
 			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
 			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
-			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
-			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
-			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
-			movements.push_back(new UpLinearMovement(_transform, _physics, yThreshold, speed));
-			movements.push_back(new IdleMovement(_transform, _physics, 1.f));
-			movements.push_back(new UpLinearMovement(_transform, _physics, speed));
-		//} while (!IsPendingDestroy());
 	}
 
-	void Update() override { //TODO: REVISAR SI ESTO HACE FALTA AQUI (QUE DIRIA QUE NO)
-		// Actualizar movimientos
+	void Update() override {
 		Enemy::Update();
 
 		// Destruir si sale de pantalla
 		if (_transform->position.y + _transform->size.y < 0.f) {
-			std::cout << "Vertical Medusa DESTROYED" << std::endl;
 			Destroy();
 		}
 	}

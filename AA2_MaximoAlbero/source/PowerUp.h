@@ -9,14 +9,14 @@ public:
     }
 
     PowerUp(Vector2 position)
-        : ImageObject("resources/powerup_spritesheet.png", Vector2(222.f, 0.f), Vector2(222 * maxLevel, 111.f)) {
+        : ImageObject("resources/powerup_spritesheet.png", Vector2(0.f, 0.f), Vector2(222, 111.f)) {
 
         for (int i = 0; i < maxLevel; i++) {
             renderers.push_back(new ImageRenderer(
                 this->_transform,
                 "resources/powerup_spritesheet.png",
-                Vector2(222 * i, 0),
-                Vector2(222 * maxLevel, 111)
+                Vector2(222.f * i, 0.f),
+                Vector2(222.f, 111.f)
             ));
         }
         delete _renderer;
