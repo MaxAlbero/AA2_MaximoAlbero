@@ -124,7 +124,7 @@ void Gameplay::OnEnter() {
     LoadLevel(currentLevel);
     waveManager->Start();
 
-    //decorationSpawner = new BackgroundDecorationSpawner();
+    decorationSpawner = new BackgroundDecorationSpawner();
 
     InitializeGameplayElements();
 
@@ -143,10 +143,10 @@ void Gameplay::OnExit() {
     cannonText = nullptr;
     laserText = nullptr;
 
-    //if (decorationSpawner) {
-    //    delete decorationSpawner;
-    //    decorationSpawner = nullptr;
-    //}
+    if (decorationSpawner) {
+        delete decorationSpawner;
+        decorationSpawner = nullptr;
+    }
 
     Scene::OnExit();
 }
@@ -168,9 +168,9 @@ void Gameplay::Update() {
             waveManager->Update(TM.GetDeltaTime());
         }
 
-        //if (decorationSpawner) {
-        //    decorationSpawner->Update(TM.GetDeltaTime());
-        //}
+        if (decorationSpawner) {
+            decorationSpawner->Update(TM.GetDeltaTime());
+        }
 
 
         Scene::Update();
@@ -201,11 +201,14 @@ void Gameplay::Update() {
         }
     }
 
-    // Detectar transición de nivel limpiamente
-    if (previousStateIndex == 2 && currentStateIndex == 0 && shouldTransitionLevel) {
-        shouldTransitionLevel = false;
-        TransitionToNextLevel();
-        return;
+    if (previousStateIndex == 2 && currentStateIndex == 0) {
+        if (shouldTransitionLevel) {
+            shouldTransitionLevel = false;
+            TransitionToNextLevel();
+            return;
+        }
+        // If NOT transitioning level, continue normally
+        // The next wave will start automatically
     }
 
     UpdateHUD();

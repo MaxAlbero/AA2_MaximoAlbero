@@ -79,12 +79,14 @@ void GameplayStateFinishWave::Update(float deltaTime) {
     _displayTimer += deltaTime;
 
     if (_isLevelComplete) {
+        // Level is complete - wait for input
         if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
             IM->GetLeftClick()) {
             TransitionToVictory();
         }
     }
     else if (_isLastWave) {
+        // Last wave but not level complete (shouldn't happen)
         if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
             IM->GetLeftClick() ||
             _displayTimer >= 5.0f) {
@@ -92,9 +94,7 @@ void GameplayStateFinishWave::Update(float deltaTime) {
         }
     }
     else {
-        if (_displayTimer >= _displayDuration) {
             ContinueToNextWave();
-        }
     }
 }
 
@@ -134,15 +134,17 @@ void GameplayStateFinishWave::TransitionToVictory() {
     if (_isLevelComplete && _context && _context->GetPlayer()) {
         HSM->AddPoints(_bonusPoints);
         std::cout << "Bonus points awarded: " << _bonusPoints << std::endl;
+
+        // Only request level transition if it's truly the last wave
+        if (_context) {
+            _context->RequestLevelTransition();
+        }
     }
+    // If NOT level complete, don't request level transition
+    // Just go back to PLAYING to continue with next wave
 
     _finished = true;
-    _nextState = 0;
-
-    if (_context) {
-        std::cout << "Setting level transition flag" << std::endl;
-        _context->RequestLevelTransition();
-    }
+    _nextState = 0;  // Back to PLAYING
 }
 
 void GameplayStateFinishWave::CalculateBonusPoints() {

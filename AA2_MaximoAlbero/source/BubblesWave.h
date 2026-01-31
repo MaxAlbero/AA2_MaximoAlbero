@@ -26,6 +26,16 @@ public:
     }
 
     void Update(float deltaTime) override {
+        bool allDead = true;
+        for (Enemy* enemy : _spawnedEnemies) {
+            if (!enemy->IsPendingDestroy()) {
+                allDead = false;
+                break;
+            }
+        }
+        if (allDead) {
+            _finished = true;
+        }
     }
 
     void End() override {

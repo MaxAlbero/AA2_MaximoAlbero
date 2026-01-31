@@ -410,6 +410,12 @@
     <ClInclude Include="source\TestAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\BackgroundDecoration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\BackgroundDecorationSpawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\bebe.jpg">
@@ -487,6 +493,12 @@
     <Image Include="resources\ufo.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\father.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\powerup_spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\hyperspace.ttf" />
@@ -533,6 +545,9 @@
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="resources\audio\music\MenuBackground.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="resources\audio\sfx\victory.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

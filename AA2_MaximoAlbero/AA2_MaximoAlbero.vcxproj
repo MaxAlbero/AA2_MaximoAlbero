@@ -50,6 +50,8 @@
     <ClInclude Include="source\AtomicWrapper.h" />
     <ClInclude Include="source\AudioManager.h" />
     <ClInclude Include="source\Background.h" />
+    <ClInclude Include="source\BackgroundDecoration.h" />
+    <ClInclude Include="source\BackgroundDecorationSpawner.h" />
     <ClInclude Include="source\Beholder.h" />
     <ClInclude Include="source\BeholderWave.h" />
     <ClInclude Include="source\BioTitan.h" />
@@ -165,11 +167,13 @@
     <Image Include="resources\crab.png" />
     <Image Include="resources\daniels.png" />
     <Image Include="resources\explosion.png" />
+    <Image Include="resources\father.png" />
     <Image Include="resources\image.png" />
     <Image Include="resources\missile.png" />
     <Image Include="resources\pacman.png" />
     <Image Include="resources\pinky.png" />
     <Image Include="resources\pompa.png" />
+    <Image Include="resources\powerup_spritesheet.png" />
     <Image Include="resources\RayoNave.png" />
     <Image Include="resources\Richard.png" />
     <Image Include="resources\slime.png" />
@@ -203,6 +207,7 @@
     <Media Include="resources\audio\sfx\move.wav" />
     <Media Include="resources\audio\sfx\pickup_battery.wav" />
     <Media Include="resources\audio\sfx\sub_select.wav" />
+    <Media Include="resources\audio\sfx\victory.wav" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -4,19 +4,32 @@
 
 class PowerUp : public ImageObject {
 public:
-    PowerUp() 
-        : PowerUp(Vector2(0.f, 0.f)) {}
+    PowerUp()
+        : PowerUp(Vector2(0.f, 0.f)) {
+    }
 
     PowerUp(Vector2 position)
-        : ImageObject("resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)) {
+        : ImageObject("resources/powerup_spritesheet.png", Vector2(222.f, 0.f), Vector2(222 * maxLevel, 111.f)) {
 
-        _transform->position = Vector2(RM->WINDOW_WIDTH / 2.0f, RM->WINDOW_HEIGHT / 2.0f);
+        for (int i = 0; i < maxLevel; i++) {
+            renderers.push_back(new ImageRenderer(
+                this->_transform,
+                "resources/powerup_spritesheet.png",
+                Vector2(222 * i, 0),
+                Vector2(222 * maxLevel, 111)
+            ));
+        }
+        delete _renderer;
+        _renderer = renderers[lvl];
+
         _transform->scale = Vector2(0.5f, 0.5f);
-
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
     }
 
-    ~PowerUp() {}
+    ~PowerUp() {
+        for (Renderer* r : renderers)
+            delete r;
+    }
 
     void OnCollision(Object* other) override;
     void Update() override;
@@ -36,10 +49,10 @@ private:
 
         currentHits++;
         if (currentHits == maxHits) {
-            lvl++;
-            std::cout << "PWRUP LVL: " << lvl << std::endl;
+            /*lvl++;*/
+            _renderer = renderers[++lvl];
 
-            currentHits = 0;  
+            currentHits = 0;
         }
     }
 };

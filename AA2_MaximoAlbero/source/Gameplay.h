@@ -10,6 +10,7 @@
 #include "IGameplayContext.h"
 #include "WaveManager.h"
 #include "LevelManager.h"
+#include "BackgroundDecorationSpawner.h"
 #include <vector>
 
 class Gameplay : public Scene, public IGameplayContext {
@@ -35,6 +36,7 @@ private:
     void RespawnPlayer();
 
     WaveManager* waveManager;
+    BackgroundDecorationSpawner* decorationSpawner;
     int currentLevel;
     int maxLevel;
     bool levelCompleted;
