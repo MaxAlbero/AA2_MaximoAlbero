@@ -195,6 +195,7 @@
     <Media Include="resources\audio\sfx\defeat.wav" />
     <Media Include="resources\audio\sfx\explode10.wav" />
     <Media Include="resources\audio\sfx\fire1.wav" />
+    <Media Include="resources\audio\sfx\gurp2.wav" />
     <Media Include="resources\audio\sfx\hit_wall.wav" />
     <Media Include="resources\audio\sfx\LegoYodaDeath.wav" />
     <Media Include="resources\audio\sfx\move.wav" />

@@ -54,8 +54,8 @@ void Player::OnCollision(Object* other)
 			ActivateImmunity();
 		}
 	}
-	// Colisión con enemigos
 	else if (Enemy* enemy = dynamic_cast<Enemy*>(other)) {
+		AM->PlaySound("resources/audio/sfx/gurp2.wav");
 		if (!enemy->IsPendingDestroy()) {
 			ReceiveDamage(20);
 			ActivateImmunity();

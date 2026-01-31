@@ -59,6 +59,7 @@ void Game::Init() {
 	AM->LoadSoundData("resources/audio/sfx/move.wav");
 	AM->LoadSoundData("resources/audio/sfx/fire1.wav");
 	AM->LoadSoundData("resources/audio/sfx/hit_wall.wav");
+	AM->LoadSoundData("resources/audio/sfx/gurp2.wav");
 
 	assert(SM.AddScene("SplashScreen", new SplashScreen()));
 	assert(SM.AddScene("MainMenu", new MainMenu()));

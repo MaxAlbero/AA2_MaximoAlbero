@@ -25,7 +25,6 @@ void GameplayStatePaused::Start() {
         RM->WINDOW_WIDTH / 2.f,
         RM->WINDOW_HEIGHT / 1.5f
     );
-    _resumeButton->GetTransform()->scale = Vector2(1.5f, 1.5f);
 }
 
 void GameplayStatePaused::Update(float deltaTime) {
