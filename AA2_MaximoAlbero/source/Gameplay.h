@@ -52,7 +52,6 @@ public:
     void Render() override;
 
     Player* GetPlayer() override { return player; }
-    void UpdateGameplay();
 
     bool HasMoreWaves() const override;
     void StartNextWave() override;

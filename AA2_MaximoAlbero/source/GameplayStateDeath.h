@@ -59,7 +59,7 @@ public:
     void Update(float deltaTime) override {
         _deathTimer += deltaTime;
 
-        // Decrementar vidas
+        // Decrementar vidas ONLY ONCE at the start
         if (_deathTimer >= 0.1f && !_hasDecrementedLives && _player) {
             int currentLives = _player->GetExtraLives();
             if (currentLives > 0) {

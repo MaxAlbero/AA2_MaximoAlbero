@@ -207,8 +207,6 @@ void Gameplay::Update() {
             TransitionToNextLevel();
             return;
         }
-        // If NOT transitioning level, continue normally
-        // The next wave will start automatically
     }
 
     UpdateHUD();
@@ -234,6 +232,13 @@ void Gameplay::RespawnPlayer() {
     if (!player) return;
 
     int currentLives = player->GetExtraLives();
+
+    // Make sure we have at least 0 lives
+    if (currentLives < 0) {
+        currentLives = 0;
+    }
+
+    // Create new player
     player = new Player();
     player->SetExtraLives(currentLives);
     SPAWNER.SpawnObject(player);
@@ -260,7 +265,7 @@ void Gameplay::UpdateHUD() {
     }
 
     int currentScore = HSM->GetCurrentScore();
-    bool isNewHighScore = (currentScore >= HSM->GetHighScore());
+    bool isNewHighScore = (currentScore >= HSM->GetTopRankingScore());
 
     if (isNewHighScore) {
         scoreText->SetTextColor(SDL_Color{ 255, 215, 0, 255 });
@@ -272,7 +277,7 @@ void Gameplay::UpdateHUD() {
     std::string scoreStr = FormatScore(currentScore);
     scoreText->SetText("SCORE: " + scoreStr);
 
-    int highScore = HSM->GetHighScore();
+    int highScore = HSM->GetTopRankingScore();
     std::string highScoreStr = FormatScore(highScore);
     highScoreText->SetText("HIGHSCORE: " + highScoreStr);
 
@@ -350,6 +355,8 @@ void Gameplay::TransitionToNextLevel() {
         }
         return;
     }
+
+    ResetGameplayElements();
 
     currentLevel++;
     std::cout << "Loading level " << currentLevel << std::endl;

@@ -19,6 +19,7 @@ private:
     bool _waitingForNextWave;
     Player* _playerRef;
     Vector2 _lastEnemyPosition;
+    Enemy* _lastAliveEnemy;
     int _currentLevel;
 
 public:
@@ -206,6 +207,8 @@ private:
             }
         }
 
+        _lastAliveEnemy = lastAlive;
+
         if (lastAlive) {
             Transform* t = lastAlive->GetTransform();
             if (t) {
@@ -238,6 +241,11 @@ private:
 
     void SpawnPowerUp() {
         if (_lastEnemyPosition.x == 0.f && _lastEnemyPosition.y == 0.f) {
+            return;
+        }
+
+        if (_lastAliveEnemy && _lastAliveEnemy->IsBoss()) {
+            _lastEnemyPosition = Vector2(0.f, 0.f);
             return;
         }
 

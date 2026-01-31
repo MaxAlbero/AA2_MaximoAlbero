@@ -10,27 +10,32 @@ GameplayStateFinishWave::GameplayStateFinishWave()
     : _context(nullptr), _finished(false), _nextState(-1),
     _displayTimer(0.f), _displayDuration(2.0f), _isLastWave(false),
     _isLevelComplete(false), _levelCompleteText(nullptr),
-    _bonusPointsText(nullptr), _continueText(nullptr), _bonusPoints(0) {
+    _bonusPointsText(nullptr), _continueText(nullptr),
+    _bossDefeatText(nullptr), _isBossDefeated(false), _bonusPoints(0) {
 }
 
 GameplayStateFinishWave::~GameplayStateFinishWave() {
     if (_levelCompleteText) delete _levelCompleteText;
     if (_bonusPointsText) delete _bonusPointsText;
     if (_continueText) delete _continueText;
+    if (_bossDefeatText) delete _bossDefeatText;
 }
 
 void GameplayStateFinishWave::Start() {
     _finished = false;
     _nextState = -1;
     _displayTimer = 0.f;
+    _isBossDefeated = false;
 
     // Limpiar textos anteriores
     if (_levelCompleteText) delete _levelCompleteText;
     if (_bonusPointsText) delete _bonusPointsText;
     if (_continueText) delete _continueText;
+    if (_bossDefeatText) delete _bossDefeatText;
     _levelCompleteText = nullptr;
     _bonusPointsText = nullptr;
     _continueText = nullptr;
+    _bossDefeatText = nullptr;
 
     // Verificar si es la última wave
     _isLastWave = (_context == nullptr) ? false : !_context->HasMoreWaves();
@@ -64,11 +69,10 @@ void GameplayStateFinishWave::Start() {
         _continueText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
         _continueText->SetTextColor(SDL_Color{ 150, 150, 150, 255 });
 
-        // Texto para continuar
-        TextObject* continuePrompt = new TextObject("Press SPACE to continue...");
-        continuePrompt->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT * 3.f / 4.f);
-        continuePrompt->SetTextColor(SDL_Color{ 200, 200, 200, 255 });
-        delete continuePrompt; // Solo para referencia, crear en UI list si es necesario
+        _bossDefeatText = new TextObject("Press SPACE to continue...");
+        _bossDefeatText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT * 3.f / 4.f);
+        _bossDefeatText->SetTextColor(SDL_Color{ 200, 200, 200, 255 });
+        _isBossDefeated = true;
     }
     else {
         std::cout << "¡OLEADA COMPLETADA!" << std::endl;
@@ -79,9 +83,7 @@ void GameplayStateFinishWave::Update(float deltaTime) {
     _displayTimer += deltaTime;
 
     if (_isLevelComplete) {
-        // Level is complete - wait for input
-        if (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) ||
-            IM->GetLeftClick()) {
+        if (_isBossDefeated && (IM->GetEvent(SDLK_SPACE, KeyState::DOWN) || IM->GetLeftClick())) {
             TransitionToVictory();
         }
     }
@@ -94,7 +96,7 @@ void GameplayStateFinishWave::Update(float deltaTime) {
         }
     }
     else {
-            ContinueToNextWave();
+        ContinueToNextWave();
     }
 }
 
@@ -103,6 +105,7 @@ void GameplayStateFinishWave::Render() {
         if (_levelCompleteText) _levelCompleteText->Render();
         if (_bonusPointsText) _bonusPointsText->Render();
         if (_continueText) _continueText->Render();
+        if (_bossDefeatText) _bossDefeatText->Render();  // NEW: Render boss defeat text
     }
 }
 
@@ -119,7 +122,7 @@ void GameplayStateFinishWave::Finish() {
 }
 
 bool GameplayStateFinishWave::ShouldUpdateScene() const {
-    return true;
+    return false;
 }
 
 void GameplayStateFinishWave::ContinueToNextWave() {
@@ -140,8 +143,6 @@ void GameplayStateFinishWave::TransitionToVictory() {
             _context->RequestLevelTransition();
         }
     }
-    // If NOT level complete, don't request level transition
-    // Just go back to PLAYING to continue with next wave
 
     _finished = true;
     _nextState = 0;  // Back to PLAYING
@@ -156,9 +157,5 @@ void GameplayStateFinishWave::CalculateBonusPoints() {
     Player* player = _context->GetPlayer();
     int extraLives = player->GetExtraLives();
 
-    // +10000 puntos por cada vida extra restante
     _bonusPoints = extraLives * 10000;
-
-    std::cout << "Bonus points calculated: " << _bonusPoints << " ("
-        << extraLives << " lives x 10000)" << std::endl;
 }

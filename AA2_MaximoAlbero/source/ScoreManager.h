@@ -38,6 +38,9 @@ public:
     void SaveRankingToFile(const std::string& filepath) const;
     void SaveScore(const std::string& playerName);
     void ResetCurrentScore() { currentScore = 0; }
+    int GetTopRankingScore() const {
+        return rankingScores.empty() ? 0 : rankingScores[0];
+    }
 
 private:
     ScoreManager() : highScore(0), currentScore(0) {

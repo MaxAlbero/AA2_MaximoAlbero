@@ -13,11 +13,13 @@ private:
     float _displayDuration;
     bool _isLastWave;
     bool _isLevelComplete;
+    bool _isBossDefeated;
 
     // TextObjects para renderizar información del final de nivel
     TextObject* _levelCompleteText;
     TextObject* _bonusPointsText;
     TextObject* _continueText;
+    TextObject* _bossDefeatText;
     int _bonusPoints;
 
 public:
