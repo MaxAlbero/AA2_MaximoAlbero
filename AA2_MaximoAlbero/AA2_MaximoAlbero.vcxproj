@@ -134,7 +134,6 @@
     <ClInclude Include="source\SpreadMovement.h" />
     <ClInclude Include="source\Stream.h" />
     <ClInclude Include="source\TargetMovement.h" />
-    <ClInclude Include="source\TestAnimation.h" />
     <ClInclude Include="source\TextObject.h" />
     <ClInclude Include="source\TextRenderer.h" />
     <ClInclude Include="source\TimeManager.h" />

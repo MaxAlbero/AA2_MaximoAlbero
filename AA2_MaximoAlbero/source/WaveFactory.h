@@ -69,7 +69,7 @@ public:
             return new TorpedoWave(amount);
 
         case 16: // TurboChainsaw
-            return new TurboChainsawWave();
+            return new TurboChainsawWave(amount);
 
         case 17: // Ufo
             return new UfoWave(amount);

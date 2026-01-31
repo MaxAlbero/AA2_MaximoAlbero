@@ -12,7 +12,6 @@ public:
 
         float speed = 200.f;
         for (int i = 0; i < _amount; i++) {
-            // Spawn from bottom of screen, moving upward
             Vector2 spawnPos(RM->WINDOW_WIDTH / 2.f + (i - _amount / 2) * 150.f, RM->WINDOW_HEIGHT + 50.f);
             Nuke* enemy = new Nuke(spawnPos, speed);
             RegisterEnemy(enemy);

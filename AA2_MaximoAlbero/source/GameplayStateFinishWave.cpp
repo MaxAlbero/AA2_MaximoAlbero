@@ -27,7 +27,6 @@ void GameplayStateFinishWave::Start() {
     _displayTimer = 0.f;
     _isBossDefeated = false;
 
-    // Limpiar textos anteriores
     if (_levelCompleteText) delete _levelCompleteText;
     if (_bonusPointsText) delete _bonusPointsText;
     if (_continueText) delete _continueText;
@@ -37,31 +36,29 @@ void GameplayStateFinishWave::Start() {
     _continueText = nullptr;
     _bossDefeatText = nullptr;
 
-    // Verificar si es la última wave
+    // Verify if it's the last wave
     _isLastWave = (_context == nullptr) ? false : !_context->HasMoreWaves();
 
-    // Si es la última wave, es fin de nivel
+    // If it's the las wave, it's the end of the level
     _isLevelComplete = _isLastWave;
 
     if (_isLevelComplete) {
         std::cout << "¡NIVEL COMPLETADO!" << std::endl;
 
-        // Calcular puntos bonus por vidas restantes
         CalculateBonusPoints();
 
-        // Crear textos para la pantalla de fin de nivel
         _levelCompleteText = new TextObject("LEVEL COMPLETE!");
         _levelCompleteText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 4.f);
         _levelCompleteText->SetTextColor(SDL_Color{ 255, 215, 0, 255 });
 
-        // Texto con los puntos bonus
+        // Text with bonus points
         std::stringstream ss;
         ss << "BONUS: +" << _bonusPoints << " PTS";
         _bonusPointsText = new TextObject(ss.str());
         _bonusPointsText->GetTransform()->position = Vector2(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f - 50.f);
         _bonusPointsText->SetTextColor(SDL_Color{ 100, 255, 100, 255 });
 
-        // Texto adicional con info de vidas
+        // Addition text with lives info
         std::stringstream ss2;
         int extraLives = _context ? (_context->GetPlayer() ? _context->GetPlayer()->GetExtraLives() : 0) : 0;
         ss2 << "+" << (10000) << " per life x " << extraLives;
@@ -105,7 +102,7 @@ void GameplayStateFinishWave::Render() {
         if (_levelCompleteText) _levelCompleteText->Render();
         if (_bonusPointsText) _bonusPointsText->Render();
         if (_continueText) _continueText->Render();
-        if (_bossDefeatText) _bossDefeatText->Render();  // NEW: Render boss defeat text
+        if (_bossDefeatText) _bossDefeatText->Render();
     }
 }
 
@@ -130,7 +127,7 @@ void GameplayStateFinishWave::ContinueToNextWave() {
         _context->StartNextWave();
     }
     _finished = true;
-    _nextState = 0; // volver a PLAYING
+    _nextState = 0;
 }
 
 void GameplayStateFinishWave::TransitionToVictory() {
@@ -145,7 +142,7 @@ void GameplayStateFinishWave::TransitionToVictory() {
     }
 
     _finished = true;
-    _nextState = 0;  // Back to PLAYING
+    _nextState = 0;
 }
 
 void GameplayStateFinishWave::CalculateBonusPoints() {

@@ -11,21 +11,19 @@ public:
     LevelSelector() = default;
 
     void OnEnter() override {
-        // Título
+
         TextObject* text = new TextObject("SELECT THE LEVEL YOU WANT TO PLAY");
         text->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.5f, 50.f };
         text->GetTransform()->scale = Vector2(1.8f, 1.8f);
         _ui.push_back(text);
 
-        // Obtener los niveles
         const std::vector<Level>& levels = LM->GetLevels();
 
-        // Crear botones dinámicamente para cada nivel
         float startY = 200.f;
         float buttonSpacing = 120.f;
 
         for (size_t i = 0; i < levels.size(); i++) {
-            // Botón
+
             Button* levelButton = new Button([i]() {
                 LM->SetCurrentLevel(i);
                 SM.SetNextScene("Gameplay");
@@ -41,7 +39,6 @@ public:
             _ui.push_back(levelNameText);
         }
 
-        // Botón volver al menú
         Button* button3 = new Button([]() {
             SM.SetNextScene("MainMenu");
             });

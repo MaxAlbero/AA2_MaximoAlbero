@@ -19,21 +19,18 @@ public:
         float startX = -50.f;
         float centerY = RM->WINDOW_HEIGHT * 0.5f;
 
-        // Creamos 8 copias (o la cantidad solicitada, hasta 8)
         int toSpawn = std::min(8, _amount);
         for (int i = 0; i < toSpawn; ++i) {
-            // distribuimos las 8 copias en un bloque vertical cercano (todas salen juntas)
             float y = centerY + (i - toSpawn / 2);
             Vector2 spawnPos(startX, y);
             Amoeba* a = new Amoeba(spawnPos, i);
             SPAWNER.SpawnObject(a);
-            RegisterEnemy(a); // registra en la wave para seguimiento
+            RegisterEnemy(a);
             _spawnedEnemies.push_back(a);
         }
     }
 
     void Update(float deltaTime) override {
-        // comprobar si la wave terminó (todos los enemies pendiente de destroy)
         bool anyAlive = false;
         for (Enemy* e : _spawnedEnemies) {
             if (e && !e->IsPendingDestroy()) {
@@ -47,7 +44,7 @@ public:
     }
 
     void End() override {
-        // limpieza si hiciera falta (normalmente no)
+        _spawnedEnemies.clear();
     }
 
 private:

@@ -8,7 +8,6 @@ public:
 
     void Start() override {
         _started = true;
-        std::cout << "LEVEL 2 BOSS - SPACE BOSS INCOMING!" << std::endl;
 
         SpaceBoss* boss = new SpaceBoss();
         RegisterEnemy(boss);

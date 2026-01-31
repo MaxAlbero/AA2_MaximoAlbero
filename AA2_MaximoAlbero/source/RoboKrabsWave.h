@@ -15,16 +15,13 @@ public:
         for (int i = 0; i < _amount; i++) {
             Vector2 spawnPos;
 
-            // Randomly choose side (floor or ceiling)
             bool attachToFloor = (rand() % 2 == 0);
 
             if (attachToFloor) {
-                // Spawn at floor level, random X position
                 float randomX = rand() % (int)RM->WINDOW_WIDTH;
                 spawnPos = Vector2(randomX, RM->WINDOW_HEIGHT - 50.f);
             }
             else {
-                // Spawn at ceiling level, random X position
                 float randomX = rand() % (int)RM->WINDOW_WIDTH;
                 spawnPos = Vector2(randomX, 50.f);
             }

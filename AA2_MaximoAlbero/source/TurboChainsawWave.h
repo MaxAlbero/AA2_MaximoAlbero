@@ -3,19 +3,31 @@
 #include "TurboChainsaw.h"
 
 class TurboChainsawWave : public EnemyWave {
+private:
+    int _count;
+
 public:
-    TurboChainsawWave() {}
+    TurboChainsawWave(int amount) : _count(amount) {}
 
     void Start() override {
         _started = true;
-        std::cout << "TURBO CHAINSAW WAVE - 2 enemies incoming!" << std::endl;
+        std::cout << "TURBO CHAINSAW WAVE - " << _count << " enemies incoming!" << std::endl;
 
-        // Un enemigo desde la izquierda y otro desde la derecha para patrón simétrico
-        TurboChainsaw* enemy1 = new TurboChainsaw(FROM_LEFT);
-        TurboChainsaw* enemy2 = new TurboChainsaw(FROM_RIGHT);
+        // Calculate how many spawn from each side
+        int fromLeftCount = (_count + 1) / 2;      // Round up for left side
+        int fromRightCount = _count - fromLeftCount; // Remaining go to right
 
-        RegisterEnemy(enemy1);
-        RegisterEnemy(enemy2);
+        // Spawn enemies from left side
+        for (int i = 0; i < fromLeftCount; i++) {
+            TurboChainsaw* enemy = new TurboChainsaw(FROM_LEFT);
+            RegisterEnemy(enemy);
+        }
+
+        // Spawn enemies from right side
+        for (int i = 0; i < fromRightCount; i++) {
+            TurboChainsaw* enemy = new TurboChainsaw(FROM_RIGHT);
+            RegisterEnemy(enemy);
+        }
     }
 
     void Update(float deltaTime) override {

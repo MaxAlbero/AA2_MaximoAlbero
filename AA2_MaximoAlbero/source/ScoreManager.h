@@ -49,7 +49,6 @@ private:
         LoadRankingFromFile("resources/ranking.xml");
     }
 
-    // Delete copy constructor and assignment operator
     ScoreManager(const ScoreManager&) = delete;
     ScoreManager& operator=(const ScoreManager&) = delete;
     ~ScoreManager() = default;

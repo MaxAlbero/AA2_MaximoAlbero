@@ -7,13 +7,13 @@
 
 class ShootMovement : public EnemyMovement {
 private:
-    float _cooldown;        // Tiempo entre disparos
-    int _minShots;          // Mínimo de disparos
-    int _maxShots;          // Máximo de disparos
-    int _totalShots;        // Disparos totales a realizar (aleatorio)
-    int _shotsFired;        // Disparos realizados
+    float _cooldown;        
+    int _minShots;          
+    int _maxShots;          
+    int _totalShots;        
+    int _shotsFired;        
     float _timer;
-    float _bulletSpacing;   // Espacio vertical entre balas
+    float _bulletSpacing;   
 
 public:
     ShootMovement(Transform* transform, float cooldown, int minShots, int maxShots, float bulletSpacing = 50.f)
@@ -25,7 +25,6 @@ public:
         _timer(0.f),
         _bulletSpacing(bulletSpacing) {
 
-        // Determinar número aleatorio de disparos entre min y max
         _totalShots = _minShots + (rand() % (_maxShots - _minShots + 1));
     }
 
@@ -36,7 +35,6 @@ public:
         if (_timer >= _cooldown) {
             _timer = 0.f;
 
-            // Disparar desde múltiples posiciones
             ShootBurst();
 
             _shotsFired++;
@@ -49,19 +47,14 @@ public:
 
 private:
     void ShootBurst() {
-        // Número aleatorio de balas por ráfaga (3 a 7)
-        int numBullets = 3 + (rand() % 5); // 3, 4, 5, 6, o 7 balas
+        int numBullets = 3 + (rand() % 5);
 
-        // Calcular el espacio total que ocuparán las balas
         float totalHeight = (numBullets - 1) * _bulletSpacing;
 
-        // Posición inicial centrada en el enemigo
         float startY = _transform->position.y - (totalHeight / 2.f);
 
-        // Disparar desde el borde izquierdo del BioTitan
         float bulletX = _transform->position.x - _transform->size.x / 2.f;
 
-        // Crear balas distribuidas verticalmente
         for (int i = 0; i < numBullets; i++) {
             float bulletY = startY + (i * _bulletSpacing);
 

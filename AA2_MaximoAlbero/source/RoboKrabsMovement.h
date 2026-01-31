@@ -55,7 +55,6 @@ public:
 		_tolerance(tolerance)
 	{
 		_currentDelay = _dist(_rng);
-		// asegurar que start en attachPos
 		if (_transform) _transform->position = _attachPos;
 	}
 

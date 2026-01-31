@@ -34,7 +34,7 @@ public:
         }
     }
 
-    virtual void Shoot(Vector2 playerPosition) = 0; // Método abstracto
+    virtual void Shoot(Vector2 playerPosition) = 0;
     virtual bool CanShoot() const { return _isEquipped; }
 
     ImageObject* GetVisual() { return _visual; }

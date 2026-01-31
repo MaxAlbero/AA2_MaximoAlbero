@@ -49,7 +49,6 @@ private:
 
         currentHits++;
         if (currentHits == maxHits) {
-            /*lvl++;*/
             _renderer = renderers[++lvl];
 
             currentHits = 0;

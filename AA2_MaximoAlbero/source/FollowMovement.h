@@ -21,7 +21,7 @@ public:
         _destroyIfLeaderDies(destroyIfLeaderDies) {
     }
 
-    void Update(float /*deltaTime*/) override {
+    void Update(float dt) override {
         if (_finished) return;
         if (!_transform) return;
 

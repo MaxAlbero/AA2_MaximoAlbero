@@ -4,11 +4,11 @@
 class UpLinearMovement : public EnemyMovement {
 private:
     float _speed;
-    float _yThreshold; // Posición X donde termina el movimiento (opcional)
+    float _yThreshold;
     bool _hasThreshold;
 
 public:
-    // Constructor con umbral (para Beholder - se detiene en cierto punto)
+    // Constructor con umbral
     UpLinearMovement(Transform* transform, RigidBody* rigidBody, float yThreshold, float speed)
         : EnemyMovement(transform, rigidBody),
         _yThreshold(yThreshold), _speed(speed), _hasThreshold(true) {
@@ -28,14 +28,10 @@ public:
 
         _rigidBody->SetVelocity(Vector2(0.f, -_speed));
 
-        // Si tiene umbral, verificar si lo alcanzó
         if (_hasThreshold && _transform->position.y <= _yThreshold) {
             _transform->position.y = _yThreshold;
             _rigidBody->SetVelocity(Vector2(0.f, 0.f));
             _finished = true;
         }
-
-        // Si no tiene umbral, nunca termina (sale de pantalla y se destruye por otro lado)
-        // La clase Enemy o el Update general debe manejar la destrucción cuando sale de pantalla
     }
 };

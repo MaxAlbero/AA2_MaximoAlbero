@@ -8,7 +8,6 @@ public:
 
     void Start() override {
         _started = true;
-        std::cout << "TORPEDO WAVE - " << _amount << " torpedos incoming!" << std::endl;
 
         float speed = 350.f;
         for (int i = 0; i < _amount; i++) {
@@ -33,7 +32,6 @@ public:
     }
 
     void End() override {
-        std::cout << "TORPEDO WAVE CLEARED!" << std::endl;
         _spawnedEnemies.clear();
     }
 

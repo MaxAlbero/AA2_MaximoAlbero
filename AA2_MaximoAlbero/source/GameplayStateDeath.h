@@ -43,7 +43,6 @@ public:
         _hasResetElements = false;
         _hasRespawned = false;
 
-        // Decrementar vidas extra al empezar el estado de muerte
         if (_player) {
             int currentExtraLives = _player->GetExtraLives();
             if (currentExtraLives > 0) {
@@ -52,7 +51,6 @@ public:
             }
         }
 
-        // Crear texto de muerte
         if (_deathText) {
             delete _deathText;
         }
@@ -65,12 +63,10 @@ public:
     void Update(float deltaTime) override {
         _deathTimer += deltaTime;
 
-        // Pantalla negra
         if (_deathTimer >= DEATH_ANIMATION_TIME && !_isInBlackScreen) {
             _isInBlackScreen = true;
         }
 
-        // Reset elementos
         if (_isInBlackScreen && !_hasResetElements) {
             if (_onResetElements) {
                 _onResetElements();

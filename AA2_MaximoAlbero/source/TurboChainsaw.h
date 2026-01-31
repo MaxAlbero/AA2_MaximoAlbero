@@ -22,7 +22,7 @@ public:
 
         float speed = 150.f;
         float radius = 100.f;
-        float angularVelocity = 180.f; // grados por segundo
+        float angularVelocity = 180.f;
 
         Vector2 screenCenter(RM->WINDOW_WIDTH / 2.f, RM->WINDOW_HEIGHT / 2.f);
 

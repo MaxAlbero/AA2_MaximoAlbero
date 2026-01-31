@@ -21,7 +21,6 @@ public:
         _scrollSpeed(-70.f),
         _decorationType(decorationType) {
 
-        // Configurar tamaño y escala
         _transform->size = Vector2(64.f, 128.f);
         _transform->scale = Vector2(1.5f, 1.5f);
 

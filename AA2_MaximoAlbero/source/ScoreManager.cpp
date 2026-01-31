@@ -38,7 +38,6 @@ void ScoreManager::SaveScore(const std::string& playerName) {
 }
 
 void ScoreManager::SortRanking() {
-    // Crear vector temporal con pares (score, nombre)
     std::vector<std::pair<int, std::string>> temp;
     for (size_t i = 0; i < rankingScores.size(); i++) {
         temp.push_back({ rankingScores[i], rankingNames[i] });
@@ -50,7 +49,6 @@ void ScoreManager::SortRanking() {
             return a.first > b.first;
         });
 
-    // Limpiar y repoblar los vectores originales
     rankingScores.clear();
     rankingNames.clear();
     for (const auto& pair : temp) {

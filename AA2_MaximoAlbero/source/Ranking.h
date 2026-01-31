@@ -34,7 +34,6 @@ public:
             scoreText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, startY + (i * lineHeight) };
             scoreText->GetTransform()->scale = Vector2(1.5f, 1.5f);
 
-            // Colorear el primer lugar diferente
             if (i == 0) {
                 scoreText->SetTextColor(SDL_Color{ 255, 215, 0, 255 });
             }
@@ -55,7 +54,6 @@ public:
             _ui.push_back(emptyText);
         }
 
-        // Botón para volver al menú
         Button* backButton = new Button([]() {
             SM.SetNextScene("MainMenu");
             });

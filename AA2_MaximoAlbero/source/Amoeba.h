@@ -7,6 +7,7 @@
 #include "LeftLinearMovement.h"
 #include <cmath>
 
+//I DON'T KNOW WHY THE AMOEBA IS GIVING AN ERROR WHEN DELETING ALL OF THEM IF THEY OVERPASS THE LIMITS OF THE SCREEN
 class Amoeba : public Enemy {
 private:
     int _index;
@@ -55,15 +56,4 @@ public:
     }
 
     virtual ~Amoeba() {}
-
-    void Update() override {
-        // Destruir si sale de pantalla (por la izquierda)
-        if (_transform->position.x + _transform->size.x > RM->WINDOW_WIDTH) {
-            Destroy();
-            return; // IMPORTANTE: salir inmediatamente después de destruir
-        }
-
-        // Actualizar movimientos (llamar al Update de Enemy)
-        Enemy::Update();
-    }
 };

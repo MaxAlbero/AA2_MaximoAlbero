@@ -407,9 +407,6 @@
     <ClInclude Include="source\Stream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\TestAnimation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\BackgroundDecoration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
