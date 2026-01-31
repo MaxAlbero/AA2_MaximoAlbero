@@ -43,13 +43,4 @@ public:
         movements.push_back(new TargetMovement(_transform, _physics, detachPoint, attachedSpeed));
         movements.push_back(new WaveMovement(_transform, _physics, waveSpeed, amplitude, frequency));
     }
-
-public:
-    void Update() override {
-        Enemy::Update();
-
-        if (_transform->position.x + _transform->size.x < 0.f) {
-            Destroy();
-        }
-    }
 };

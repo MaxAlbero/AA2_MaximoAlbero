@@ -16,12 +16,4 @@ public:
 
 		movements.push_back(new LeftLinearMovement(_transform, _physics, speed));
 	}
-
-	void Update() override {
-		Enemy::Update();
-
-		if (_transform->position.x + _transform->size.x < 0.f) {
-			Destroy();
-		}
-	}
 };

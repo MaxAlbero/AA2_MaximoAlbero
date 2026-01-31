@@ -24,15 +24,4 @@ public:
         movements.push_back(new ChaseMovement(_transform, _physics, playerTransform, speed, 3, 1.5f, 10.f));
         movements.push_back(new EscapeMovement(_transform, _physics, speed));
     }
-
-    void Update() override {
-        Enemy::Update();
-
-        if (_transform->position.x + _transform->size.x < 0.f ||
-            _transform->position.x > RM->WINDOW_WIDTH ||
-            _transform->position.y + _transform->size.y < 0.f ||
-            _transform->position.y > RM->WINDOW_HEIGHT) {
-            Destroy();
-        }
-    }
 };

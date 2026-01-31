@@ -10,7 +10,7 @@ public:
         _renderer = new ImageRenderer(_transform, "resources/pinky.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f));
         _transform->size = Vector2(80.f, 80.f);
 
-        _transform->position = Vector2(RM->WINDOW_WIDTH / 2.f, -_transform->size.y);
+        _transform->position = Vector2(RM->WINDOW_WIDTH / 2.f, -_transform->size.y - 100);
 
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
         SetHealth(999999);
@@ -49,14 +49,5 @@ public:
 
         movements.push_back(new TargetMovement(_transform, _physics,
             Vector2(RM->WINDOW_WIDTH / 2.f, -200.f) + offset, speed));
-    }
-
-    void Update() override {
-        Enemy::Update();
-
-        if (_transform->position.y + _transform->size.y < 0.f) {
-            std::cout << "CIRCLER Body DESTROYED" << std::endl;
-            Destroy();
-        }
     }
 };

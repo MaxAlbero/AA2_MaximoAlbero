@@ -16,11 +16,12 @@ protected:
     int pointsValue;
     std::vector<EnemyMovement*> movements;
     int currentMovementIndex;
+    bool _hasBeenOnScreen;
 
 public:
     Enemy()
         : ImageObject("resources/image.png", Vector2(0.f, 0.f), Vector2(306.f, 562.f)),
-        enemyHealth(50), pointsValue(200), currentMovementIndex(0) {
+        enemyHealth(50), pointsValue(200), currentMovementIndex(0), _hasBeenOnScreen(false) {
         _transform->size = Vector2(150.f, 150.f);
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
     }
@@ -33,18 +34,20 @@ public:
     }
 
     virtual void Update() override {
-        // Actualizar el movimiento actual
+        UpdateOnScreenStatus();
+
         if (currentMovementIndex < movements.size()) {
             EnemyMovement* currentMovement = movements[currentMovementIndex];
-            currentMovement->Update(0.02f); // deltaTime
+            currentMovement->Update(0.02f);
 
-            // Si el movimiento actual terminó, pasar al siguiente
             if (currentMovement->IsFinished()) {
                 currentMovementIndex++;
             }
         }
 
         Object::Update();
+
+        CheckOutOfBoundsDestruction();
     }
 
     void OnCollision(Object* other) override;
@@ -71,4 +74,40 @@ public:
     int GetHealth() const { return enemyHealth; }
     void SetHealth(int hp) { enemyHealth = hp; }
     void SetPointsValue(int points) { pointsValue = points; }
+
+    bool HasBeenOnScreen() const { return _hasBeenOnScreen; }
+
+protected:
+    virtual bool ShouldDestroyOutOfBounds() const {
+        float effectiveWidth = _transform->size.x * _transform->scale.x;
+        float effectiveHeight = _transform->size.y * _transform->scale.y;
+
+        return (_transform->position.x + effectiveWidth < 0.f ||
+            _transform->position.x - effectiveWidth > RM->WINDOW_WIDTH ||
+            _transform->position.y + effectiveHeight < 0.f ||
+            _transform->position.y - effectiveHeight > RM->WINDOW_HEIGHT);
+    }
+
+private:
+    bool IsWithinScreenBounds() const {
+        float effectiveWidth = _transform->size.x * _transform->scale.x;
+        float effectiveHeight = _transform->size.y * _transform->scale.y;
+
+        return _transform->position.x + effectiveWidth > 0.f &&
+            _transform->position.x - effectiveWidth < RM->WINDOW_WIDTH &&
+            _transform->position.y + effectiveHeight > 0.f &&
+            _transform->position.y - effectiveHeight < RM->WINDOW_HEIGHT;
+    }
+
+    void UpdateOnScreenStatus() {
+        if (!_hasBeenOnScreen && IsWithinScreenBounds()) {
+            _hasBeenOnScreen = true;
+        }
+    }
+
+    void CheckOutOfBoundsDestruction() {
+        if (_hasBeenOnScreen && ShouldDestroyOutOfBounds()) {
+            Destroy();
+        }
+    }
 };

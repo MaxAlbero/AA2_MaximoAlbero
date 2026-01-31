@@ -53,13 +53,4 @@ public:
             movements.push_back(new TargetMovement(_transform, _physics, exitPos, speed));
         }
     }
-
-    void Update() override {
-        Enemy::Update();
-
-        // Destruir cuando sale completamente de pantalla
-        if (_transform->position.x < -200.f || _transform->position.x > RM->WINDOW_WIDTH + 200.f) {
-            Destroy();
-        }
-    }
 };

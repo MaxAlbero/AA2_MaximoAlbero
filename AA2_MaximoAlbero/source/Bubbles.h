@@ -65,8 +65,4 @@ public:
 		SetHealth(20);
 		SetPointsValue(100);
 	}
-
-	void Update() override {
-		Enemy::Update();
-	}
 };

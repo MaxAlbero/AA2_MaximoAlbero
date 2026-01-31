@@ -30,8 +30,4 @@ public:
         movements.push_back(new IdleMovement(_transform, _physics, duration));
         movements.push_back(new LeftLinearMovement(_transform, _physics, speed));
     }
-
-    void Update() override {
-        Enemy::Update();
-    }
 };

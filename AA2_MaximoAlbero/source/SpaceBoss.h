@@ -21,17 +21,11 @@ public:
         Vector2 stopPos(RM->WINDOW_WIDTH - _transform->size.x, RM->WINDOW_HEIGHT / 2.f);
 
         movements.push_back(new TargetMovement(_transform, _physics, stopPos, speed));
-
         movements.push_back(new IdleMovement(_transform, _physics, 2.0f));
-
         movements.push_back(new ShootMovement(_transform, 0.5f, 3, 7, 50.f));
-
         movements.push_back(new IdleMovement(_transform, _physics, 1.0f));
-
         movements.push_back(new ShootMovement(_transform, 0.5f, 3, 7, 50.f));
-
         movements.push_back(new IdleMovement(_transform, _physics, 1.0f));
-
         movements.push_back(new ShootMovement(_transform, 0.5f, 3, 7, 50.f));
     }
 };

@@ -30,13 +30,6 @@ public:
 		SetPointsValue(100);
 
 		movements.push_back(new IdleMovement(_transform, _physics, 1.5f));
-		movements.push_back(new ChomperMovement(_transform, _physics,
-			_transform->position,
-			20.f,
-			10.0f,
-			50.f,
-			0,
-			0.f
-		));
+		movements.push_back(new ChomperMovement(_transform, _physics,_transform->position,20.f,10.0f,50.f,0,0.f));
 	}
 };

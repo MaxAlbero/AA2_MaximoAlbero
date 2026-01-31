@@ -5,7 +5,7 @@
 void Enemy::OnCollision(Object* other)
 {
     if (PlayerBullet* bullet = dynamic_cast<PlayerBullet*>(other)) {
-            ReceiveDamage(10);
+        ReceiveDamage(10);
         if (!bullet->IsPendingDestroy()) {
             bullet->Destroy();
         }
@@ -13,5 +13,5 @@ void Enemy::OnCollision(Object* other)
 }
 
 void Enemy::Attack(IDamageable* other) const {
-	std::cout << "Enemy attacks!" << std::endl;
+    std::cout << "Enemy attacks!" << std::endl;
 }

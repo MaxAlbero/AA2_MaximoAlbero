@@ -43,12 +43,4 @@ public:
         movements.push_back(new TargetMovement(_transform, _physics,
             Vector2(RM->WINDOW_WIDTH / 2.f, -200.f), speed));
     }
-
-    void Update() override {
-        Enemy::Update();
-
-        if (_transform->position.y + _transform->size.y < 0.f) {
-            Destroy();
-        }
-    }
 };

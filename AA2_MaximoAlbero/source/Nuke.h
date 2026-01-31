@@ -16,12 +16,4 @@ public:
 
 		movements.push_back(new UpLinearMovement(_transform, _physics, speed));
 	}
-
-	void Update() override {
-		Enemy::Update();
-
-		if (_transform->position.y + _transform->size.y < 0.f) {
-			Destroy();
-		}
-	}
 };
