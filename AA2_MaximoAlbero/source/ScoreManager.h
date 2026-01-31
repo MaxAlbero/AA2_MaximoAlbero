@@ -57,9 +57,8 @@ private:
     int highScore;
     int currentScore;
 
-    std::vector<int> rankingScores;      // Top 10 scores ordenados de mayor a menor
-    std::vector<std::string> rankingNames; // Nombres asociados a cada score
+    std::vector<int> rankingScores; 
+    std::vector<std::string> rankingNames;
 
-    // Private helper method
     void SortRanking();
 };

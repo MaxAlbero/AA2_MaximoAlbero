@@ -7,9 +7,6 @@
 #include "TimeManager.h"
 
 int main() {
-
-	//RM->SayHi();
-
 	Game game;
 
 	game.Init();
@@ -17,7 +14,6 @@ int main() {
 	while (game.IsRunning()) {
 		
 		TM.Update();
-		//std::cout << TM.GetElapsedTime() << std::endl;
 		if (TM.ShouldUpdateGame())
 		{
 			game.HandleEvents();

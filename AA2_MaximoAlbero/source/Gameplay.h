@@ -30,7 +30,6 @@ private:
 
     void UpdateHUD();
     std::string FormatScore(int score);
-    void InitializeGameplayElements();
 
     void ResetGameplayElements();
     void RespawnPlayer();

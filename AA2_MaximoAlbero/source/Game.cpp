@@ -79,8 +79,7 @@ void Game::Init() {
 
 	HSM->LoadRankingFromFile("resources/ranking.xml");
 
-	//assert(SM.InitFirstScene("SplashScreen"));
-	assert(SM.InitFirstScene("Gameplay"));
+	assert(SM.InitFirstScene("SplashScreen"));
 
 	_isRunning = !IM->Listen();
 }

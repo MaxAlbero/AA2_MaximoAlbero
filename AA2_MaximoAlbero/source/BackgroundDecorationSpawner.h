@@ -20,7 +20,6 @@ public:
     void Update(float deltaTime) {
         _spawnTimer += deltaTime;
 
-        // Intentar spawn cada intervalo
         if (_spawnTimer >= _spawnInterval) {
             _spawnTimer = 0.f;
 

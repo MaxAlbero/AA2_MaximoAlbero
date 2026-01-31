@@ -11,7 +11,7 @@ public:
         _renderer = new ImageRenderer(_transform, "resources/crab.png",
             Vector2(0.f, 0.f), Vector2(517.f, 483.f));
 
-        _transform->scale = Vector2(0.25f, 0.25f);
+        _transform->scale = Vector2(0.5f, 0.5f);
         _transform->position = spawnPos;
         _physics->AddCollider(new AABB(_transform->position, _transform->size));
 

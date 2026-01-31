@@ -36,7 +36,7 @@ public:
             return new HMedusaWave(amount);
 
         case 3: // Circler
-            return new CirclerWave(); // No usa amount
+            return new CirclerWave();
 
         case 4: // VMedusa
             return new VMedusaWave(amount);

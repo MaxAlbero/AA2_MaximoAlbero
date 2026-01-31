@@ -11,7 +11,6 @@ public:
 
     void Start() override {
         _started = true;
-        std::cout << "ANNOYER WAVE - " << _amount << " enemies incoming!" << std::endl;
 
         for (int i = 0; i < _amount; i++) {
             Vector2 spawnPos(RM->WINDOW_WIDTH + i * 200.f, RM->WINDOW_HEIGHT / 3.f + i * 50.f);
@@ -35,7 +34,6 @@ public:
     }
 
     void End() override {
-        std::cout << "ANNOYER WAVE DEFEATED!" << std::endl;
         _spawnedEnemies.clear();
     }
 

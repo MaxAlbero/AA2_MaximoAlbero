@@ -29,17 +29,16 @@ public:
         float randomY;
 
         if (_attachPoint == CEILING) {
-            // Attach to ceiling - Y position is at the top
-            randomY = _transform->size.y * _transform->scale.y / 2.f;
+            randomY = 50.f + (rand() % 100);
         }
         else {
-            // Attach to ground - Y position is at the bottom
-            randomY = RM->WINDOW_HEIGHT - (_transform->size.y * _transform->scale.y / 2.f);
+            randomY = RM->WINDOW_HEIGHT - 100.f - (rand() % 100);
         }
 
         _transform->position = Vector2(randomX, randomY);
 
         _physics->SetVelocity(Vector2(_scrollSpeed, 0.f));
+
     }
 
     void Update() override {

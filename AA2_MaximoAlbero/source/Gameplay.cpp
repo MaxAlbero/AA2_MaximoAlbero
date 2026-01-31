@@ -126,8 +126,6 @@ void Gameplay::OnEnter() {
 
     decorationSpawner = new BackgroundDecorationSpawner();
 
-    InitializeGameplayElements();
-
     GameplayStateDeath* deathState = dynamic_cast<GameplayStateDeath*>(gameplayStates[3]);
     if (deathState) {
         deathState->SetResetCallback([this]() { ResetGameplayElements(); });
@@ -152,13 +150,22 @@ void Gameplay::OnExit() {
 }
 
 void Gameplay::Update() {
-    if (player && player->IsPendingDestroy() && currentStateIndex != 3) {
-        currentState->Finish();
-        currentStateIndex = 3;
-        currentState = gameplayStates[currentStateIndex];
-        currentState->OnPlayerDeath(player);
-        currentState->Start();
-        return;
+    if (player && player->IsPendingDestroy()) {
+        if (player->GetExtraLives() <= 0) {
+            AM->PlaySound("resources/audio/sfx/defeat.wav");
+            std::cout << "GAME OVER! No extra lives remaining." << std::endl;
+            SM.SetNextScene("NameInput");
+            return;
+        }
+
+        if (currentStateIndex != 3) {
+            currentState->Finish();
+            currentStateIndex = 3;
+            currentState = gameplayStates[currentStateIndex];
+            currentState->OnPlayerDeath(player);
+            currentState->Start();
+            return;
+        }
     }
 
     currentState->Update(TM.GetDeltaTime());
@@ -171,7 +178,6 @@ void Gameplay::Update() {
         if (decorationSpawner) {
             decorationSpawner->Update(TM.GetDeltaTime());
         }
-
 
         Scene::Update();
     }
@@ -225,22 +231,13 @@ void Gameplay::Render() {
     }
 }
 
-void Gameplay::InitializeGameplayElements() {
-}
-
 void Gameplay::RespawnPlayer() {
     if (!player) return;
 
-    int currentLives = player->GetExtraLives();
+    int currentExtraLives = player->GetExtraLives();
 
-    // Make sure we have at least 0 lives
-    if (currentLives < 0) {
-        currentLives = 0;
-    }
-
-    // Create new player
     player = new Player();
-    player->SetExtraLives(currentLives);
+    player->SetExtraLives(currentExtraLives);
     SPAWNER.SpawnObject(player);
 
     if (waveManager) {
@@ -248,6 +245,7 @@ void Gameplay::RespawnPlayer() {
         waveManager->RestartCurrentWave();
     }
 }
+
 
 void Gameplay::ResetGameplayElements() {
     for (int i = _objects.size() - 1; i >= 0; i--) {
@@ -281,7 +279,7 @@ void Gameplay::UpdateHUD() {
     std::string highScoreStr = FormatScore(highScore);
     highScoreText->SetText("HIGHSCORE: " + highScoreStr);
 
-    std::string livesStr = "LIVES: " + std::to_string(player->GetExtraLives());
+    std::string livesStr = "LIVES: " + std::to_string(player->GetExtraLives() + 1);
     extraLivesText->SetText(livesStr);
 
     std::string shieldStr = "SHIELD: " + std::to_string(player->GetEnergy());
@@ -347,12 +345,10 @@ void Gameplay::TransitionToNextLevel() {
         int finalScore = HSM->GetCurrentScore();
         std::cout << "Last level reached! Final score: " << finalScore << std::endl;
 
-        if (HSM->IsInTopTen(finalScore)) {
-            SM.SetNextScene("NameInput");
-        }
-        else {
-            SM.SetNextScene("MainMenu");
-        }
+        AM->PlaySound("resources/audio/sfx/victory.wav");
+
+        SM.SetNextScene("NameInput");
+        
         return;
     }
 

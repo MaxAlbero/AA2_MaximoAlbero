@@ -1,4 +1,3 @@
-// GameplayStateDeath.h
 #pragma once
 #include "GameplayStateBase.h"
 #include "TimeManager.h"
@@ -12,7 +11,6 @@ class GameplayStateDeath : public GameplayStateBase {
 private:
     float _deathTimer;
     bool _isInBlackScreen;
-    bool _hasDecrementedLives;
     bool _hasResetElements;
     bool _hasRespawned;
 
@@ -29,7 +27,7 @@ private:
 public:
     GameplayStateDeath()
         : _deathTimer(0.0f), _isInBlackScreen(false),
-        _hasDecrementedLives(false), _hasResetElements(false), _hasRespawned(false),
+        _hasResetElements(false), _hasRespawned(false),
         _player(nullptr), _deathText(nullptr) {
     }
 
@@ -42,9 +40,17 @@ public:
     void Start() override {
         _deathTimer = 0.0f;
         _isInBlackScreen = false;
-        _hasDecrementedLives = false;
         _hasResetElements = false;
         _hasRespawned = false;
+
+        // Decrementar vidas extra al empezar el estado de muerte
+        if (_player) {
+            int currentExtraLives = _player->GetExtraLives();
+            if (currentExtraLives > 0) {
+                _player->SetExtraLives(currentExtraLives - 1);
+                std::cout << "Player died! Extra lives remaining: " << (currentExtraLives - 1) << std::endl;
+            }
+        }
 
         // Crear texto de muerte
         if (_deathText) {
@@ -58,15 +64,6 @@ public:
 
     void Update(float deltaTime) override {
         _deathTimer += deltaTime;
-
-        // Decrementar vidas ONLY ONCE at the start
-        if (_deathTimer >= 0.1f && !_hasDecrementedLives && _player) {
-            int currentLives = _player->GetExtraLives();
-            if (currentLives > 0) {
-                _player->SetExtraLives(currentLives - 1);
-            }
-            _hasDecrementedLives = true;
-        }
 
         // Pantalla negra
         if (_deathTimer >= DEATH_ANIMATION_TIME && !_isInBlackScreen) {
@@ -102,15 +99,6 @@ public:
     }
 
     int GetNextState() const override {
-        if (!_player) {
-            return 4;  // GAME_OVER
-        }
-
-        int remainingLives = _player->GetExtraLives();
-        if (remainingLives <= 0) {
-            return 4;  // GAME_OVER
-        }
-
         return 0;  // PLAYING
     }
 

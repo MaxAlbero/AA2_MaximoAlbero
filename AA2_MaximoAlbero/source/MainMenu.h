@@ -82,20 +82,6 @@ public:
 		audioText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 3.0f, (float)RM->WINDOW_HEIGHT / 1.15f };
 		audioText->GetTransform()->scale = Vector2(1.2f, 1.2f);
 		_ui.push_back(audioText);
-
-		// EXIT GAME
-		Button* exitButton = new Button([]()
-			{
-				SDL_Quit();
-			}
-		);
-		exitButton->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.3f };
-		_ui.push_back(exitButton);
-
-		TextObject* exitText = new TextObject("EXIT");
-		exitText->GetTransform()->position = { (float)RM->WINDOW_WIDTH / 2.0f, (float)RM->WINDOW_HEIGHT / 1.15f };
-		exitText->GetTransform()->scale = Vector2(1.2f, 1.2f);
-		_ui.push_back(exitText);
 	}
 
 	void OnExit() override {
